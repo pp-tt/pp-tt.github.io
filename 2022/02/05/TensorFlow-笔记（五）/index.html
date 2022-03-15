@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"display":"remove","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="介绍卷积神经网络的一些概念，并利用卷积神经网络对 Cifar10 数据集进行分类。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow 笔记（五）">
+<meta property="og:url" content="http://example.com/2022/02/05/TensorFlow-%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%94%EF%BC%89/index.html">
+<meta property="og:site_name" content="噗噗通通">
+<meta property="og:description" content="介绍卷积神经网络的一些概念，并利用卷积神经网络对 Cifar10 数据集进行分类。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-02-05T14:58:36.000Z">
+<meta property="article:modified_time" content="2022-03-15T14:15:06.147Z">
+<meta property="article:author" content="噗噗通通">
+<meta property="article:tag" content="tensorflow">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/02/05/TensorFlow-%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%94%EF%BC%89/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"http://example.com/2022/02/05/TensorFlow-%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%94%EF%BC%89/","path":"2022/02/05/TensorFlow-笔记（五）/","title":"TensorFlow 笔记（五）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>TensorFlow 笔记（五） | 噗噗通通</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">噗噗通通</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">弱小和无知不是生存的障碍 傲慢才是</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/05/TensorFlow-%E7%AC%94%E8%AE%B0%EF%BC%88%E4%BA%94%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="噗噗通通">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="噗噗通通">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TensorFlow 笔记（五）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-02-05 22:58:36" itemprop="dateCreated datePublished" datetime="2022-02-05T22:58:36+08:00">2022-02-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-03-15 22:15:06" itemprop="dateModified" datetime="2022-03-15T22:15:06+08:00">2022-03-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/TensorFlow/" itemprop="url" rel="index"><span itemprop="name">TensorFlow</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>介绍卷积神经网络的一些概念，并利用卷积神经网络对 Cifar10
+数据集进行分类。</p>
+<span id="more"></span>
+<h4 id="全连接nn">1.全连接NN</h4>
+<p>每个神经元与前后相邻层的每一个神经元都有连接关系，输入是特征，输出为预测的结果。</p>
+<p>实际应用时会先对原始图像进行<em>特征提取</em>，再把提取到的特征送给全连接网络。</p>
+<h4 id="卷积">2.卷积</h4>
+<p>卷积计算是一种有效的提取图像特征的方法。</p>
+<p>一般会用一个正方形的卷积核，按指定步长，在输入特征图上滑动，遍历输入特征图中的每个像素点。每一个步长，卷积核会与输入特征图出现重合区域，重合区域对应元素相乘，求和再加上偏执项得到输出特征的一个像素点。</p>
+<p><em>输入特征图的深度（channel数）决定了当前层卷积核的深度；当前层卷积核的个数，决定了当前层输出特征图的深度。</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tf.keras.layers.Conv2D(</span><br><span class="line">		filters = ,	<span class="comment"># 卷积核个数</span></span><br><span class="line">		kernel_size = ,	<span class="comment"># 卷积核尺寸</span></span><br><span class="line">  	<span class="comment"># stride = ,	# 滑动步长</span></span><br><span class="line">  	padding = ,	<span class="comment"># &quot;same&quot; or &quot;valid&quot;</span></span><br><span class="line">  	activation = ,	<span class="comment"># &quot;relu&quot;，&quot;sofmax&quot;，&quot;tanh&quot;，&quot;sigmoid&quot;</span></span><br><span class="line">  	<span class="comment"># input_shape = ,	# (高，宽，通道数) </span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h4 id="感受野">3. 感受野</h4>
+<p>卷积神经网络各输出特征图中的每个像素点在原始输入图片上映射区域的大小。
+<span class="math display">\[
+padding=\begin{cases}SAME（全零填充）, &amp; \frac
+{入长}{步长}（向上取整） \\ VALID（不全零填充）, &amp; \frac
+{入长-核长+1}{步长}（向上取整） \end{cases}
+\]</span></p>
+<h4 id="批标准化batch-normalizationbn">4. 批标准化（Batch
+Normalization，BN）</h4>
+<p>标准化：使数据符合均值为 0，1 位标准差的分布</p>
+<p>批标准化：对一小批数据（batch），做标准化处理</p>
+<p><em>BN层位置：BN 层位于卷积层之后，激活层之前。</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.keras.layers.BatchNormalization() <span class="comment"># 可以直接放</span></span><br></pre></td></tr></table></figure>
+<h4 id="池化pooling">5. 池化（Pooling）</h4>
+<p>池化用于减少特征数据量。</p>
+<p><em>最大池化可提取图片纹理，均值池化可保留背景特征。</em></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">tf.keras.layers.MaxPool2D(</span><br><span class="line">	pool_size=,	<span class="comment"># 池化核尺寸，正方形写核长整数或（核高h, 核宽w）</span></span><br><span class="line">  strides=,	<span class="comment"># 池化步长，步长整数，或（纵向步长h，横向步长w），默认为 pool_size</span></span><br><span class="line">  padding=,	<span class="comment"># &#x27;valid&#x27; or &#x27;same&#x27; 使用全零填充是&#x27;same&#x27;,不使用时&#x27;valid&#x27;（默认）</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">tf.keras.layers.AveragePooling2D(</span><br><span class="line">	pool_size=,	<span class="comment"># 池化核尺寸，正方形写核长整数或（核高h, 核宽w）</span></span><br><span class="line">  strides=,	<span class="comment"># 池化步长，步长整数，或（纵向步长h，横向步长w），默认为 pool_size</span></span><br><span class="line">  padding=,	<span class="comment"># &#x27;valid&#x27; or &#x27;same&#x27; 使用全零填充是&#x27;same&#x27;,不使用时&#x27;valid&#x27;（默认）</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h4 id="舍弃-dropout">6. 舍弃 (Dropout)</h4>
+<p>在神经网络训练时，将一部分神经元按照一定概率从神经网络中暂时舍弃。神经网络使用时，被舍弃的神经元恢复链接。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.keras.layers.Dropout(舍弃比例)</span><br></pre></td></tr></table></figure>
+<h4 id="卷积神经网络">7.卷积神经网络</h4>
+<p>借助卷积核提取特征后，送入全连接网络。</p>
+<p>卷积神经网络的主要模块：</p>
+<ul>
+<li>卷积</li>
+<li>批标准化</li>
+<li>激活</li>
+<li>池化</li>
+<li>全连接</li>
+</ul>
+<p><strong>卷积是什么：</strong>卷积就是特征提取器，就是 CBAPD。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">model = tf.keras.models.Sequential([</span><br><span class="line">  Conv2D(filters=<span class="number">6</span>, kernel_size=(<span class="number">5</span>,<span class="number">5</span>), padding=<span class="string">&#x27;same&#x27;</span>),	<span class="comment"># 卷积层 C </span></span><br><span class="line">  BatchNormalization(),	<span class="comment"># BN层	B</span></span><br><span class="line">  Activation(<span class="string">&#x27;relu&#x27;</span>),	<span class="comment"># 激活层	A</span></span><br><span class="line">  MaxPool2D(pool_size=(<span class="number">2</span>,<span class="number">2</span>), strides=<span class="number">2</span>, padding=<span class="string">&#x27;same&#x27;</span>),	<span class="comment"># 池化层	P</span></span><br><span class="line">  Dropout(<span class="number">0.2</span>),		<span class="comment"># dropout层 D</span></span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/tensorflow/" rel="tag"># tensorflow</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/02/04/TensorFlow-%E7%AC%94%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89/" rel="prev" title="TensorFlow 笔记（四）">
+                  <i class="fa fa-chevron-left"></i> TensorFlow 笔记（四）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/02/08/Apple-M%E7%B3%BB%E5%88%97%E8%8A%AF%E7%89%87%E5%AE%89%E8%A3%85-Pyqt/" rel="next" title="Apple M系列芯片安装 Pyqt">
+                  Apple M系列芯片安装 Pyqt <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">噗噗通通</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"mhchem":"fals","tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

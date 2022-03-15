@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"display":"remove","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Git  git config --global user.name 用户名&amp;git config --global user.mail 邮箱：用于区分不同操作者的身份，知道本次操作是谁做的，与GitHub的登录账号无关。 git init：初始化本地仓库（新增.git文件夹，内容谨慎修改） git status：查看当前状态（git是按照行来维护文件的） git add 文件名：将文件提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git &amp; GitHub 相关命令整理">
+<meta property="og:url" content="http://example.com/2022/01/26/Git-GitHub-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/index.html">
+<meta property="og:site_name" content="噗噗通通">
+<meta property="og:description" content="Git  git config --global user.name 用户名&amp;git config --global user.mail 邮箱：用于区分不同操作者的身份，知道本次操作是谁做的，与GitHub的登录账号无关。 git init：初始化本地仓库（新增.git文件夹，内容谨慎修改） git status：查看当前状态（git是按照行来维护文件的） git add 文件名：将文件提">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-01-26T03:57:30.000Z">
+<meta property="article:modified_time" content="2022-03-15T14:15:06.146Z">
+<meta property="article:author" content="噗噗通通">
+<meta property="article:tag" content="gitHub">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/01/26/Git-GitHub-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"http://example.com/2022/01/26/Git-GitHub-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/","path":"2022/01/26/Git-GitHub-相关命令整理/","title":"Git & GitHub 相关命令整理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Git & GitHub 相关命令整理 | 噗噗通通</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">噗噗通通</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">弱小和无知不是生存的障碍 傲慢才是</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/26/Git-GitHub-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="噗噗通通">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="噗噗通通">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git & GitHub 相关命令整理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-01-26 11:57:30" itemprop="dateCreated datePublished" datetime="2022-01-26T11:57:30+08:00">2022-01-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-03-15 22:15:06" itemprop="dateModified" datetime="2022-03-15T22:15:06+08:00">2022-03-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Other/" itemprop="url" rel="index"><span itemprop="name">Other</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="git">Git</h3>
+<ul>
+<li><code>git config --global user.name 用户名</code>&amp;<code>git config --global user.mail 邮箱</code>：用于区分不同操作者的身份，知道本次操作是谁做的，与GitHub的登录账号无关。</li>
+<li><code>git init</code>：初始化本地仓库（新增.git文件夹，内容谨慎修改）</li>
+<li><code>git status</code>：查看当前状态（git是按照行来维护文件的）</li>
+<li><code>git add 文件名</code>：将文件提交到暂存区</li>
+<li><code>git rm --cache 文件名</code>：将暂存区文件删除
+<span id="more"></span></li>
+<li><code>git commit -m 'message' 文件</code>：将暂存区文件提交到本地库</li>
+<li><code>git reflog</code>：查看前7位版本号，分支指向</li>
+<li><code>git log</code>：查看详细信息，包括谁提交的，完整的版本号等</li>
+<li><code>git reset --hard '版本号'</code>：切换版本，本质是移动<code>HEAD</code>指针，<code>.git/HEAD</code>文件内容显示指向的分支，<code>.git/refs/heads</code>显示指向的分支版本。</li>
+<li><code>git branch -v</code>：查看分支</li>
+<li><code>git branch 分支名</code>：创建分支</li>
+<li><code>git checkout 分支名</code>：切换分支</li>
+<li><code>git merge 分之名</code>：合并指定分支到当前分支上，若出现冲突，<code>&lt;&lt;&lt; HEAD</code>与<code>===</code>之间的内容表示当前分支内容，<code>===</code>与<code>&gt;&gt;&gt;***</code>之间的内容表示指定分支内容。冲突处理步骤如下：
+<ol type="1">
+<li>修改冲突</li>
+<li>添加暂存区</li>
+<li><code>git commit -m 'message'</code>注意不用带文件名，因为这时为合并状态</li>
+</ol></li>
+</ul>
+<h3 id="github">GitHub</h3>
+<ul>
+<li><code>git psuh</code>：将提交内容推送到库，项目团队人员可用，否则无法push，团队外成员需要先<code>fork</code>自己的GitHub</li>
+<li><code>git remote -v</code>：查看当前所有别名</li>
+<li><code>git remote add 别名 链接</code>：起别名</li>
+<li><code>git push 别名 master</code>：本地<code>master</code>分支推送到远程仓库</li>
+<li><code>git pull 别名 分支</code>：拉取仓库（尽量随时让本地仓库保持最新状态）</li>
+<li><code>git clone 链接</code>：无需登录账号，做了以下三件事：
+<ol type="1">
+<li>拉取代码</li>
+<li>初始化本地仓库</li>
+<li>起好别名：origin</li>
+</ol></li>
+<li><code>ssh-keygen -t rsa -C 邮箱</code>：ssh免密登陆，<code>~/.ssh/</code>目录下会出现<code>id_rsa.pub</code>和<code>id_rsa</code>，复制<code>id_rsa.pub</code>文件中内容填入GitHub即可。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/gitHub/" rel="tag"># gitHub</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/26/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="next" title="内网穿透">
+                  内网穿透 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">噗噗通通</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"mhchem":"fals","tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"display":"remove","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="总结一些 SwiftUI 的常用视图！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SwiftUI 常用视图 Views">
+<meta property="og:url" content="http://example.com/2022/02/20/SwiftUI%20%E5%B8%B8%E7%94%A8%E8%A7%86%E5%9B%BE%20Views/index.html">
+<meta property="og:site_name" content="噗噗通通">
+<meta property="og:description" content="总结一些 SwiftUI 的常用视图！">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-02-20T12:31:40.000Z">
+<meta property="article:modified_time" content="2022-03-15T14:15:06.146Z">
+<meta property="article:author" content="噗噗通通">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/02/20/SwiftUI%20%E5%B8%B8%E7%94%A8%E8%A7%86%E5%9B%BE%20Views/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"http://example.com/2022/02/20/SwiftUI%20%E5%B8%B8%E7%94%A8%E8%A7%86%E5%9B%BE%20Views/","path":"2022/02/20/SwiftUI 常用视图 Views/","title":"SwiftUI 常用视图 Views"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SwiftUI 常用视图 Views | 噗噗通通</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">噗噗通通</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">弱小和无知不是生存的障碍 傲慢才是</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/20/SwiftUI%20%E5%B8%B8%E7%94%A8%E8%A7%86%E5%9B%BE%20Views/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="噗噗通通">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="噗噗通通">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SwiftUI 常用视图 Views
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-02-20 20:31:40" itemprop="dateCreated datePublished" datetime="2022-02-20T20:31:40+08:00">2022-02-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-03-15 22:15:06" itemprop="dateModified" datetime="2022-03-15T22:15:06+08:00">2022-03-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>总结一些 SwiftUI 的常用视图！</p>
+<span id="more"></span>
+<h3 id="文本视图">1 文本视图</h3>
+<h4 id="文本-text">1.1 文本 Text</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Text</span>(<span class="string">&quot;文字&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="标签-label">1.2 标签 Label</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Label</span>(<span class="string">&quot;文字&quot;</span>, systemImage: <span class="string">&quot;SF Symbols 图标名称&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="文本框-textfield">1.3 文本框 TextField</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">var</span> input <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">	<span class="type">TextField</span>(<span class="string">&quot;占位文字&quot;</span>, text: <span class="variable">$input</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="安全文本框-securefield">1.4 安全文本框 SecureField</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">var</span> input <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">  <span class="type">SecureField</span>(<span class="string">&quot;占位文字&quot;</span>, text: <span class="variable">$input</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="链接-link">1.5 链接 Link</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Link</span>(<span class="string">&quot;说明文字&quot;</span>, destination: <span class="type">URL</span>(string: <span class="string">&quot;https://baidu.com&quot;</span>)<span class="operator">!</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="文本编辑器">1.6 文本编辑器</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@State</span> <span class="keyword">var</span> input <span class="operator">=</span> <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> &#123;</span><br><span class="line">  <span class="type">TextEditor</span>(text: <span class="variable">$input</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/pp-tt/blogImages/main/202202202233994.jpeg"
+alt="638005c8450c6a68de1aec8b01c98005" />
+<figcaption
+aria-hidden="true">638005c8450c6a68de1aec8b01c98005</figcaption>
+</figure>
+<h3 id="排版视图">2 排版视图</h3>
+<h4 id="纵向排列-vstack">2.1 纵向排列 VStack</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/pp-tt/blogImages/main/202202202250442.png"
+alt="04d4542279be3108521f8ea80e2c3da5" />
+<figcaption
+aria-hidden="true">04d4542279be3108521f8ea80e2c3da5</figcaption>
+</figure>
+<h4 id="横向排列-hstack">2.2 横向排列 HStack</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">HStack</span> &#123;</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/pp-tt/blogImages/main/202202202251213.png"
+alt="60f6636139f831701ea3668101ffa328" />
+<figcaption
+aria-hidden="true">60f6636139f831701ea3668101ffa328</figcaption>
+</figure>
+<h4 id="重叠排列-zstack">2.3 重叠排列 ZStack</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ZStack</span> &#123;</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="成组-group">2.4 成组 Group</h4>
+<p>可以把 Group
+成组视图当作是视图的文件夹，用其对视图进行归类，从而让代码变得更易读。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">	<span class="type">Group</span> &#123;</span><br><span class="line">    <span class="type">View</span>()</span><br><span class="line">    <span class="type">View</span>()</span><br><span class="line">    </span><br><span class="line">  <span class="type">Group</span> &#123;</span><br><span class="line">    <span class="type">View</span>()</span><br><span class="line">    <span class="type">View</span>()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/pp-tt/blogImages/main/202202202253358.jpeg"
+alt="a0f3094a25dbd82136d46520ddddd886" />
+<figcaption
+aria-hidden="true">a0f3094a25dbd82136d46520ddddd886</figcaption>
+</figure>
+<h4 id="留白-spacer">2.5 留白 Spacer</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Spacer</span>()</span><br></pre></td></tr></table></figure>
+<h4 id="分割线-divider">2.6 分割线 Divider</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Divider</span>()</span><br></pre></td></tr></table></figure>
+<h4 id="空视图-emptyview">2.7 空视图 EmptyView</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">EmptyView</span>()</span><br></pre></td></tr></table></figure>
+<h3 id="e8eb11a4cb591e7cdc476d8f61ddd26"><img
+src="https://raw.githubusercontent.com/pp-tt/blogImages/main/202202202249105.png"
+alt="8e8eb11a4cb591e7cdc476d8f61ddd26" /></h3>
+<h3 id="绘图视图">3 绘图视图</h3>
+<h4 id="图片及图标-image">3.1 图片及图标 Image</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Image</span>(<span class="string">&quot;图片名称&quot;</span>)</span><br><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;SF Symbols 名称&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="图形-shape">3.2 图形 Shape</h4>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Rectangle</span>()</span><br><span class="line"><span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">25</span>, style: .continuous)</span><br><span class="line"><span class="type">Circle</span>()</span><br><span class="line"><span class="type">Capsule</span>()</span><br><span class="line"><span class="type">Ellipse</span>()</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/pp-tt/blogImages/main/202202202249355.png"
+alt="74869157379285e2c281b55946389c3c" />
+<figcaption
+aria-hidden="true">74869157379285e2c281b55946389c3c</figcaption>
+</figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Swift/" rel="tag"># Swift</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/02/08/Apple-M%E7%B3%BB%E5%88%97%E8%8A%AF%E7%89%87%E5%AE%89%E8%A3%85-Pyqt/" rel="prev" title="Apple M系列芯片安装 Pyqt">
+                  <i class="fa fa-chevron-left"></i> Apple M系列芯片安装 Pyqt
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/02/21/SwiftUI-%E6%8E%A7%E5%88%B6%E8%A7%86%E5%9B%BE-Views/" rel="next" title="SwiftUI 控制视图 Views">
+                  SwiftUI 控制视图 Views <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">噗噗通通</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"mhchem":"fals","tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

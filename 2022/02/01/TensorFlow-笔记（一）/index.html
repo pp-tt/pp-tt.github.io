@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"display":"remove","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="介绍TensorFlow基本API和神经网络训练的基本流程：准备数据（数据加载，数据乱序，数据分割，数据配对），搭建神经网络，参数优化，计算LOSS，计算ACC，画出LOSS和ACC图。通过鸢尾花分类串起来以上操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow 笔记（一）">
+<meta property="og:url" content="http://example.com/2022/02/01/TensorFlow-%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="噗噗通通">
+<meta property="og:description" content="介绍TensorFlow基本API和神经网络训练的基本流程：准备数据（数据加载，数据乱序，数据分割，数据配对），搭建神经网络，参数优化，计算LOSS，计算ACC，画出LOSS和ACC图。通过鸢尾花分类串起来以上操作。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-02-01T05:15:17.000Z">
+<meta property="article:modified_time" content="2022-03-15T14:15:06.147Z">
+<meta property="article:author" content="噗噗通通">
+<meta property="article:tag" content="tensorflow">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/02/01/TensorFlow-%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-Hans","comments":true,"permalink":"http://example.com/2022/02/01/TensorFlow-%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/","path":"2022/02/01/TensorFlow-笔记（一）/","title":"TensorFlow 笔记（一）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>TensorFlow 笔记（一） | 噗噗通通</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">噗噗通通</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">弱小和无知不是生存的障碍 傲慢才是</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/01/TensorFlow-%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="噗噗通通">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="噗噗通通">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TensorFlow 笔记（一）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-02-01 13:15:17" itemprop="dateCreated datePublished" datetime="2022-02-01T13:15:17+08:00">2022-02-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-03-15 22:15:06" itemprop="dateModified" datetime="2022-03-15T22:15:06+08:00">2022-03-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/TensorFlow/" itemprop="url" rel="index"><span itemprop="name">TensorFlow</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>介绍<code>TensorFlow</code>基本API和神经网络训练的基本流程：准备数据（数据加载，数据乱序，数据分割，数据配对），搭建神经网络，参数优化，计算LOSS，计算ACC，画出LOSS和ACC图。通过鸢尾花分类串起来以上操作。</p>
+<span id="more"></span>
+<h4 id="神经网络的计算过程">1.神经网络的计算过程</h4>
+<p>反向传播计算示例代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">w = tf.Variable(tf.constant(<span class="number">5</span>, dtype=tf.float32))   <span class="comment"># 定义可变变量</span></span><br><span class="line">lr = <span class="number">0.999</span>    <span class="comment"># 定义学习率</span></span><br><span class="line">epoch = <span class="number">40</span>  <span class="comment"># 迭代次数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(epoch):</span><br><span class="line">    <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape: <span class="comment"># with 结构起到grads框起了梯度的计算过程</span></span><br><span class="line">        loss = tf.square(w + <span class="number">1</span>)</span><br><span class="line">    grads = tape.gradient(loss, w)  <span class="comment"># .gradient函数告知谁对谁求导</span></span><br><span class="line"></span><br><span class="line">    w.assign_sub(lr * grads) <span class="comment"># .assign_sub 对变量做自减，即 w -= lr * grads</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;After <span class="subst">&#123;epoch&#125;</span> epoch, w is <span class="subst">&#123;w.numpy()&#125;</span>, loss is <span class="subst">&#123;loss&#125;</span>&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="张量生成">2.张量生成</h4>
+<h5 id="创建一个张量">2.1 创建一个张量</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = tf.constant([<span class="number">5</span>, <span class="number">6</span>], dtype=tf.int16)</span><br><span class="line"><span class="built_in">print</span>(a)    <span class="comment"># 详细显示，值、形状、类型</span></span><br><span class="line"><span class="built_in">print</span>(a.shape)  <span class="comment"># 形状</span></span><br><span class="line"><span class="built_in">print</span>(a.dtype)  <span class="comment"># 类型</span></span><br></pre></td></tr></table></figure>
+<h4 id="numpy-转-tensor">2.2 numpy 转 Tensor</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.convert_to_tensor(数据名, dtype=数据类型)</span><br></pre></td></tr></table></figure>
+<h4 id="张量1张量和指定值张量">2.3
+<code>0</code>张量、<code>1</code>张量和指定值张量</h4>
+<ul>
+<li>创建全为0的张量：<code>tf.zeros(维度)</code></li>
+<li>创建全为1的张量：<code>tf.ones(维度)</code></li>
+<li>创建全为指定值的张量：<code>tf.fill(维度， 指定值)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = tf.zeros([<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">b = tf.ones(<span class="number">4</span>)</span><br><span class="line">c = tf.fill([<span class="number">2</span>, <span class="number">2</span>], <span class="number">9</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="其他张量">2.4 其他张量</h4>
+<ul>
+<li>生成正态分布随机数：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.random.normal(维度, mean=均值, stddev=标准差)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>生成截断式正态分布随机数：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.random.truncated_normal(维度, mean=均值, stddev=标准差)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>生成均匀分布随机数 [minval, maxval]</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.random.uniform(维度, minval=<span class="number">0</span>, maxval=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="常用函数">3.常用函数</h4>
+<ul>
+<li>强制<code>tensor</code>类型转为该数据类型：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.cast(张量名，dtype=数据类型)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>计算张量维度上的元素最小值：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.reduce_min(张量名， axis=轴)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>计算张量维度上的元素最大值：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.reduce_max(张量名， axis=轴)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>计算张量维度上的平均值：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.reduce_mean(张量名， axis=轴)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>计算张量维度上的和：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.reduce_sum(张量名, axis=轴)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将变量标记为可训练，被标记的变量会在反向传播中记录梯度信息。神经网络中，常用该函数标记待训练参数。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.Variable(tf.random.normal([<span class="number">2</span>, <span class="number">2</span>], mean=<span class="number">0</span>, stddev=<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实现两个张量的对应元素相加（注：只有维度相同才可以做四则运算）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.add(张量<span class="number">1</span>， 张量<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实现两个张量的对应元素相减</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.subtract(张量<span class="number">1</span>， 张量<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实现两个张量的对应元素相乘</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.multiply(张量<span class="number">1</span>， 张量<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实现两个张量的对应元素相除</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.divide(张量<span class="number">1</span>， 张量<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>计算某个张量的平方</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.square(张量名)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>计算某个张量的n次方</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.<span class="built_in">pow</span>(张量名， n次方数)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>计算某个张量的开方</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.sqrt(张量名)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>实现两个矩阵相乘</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.matmul(矩阵<span class="number">1</span>， 矩阵<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>构建数据集（numpy 和 tensor 都可以用该语句）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.data.Dataset.from_tensor_slices((输入特征，标签))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>求导</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">  若干计算过程</span><br><span class="line">grad = tape.gradient(函数，对谁求导)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将数据转为 one-hot 形式的数据输出</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">tf.one_hot(待转换数据，depth=几分类)</span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">labels = tf.constant([<span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>])</span><br><span class="line">classes = <span class="number">3</span></span><br><span class="line">ouput = tf.one_hot(labels, depth=classes)</span><br><span class="line"></span><br><span class="line">&lt;tf.Tensor: shape=(<span class="number">3</span>, <span class="number">3</span>), dtype=float32, numpy=</span><br><span class="line">array([[<span class="number">0.</span>, <span class="number">1.</span>, <span class="number">0.</span>],</span><br><span class="line">       [<span class="number">1.</span>, <span class="number">0.</span>, <span class="number">0.</span>],</span><br><span class="line">       [<span class="number">0.</span>, <span class="number">0.</span>, <span class="number">1.</span>]], dtype=float32)&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使 n 个分类的 n 个输出符合概率分布</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.softmax()</span><br><span class="line"></span><br><span class="line">y = tf.constant([<span class="number">1.01</span>, <span class="number">2.01</span>, -<span class="number">0.66</span>])</span><br><span class="line">y_pro = tf.nn.softmax(y)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;After sotfmax, y_pro is:&quot;</span>, y_pro)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>赋值操作，更新函数的值并返回，<em>调用<code>assign_sub</code>前，先用<code>tf.Variable</code>定义变量
+<code>w</code> 为可训练（可自更新）</em></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">w.assign_sub(w 要自减的内容)</span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line">w = tf.Variable(<span class="number">4</span>)</span><br><span class="line">w.assign_sub(<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(w)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>返回张量沿指定维度最大值的索引</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.argmax(张量名，axis=轴)</span><br></pre></td></tr></table></figure>
+<h4 id="鸢尾花分类">4. 鸢尾花分类</h4>
+<p>​ 鸢尾花分类主要分为以下步骤：</p>
+<ol type="1">
+<li>准备数据
+<ul>
+<li>数据集读入</li>
+<li>数据集乱序</li>
+<li>生成训练集和测试集（即 x_train / y_train）</li>
+<li>配成（输入特征，标签）对，每次读入一小撮（batch）</li>
+</ul></li>
+<li>搭建网络
+<ul>
+<li>定义神经网络中所有可训练参数</li>
+</ul></li>
+<li>参数优化
+<ul>
+<li>嵌套循环迭代，with 结构更新参数，显示当前 loss</li>
+</ul></li>
+<li>测试效果
+<ul>
+<li>计算当前参数前向传播后的准确率，显示当前 acc</li>
+</ul></li>
+<li>acc / loss 可视化</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sklearn.datasets <span class="keyword">as</span> datasets</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">准备数据</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="comment"># 加载数据</span></span><br><span class="line">x_data = datasets.load_iris().data</span><br><span class="line">y_data = datasets.load_iris().target</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据集乱序</span></span><br><span class="line">np.random.seed(<span class="number">116</span>)  <span class="comment"># 使用相同的 seed, 使输入特征/标签一一对应</span></span><br><span class="line">np.random.shuffle(x_data)</span><br><span class="line">np.random.seed(<span class="number">116</span>)</span><br><span class="line">np.random.shuffle(y_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将数据集分为训练集和测试集</span></span><br><span class="line">x_train = x_data[:-<span class="number">30</span>]</span><br><span class="line">y_train = y_data[:-<span class="number">30</span>]</span><br><span class="line">x_test = x_data[-<span class="number">30</span>:]</span><br><span class="line">y_test = y_data[-<span class="number">30</span>:]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据类型转换，否则后面矩阵相乘时会因数据类型不一致报错</span></span><br><span class="line">x_train = tf.cast(x_train, tf.float32)</span><br><span class="line">x_test = tf.cast(x_test, tf.float32)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配成 [输入特征， 标签] 对， 每次喂入一小撮（batch）</span></span><br><span class="line">train_db = tf.data.Dataset.from_tensor_slices((x_train, y_train)).batch(<span class="number">32</span>)</span><br><span class="line">test_db = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(<span class="number">32</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">搭建网络</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成神经网络的参数，4个输入特征，故输入层为4个输入节点，因为3分类，故输出为3个神经元</span></span><br><span class="line"><span class="comment"># 定义神经网络中所有可训练参数</span></span><br><span class="line"><span class="comment"># 使用 seed 使每次生成的随机数都相同（方便教学，使大家结果都一致，现实使用时可以不写seed）</span></span><br><span class="line">w1 = tf.Variable(tf.random.truncated_normal([<span class="number">4</span>, <span class="number">3</span>], stddev=<span class="number">0.1</span>, seed=<span class="number">1</span>))</span><br><span class="line">b1 = tf.Variable(tf.random.truncated_normal([<span class="number">3</span>], stddev=<span class="number">0.1</span>, seed=<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">参数优化</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义超参数</span></span><br><span class="line">lr = <span class="number">0.1</span></span><br><span class="line">train_loss_results = [] <span class="comment"># 将每轮的loss记录在此列表中，为后续画 loss 曲线提供数据</span></span><br><span class="line">test_acc = [] <span class="comment"># 将每轮的 acc 记录在此列表中， 为后续画 acc 曲线提供数据</span></span><br><span class="line">epoch = <span class="number">500</span> <span class="comment"># 循环 500 轮</span></span><br><span class="line">loss_all = <span class="number">0</span> <span class="comment"># 每轮分4个step， loss_all 记录四个 step 生成的 4 个 loss 的和</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 嵌套循环迭代，with 结构参数更新，显示当前 loss</span></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(epoch): <span class="comment"># 数据集级别迭代</span></span><br><span class="line">    <span class="keyword">for</span> step, (x_train, y_train) <span class="keyword">in</span> <span class="built_in">enumerate</span>(train_db): <span class="comment"># batch 级别迭代</span></span><br><span class="line">        <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape: <span class="comment"># 记录梯度信息</span></span><br><span class="line">            y = tf.matmul(x_train, w1) + b1 <span class="comment"># 神经网络乘加运算</span></span><br><span class="line">            y = tf.nn.softmax(y)    <span class="comment"># 使输出y符合概率分布</span></span><br><span class="line">            y_ = tf.one_hot(y_train, depth=<span class="number">3</span>)   <span class="comment"># 将标签值转换为独热编码</span></span><br><span class="line">            loss = tf.reduce_mean(tf.square(y_ - y)) <span class="comment"># 采用均方误差损失函数</span></span><br><span class="line">            loss_all += loss.numpy() <span class="comment"># 将每个 step 计算出的 loss 累加， 为后续求平均值提供数据</span></span><br><span class="line">        <span class="comment"># 计算各个参数的梯度</span></span><br><span class="line">        grads = tape.gradient(loss, [w1, b1])</span><br><span class="line">        <span class="comment"># 参数自更新</span></span><br><span class="line">        w1.assign_sub(lr * grads[<span class="number">0</span>]) </span><br><span class="line">        b1.assign_sub(lr * grads[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Epoch &#123;&#125;, loss: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(epoch, loss_all/<span class="number">4</span>))</span><br><span class="line">    train_loss_results.append(loss_all / <span class="number">4</span>)  <span class="comment"># 将 4 个 step 的 loss 求平均记录在此变量中</span></span><br><span class="line">    loss_all = <span class="number">0</span>    <span class="comment"># loss 归零， 为计算下一个 epoch 作准备</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="string">&quot;&quot;&quot;测试部分&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># total_correct 为预测对的样本个数，total_number 为测试的总样本数</span></span><br><span class="line">    total_correct, total_number = <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> x_test, y_test <span class="keyword">in</span> test_db:</span><br><span class="line">        <span class="comment"># 使用更新后的参数进行预测</span></span><br><span class="line">        y = tf.matmul(x_test, w1) + b1</span><br><span class="line">        y = tf.nn.softmax(y)</span><br><span class="line">        pred = tf.argmax(y, axis=<span class="number">1</span>)</span><br><span class="line">        pred = tf.cast(pred, dtype=y_test.dtype)</span><br><span class="line">        correct = tf.cast(tf.equal(pred, y_test), dtype=tf.float32)</span><br><span class="line">        correct = tf.reduce_sum(correct)</span><br><span class="line">        total_correct += <span class="built_in">int</span>(correct)</span><br><span class="line">        total_number += x_test.shape[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    acc = total_correct / total_number</span><br><span class="line">    test_acc.append(acc)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Test_acc:&quot;</span>, acc)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;---------------------&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制 loss 曲线</span></span><br><span class="line">plt.title(<span class="string">&#x27;Loss Function Curve&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Epoch&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Loss&#x27;</span>)</span><br><span class="line">plt.plot(train_loss_results, label=<span class="string">&#x27;$LOSS$&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绘制 Accuracy 曲线</span></span><br><span class="line">plt.title(<span class="string">&#x27;Acc Curve&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Epoch&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Acc&#x27;</span>)</span><br><span class="line">plt.plot(test_acc, label=<span class="string">&quot;$Accuracy$&quot;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/tensorflow/" rel="tag"># tensorflow</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/26/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="prev" title="内网穿透">
+                  <i class="fa fa-chevron-left"></i> 内网穿透
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/02/01/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" rel="next" title="关于阿刁的2021年度总结">
+                  关于阿刁的2021年度总结 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">噗噗通通</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"mhchem":"fals","tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
