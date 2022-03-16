@@ -27,7 +27,7 @@
 <meta property="og:description" content="总结一些 SwiftUI 的常用视图！">
 <meta property="og:locale">
 <meta property="article:published_time" content="2022-02-20T12:31:40.000Z">
-<meta property="article:modified_time" content="2022-03-16T00:38:26.816Z">
+<meta property="article:modified_time" content="2022-03-16T01:20:01.286Z">
 <meta property="article:author" content="噗噗通通">
 <meta property="article:tag" content="Swift">
 <meta name="twitter:card" content="summary">
@@ -151,7 +151,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-16 08:38:26" itemprop="dateModified" datetime="2022-03-16T08:38:26+08:00">2022-03-16</time>
+      <time title="Modified: 2022-03-16 09:20:01" itemprop="dateModified" datetime="2022-03-16T09:20:01+08:00">2022-03-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -193,56 +193,35 @@ src="https://gitee.com/pp-tt/blogImage/raw/master/202202202233994.jpeg" /></p>
 <h3 id="排版视图">2 排版视图</h3>
 <h4 id="纵向排列-vstack">2.1 纵向排列 VStack</h4>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://gitee.com/pp-tt/blogImage/raw/master/202202202250442.png"
-alt="04d4542279be3108521f8ea80e2c3da5" />
-<figcaption
-aria-hidden="true">04d4542279be3108521f8ea80e2c3da5</figcaption>
-</figure>
+<p><img
+src="https://gitee.com/pp-tt/blogImage/raw/master/202202202250442.png" /></p>
 <h4 id="横向排列-hstack">2.2 横向排列 HStack</h4>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">HStack</span> &#123;</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://gitee.com/pp-tt/blogImage/raw/master/202202202251213.png"
-alt="60f6636139f831701ea3668101ffa328" />
-<figcaption
-aria-hidden="true">60f6636139f831701ea3668101ffa328</figcaption>
-</figure>
+<p><img
+src="https://gitee.com/pp-tt/blogImage/raw/master/202202202251213.png" /></p>
 <h4 id="重叠排列-zstack">2.3 重叠排列 ZStack</h4>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ZStack</span> &#123;</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">  <span class="type">View</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="成组-group">2.4 成组 Group</h4>
 <p>可以把 Group
 成组视图当作是视图的文件夹，用其对视图进行归类，从而让代码变得更易读。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">VStack</span> &#123;</span><br><span class="line">	<span class="type">Group</span> &#123;</span><br><span class="line">    <span class="type">View</span>()</span><br><span class="line">    <span class="type">View</span>()</span><br><span class="line">    </span><br><span class="line">  <span class="type">Group</span> &#123;</span><br><span class="line">    <span class="type">View</span>()</span><br><span class="line">    <span class="type">View</span>()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://gitee.com/pp-tt/blogImage/raw/master/202202202253358.jpeg"
-alt="a0f3094a25dbd82136d46520ddddd886" />
-<figcaption
-aria-hidden="true">a0f3094a25dbd82136d46520ddddd886</figcaption>
-</figure>
+<p><img
+src="https://gitee.com/pp-tt/blogImage/raw/master/202202202253358.jpeg" /></p>
 <h4 id="留白-spacer">2.5 留白 Spacer</h4>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Spacer</span>()</span><br></pre></td></tr></table></figure>
 <h4 id="分割线-divider">2.6 分割线 Divider</h4>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Divider</span>()</span><br></pre></td></tr></table></figure>
 <h4 id="空视图-emptyview">2.7 空视图 EmptyView</h4>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">EmptyView</span>()</span><br></pre></td></tr></table></figure>
-<h3 id="e8eb11a4cb591e7cdc476d8f61ddd26"><img
-src="https://gitee.com/pp-tt/blogImage/raw/master/202202202249105.png"
-alt="8e8eb11a4cb591e7cdc476d8f61ddd26" /></h3>
+<h3 id="section"><img
+src="https://gitee.com/pp-tt/blogImage/raw/master/202202202249105.png" /></h3>
 <h3 id="绘图视图">3 绘图视图</h3>
 <h4 id="图片及图标-image">3.1 图片及图标 Image</h4>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Image</span>(<span class="string">&quot;图片名称&quot;</span>)</span><br><span class="line"><span class="type">Image</span>(systemName: <span class="string">&quot;SF Symbols 名称&quot;</span>)</span><br></pre></td></tr></table></figure>
 <h4 id="图形-shape">3.2 图形 Shape</h4>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Rectangle</span>()</span><br><span class="line"><span class="type">RoundedRectangle</span>(cornerRadius: <span class="number">25</span>, style: .continuous)</span><br><span class="line"><span class="type">Circle</span>()</span><br><span class="line"><span class="type">Capsule</span>()</span><br><span class="line"><span class="type">Ellipse</span>()</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://gitee.com/pp-tt/blogImage/raw/master/202202202249355.png"
-alt="74869157379285e2c281b55946389c3c" />
-<figcaption
-aria-hidden="true">74869157379285e2c281b55946389c3c</figcaption>
-</figure>
+<p><img
+src="https://gitee.com/pp-tt/blogImage/raw/master/202202202249355.png" /></p>
 
     </div>
 
