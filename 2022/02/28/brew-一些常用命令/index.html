@@ -177,8 +177,8 @@
         <p>总结关于 brew 的一些常用命令！</p>
 <span id="more"></span>
 <p><strong>1、安装卸载软件</strong></p>
-<ol type="1">
-<li>brew --version 或者 brew -v 显示brew版本信息</li>
+<ol>
+<li>brew —version 或者 brew -v 显示brew版本信息</li>
 <li>brew install <formula> 安装指定软件</li>
 <li>brew uninstall <formula> 卸载指定软件</li>
 <li>brew list 显示所有的已安装的软件</li>
@@ -186,36 +186,33 @@
 <li>brew search /text/ 使用正则表达式搜软件</li>
 <li>brew info <formula> 显示指定软件信息</li>
 <li>brew reinstall <formula> 重新安装指定软件，先卸载后安装</li>
-<li>brew install <formula> --build-from-source
-源码安装指定软件，可以给定指定参数</li>
+<li>brew install <formula> —build-from-source 源码安装指定软件，可以给定指定参数</li>
 <li>brew commands 列出所有可用命令</li>
 </ol>
 <p><strong>2、升级软件相关</strong></p>
-<ol type="1">
+<ol>
 <li>brew update 自动升级homebrew （从github下载最新版本）</li>
 <li>brew outdated 检测已经过时的软件</li>
 <li>brew upgrade 升级所有已过时的软件，即列出的以过时软件</li>
 <li>brew upgrade <formula> 升级指定的软件</li>
 <li>brew pin <formula> 禁止指定软件升级</li>
 <li>brew unpin <formula> 解锁禁止升级</li>
-<li>brew upgrade --all 升级所有的软件包，包括未清理干净的旧版本的包</li>
+<li>brew upgrade —all 升级所有的软件包，包括未清理干净的旧版本的包</li>
 <li>brew edit <formula> 编辑软件，不会的情况下慎用</li>
-<li>brew tap 列出本地资源仓库，其中 homebrew
-是默认仓库，其它都是第三方仓库</li>
-<li>brew tap <user/repo>
-添加第三方仓库，命名的规则按照github来定的。</li>
+<li>brew tap 列出本地资源仓库，其中 homebrew 是默认仓库，其它都是第三方仓库</li>
+<li>brew tap <user/repo> 添加第三方仓库，命名的规则按照github来定的。</li>
 <li>brew untap <user/repo> 删除仓库</li>
 <li>brew deps <formula> 查看指定软件依赖于哪些软件</li>
 <li>brew uses <formula> 查看指定软件被哪些软件所依赖</li>
 </ol>
 <p><strong>3、清理相关</strong></p>
 <p>homebrew再升级软件时候不会清理相关的旧版本，在软件升级后我们可以使用如下命令清理</p>
-<ol type="1">
+<ol>
 <li>brew cleanup -n 列出需要清理的内容</li>
 <li>brew cleanup <formula> 清理指定的软件过时包</li>
 <li>brew cleanup 清理所有的过时软件</li>
 <li>brew unistall <formula> 卸载指定软件</li>
-<li>brew unistall <fromula> --force 彻底卸载指定软件，包括旧版本</li>
+<li>brew unistall <fromula> —force 彻底卸载指定软件，包括旧版本</li>
 </ol>
 
     </div>

@@ -173,39 +173,26 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>介绍卷积神经网络的一些概念，并利用卷积神经网络对 Cifar10
-数据集进行分类。</p>
+        <p>介绍卷积神经网络的一些概念，并利用卷积神经网络对 Cifar10 数据集进行分类。</p>
 <span id="more"></span>
-<h4 id="全连接nn">1.全连接NN</h4>
-<p>每个神经元与前后相邻层的每一个神经元都有连接关系，输入是特征，输出为预测的结果。</p>
+<h4 id="1-全连接NN"><a href="#1-全连接NN" class="headerlink" title="1.全连接NN"></a>1.全连接NN</h4><p>每个神经元与前后相邻层的每一个神经元都有连接关系，输入是特征，输出为预测的结果。</p>
 <p>实际应用时会先对原始图像进行<em>特征提取</em>，再把提取到的特征送给全连接网络。</p>
-<h4 id="卷积">2.卷积</h4>
-<p>卷积计算是一种有效的提取图像特征的方法。</p>
+<h4 id="2-卷积"><a href="#2-卷积" class="headerlink" title="2.卷积"></a>2.卷积</h4><p>卷积计算是一种有效的提取图像特征的方法。</p>
 <p>一般会用一个正方形的卷积核，按指定步长，在输入特征图上滑动，遍历输入特征图中的每个像素点。每一个步长，卷积核会与输入特征图出现重合区域，重合区域对应元素相乘，求和再加上偏执项得到输出特征的一个像素点。</p>
 <p><em>输入特征图的深度（channel数）决定了当前层卷积核的深度；当前层卷积核的个数，决定了当前层输出特征图的深度。</em></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tf.keras.layers.Conv2D(</span><br><span class="line">		filters = ,	<span class="comment"># 卷积核个数</span></span><br><span class="line">		kernel_size = ,	<span class="comment"># 卷积核尺寸</span></span><br><span class="line">  	<span class="comment"># stride = ,	# 滑动步长</span></span><br><span class="line">  	padding = ,	<span class="comment"># &quot;same&quot; or &quot;valid&quot;</span></span><br><span class="line">  	activation = ,	<span class="comment"># &quot;relu&quot;，&quot;sofmax&quot;，&quot;tanh&quot;，&quot;sigmoid&quot;</span></span><br><span class="line">  	<span class="comment"># input_shape = ,	# (高，宽，通道数) </span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<h4 id="感受野">3. 感受野</h4>
-<p>卷积神经网络各输出特征图中的每个像素点在原始输入图片上映射区域的大小。
-<span class="math display">\[
-padding=\begin{cases}SAME（全零填充）, &amp; \frac
-{入长}{步长}（向上取整） \\ VALID（不全零填充）, &amp; \frac
-{入长-核长+1}{步长}（向上取整） \end{cases}
-\]</span></p>
-<h4 id="批标准化batch-normalizationbn">4. 批标准化（Batch
-Normalization，BN）</h4>
-<p>标准化：使数据符合均值为 0，1 位标准差的分布</p>
+<h4 id="3-感受野"><a href="#3-感受野" class="headerlink" title="3. 感受野"></a>3. 感受野</h4><p>卷积神经网络各输出特征图中的每个像素点在原始输入图片上映射区域的大小。</p>
+<script type="math/tex; mode=display">
+padding=\begin{cases}SAME（全零填充）, & \frac {入长}{步长}（向上取整） \\ VALID（不全零填充）, & \frac {入长-核长+1}{步长}（向上取整） \end{cases}</script><h4 id="4-批标准化（Batch-Normalization，BN）"><a href="#4-批标准化（Batch-Normalization，BN）" class="headerlink" title="4. 批标准化（Batch Normalization，BN）"></a>4. 批标准化（Batch Normalization，BN）</h4><p>标准化：使数据符合均值为 0，1 位标准差的分布</p>
 <p>批标准化：对一小批数据（batch），做标准化处理</p>
 <p><em>BN层位置：BN 层位于卷积层之后，激活层之前。</em></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.keras.layers.BatchNormalization() <span class="comment"># 可以直接放</span></span><br></pre></td></tr></table></figure>
-<h4 id="池化pooling">5. 池化（Pooling）</h4>
-<p>池化用于减少特征数据量。</p>
+<h4 id="5-池化（Pooling）"><a href="#5-池化（Pooling）" class="headerlink" title="5. 池化（Pooling）"></a>5. 池化（Pooling）</h4><p>池化用于减少特征数据量。</p>
 <p><em>最大池化可提取图片纹理，均值池化可保留背景特征。</em></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">tf.keras.layers.MaxPool2D(</span><br><span class="line">	pool_size=,	<span class="comment"># 池化核尺寸，正方形写核长整数或（核高h, 核宽w）</span></span><br><span class="line">  strides=,	<span class="comment"># 池化步长，步长整数，或（纵向步长h，横向步长w），默认为 pool_size</span></span><br><span class="line">  padding=,	<span class="comment"># &#x27;valid&#x27; or &#x27;same&#x27; 使用全零填充是&#x27;same&#x27;,不使用时&#x27;valid&#x27;（默认）</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">tf.keras.layers.AveragePooling2D(</span><br><span class="line">	pool_size=,	<span class="comment"># 池化核尺寸，正方形写核长整数或（核高h, 核宽w）</span></span><br><span class="line">  strides=,	<span class="comment"># 池化步长，步长整数，或（纵向步长h，横向步长w），默认为 pool_size</span></span><br><span class="line">  padding=,	<span class="comment"># &#x27;valid&#x27; or &#x27;same&#x27; 使用全零填充是&#x27;same&#x27;,不使用时&#x27;valid&#x27;（默认）</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<h4 id="舍弃-dropout">6. 舍弃 (Dropout)</h4>
-<p>在神经网络训练时，将一部分神经元按照一定概率从神经网络中暂时舍弃。神经网络使用时，被舍弃的神经元恢复链接。</p>
+<h4 id="6-舍弃-Dropout"><a href="#6-舍弃-Dropout" class="headerlink" title="6. 舍弃 (Dropout)"></a>6. 舍弃 (Dropout)</h4><p>在神经网络训练时，将一部分神经元按照一定概率从神经网络中暂时舍弃。神经网络使用时，被舍弃的神经元恢复链接。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.keras.layers.Dropout(舍弃比例)</span><br></pre></td></tr></table></figure>
-<h4 id="卷积神经网络">7.卷积神经网络</h4>
-<p>借助卷积核提取特征后，送入全连接网络。</p>
+<h4 id="7-卷积神经网络"><a href="#7-卷积神经网络" class="headerlink" title="7.卷积神经网络"></a>7.卷积神经网络</h4><p>借助卷积核提取特征后，送入全连接网络。</p>
 <p>卷积神经网络的主要模块：</p>
 <ul>
 <li>卷积</li>

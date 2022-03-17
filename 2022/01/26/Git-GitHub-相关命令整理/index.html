@@ -19,12 +19,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"mhwy.cc","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"display":"remove","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="Git  git config --global user.name 用户名&amp;git config --global user.mail 邮箱：用于区分不同操作者的身份，知道本次操作是谁做的，与GitHub的登录账号无关。 git init：初始化本地仓库（新增.git文件夹，内容谨慎修改） git status：查看当前状态（git是按照行来维护文件的） git add 文件名：将文件提">
+<meta name="description" content="Git git config --global user.name 用户名&amp;git config --global user.mail 邮箱：用于区分不同操作者的身份，知道本次操作是谁做的，与GitHub的登录账号无关。 git init：初始化本地仓库（新增.git文件夹，内容谨慎修改） git status：查看当前状态（git是按照行来维护文件的） git add 文件名：将文件提交">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git &amp; GitHub 相关命令整理">
 <meta property="og:url" content="http://mhwy.cc/2022/01/26/Git-GitHub-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/index.html">
 <meta property="og:site_name" content="噗噗通通">
-<meta property="og:description" content="Git  git config --global user.name 用户名&amp;git config --global user.mail 邮箱：用于区分不同操作者的身份，知道本次操作是谁做的，与GitHub的登录账号无关。 git init：初始化本地仓库（新增.git文件夹，内容谨慎修改） git status：查看当前状态（git是按照行来维护文件的） git add 文件名：将文件提">
+<meta property="og:description" content="Git git config --global user.name 用户名&amp;git config --global user.mail 邮箱：用于区分不同操作者的身份，知道本次操作是谁做的，与GitHub的登录账号无关。 git init：初始化本地仓库（新增.git文件夹，内容谨慎修改） git status：查看当前状态（git是按照行来维护文件的） git add 文件名：将文件提交">
 <meta property="og:locale">
 <meta property="article:published_time" content="2022-01-26T03:57:30.000Z">
 <meta property="article:modified_time" content="2022-03-15T14:15:06.146Z">
@@ -173,41 +173,36 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h3 id="git">Git</h3>
-<ul>
+        <h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><ul>
 <li><code>git config --global user.name 用户名</code>&amp;<code>git config --global user.mail 邮箱</code>：用于区分不同操作者的身份，知道本次操作是谁做的，与GitHub的登录账号无关。</li>
 <li><code>git init</code>：初始化本地仓库（新增.git文件夹，内容谨慎修改）</li>
 <li><code>git status</code>：查看当前状态（git是按照行来维护文件的）</li>
 <li><code>git add 文件名</code>：将文件提交到暂存区</li>
-<li><code>git rm --cache 文件名</code>：将暂存区文件删除
-<span id="more"></span></li>
-<li><code>git commit -m 'message' 文件</code>：将暂存区文件提交到本地库</li>
+<li><code>git rm --cache 文件名</code>：将暂存区文件删除<span id="more"></span></li>
+<li><code>git commit -m &#39;message&#39; 文件</code>：将暂存区文件提交到本地库</li>
 <li><code>git reflog</code>：查看前7位版本号，分支指向</li>
 <li><code>git log</code>：查看详细信息，包括谁提交的，完整的版本号等</li>
-<li><code>git reset --hard '版本号'</code>：切换版本，本质是移动<code>HEAD</code>指针，<code>.git/HEAD</code>文件内容显示指向的分支，<code>.git/refs/heads</code>显示指向的分支版本。</li>
+<li><code>git reset --hard &#39;版本号&#39;</code>：切换版本，本质是移动<code>HEAD</code>指针，<code>.git/HEAD</code>文件内容显示指向的分支，<code>.git/refs/heads</code>显示指向的分支版本。</li>
 <li><code>git branch -v</code>：查看分支</li>
 <li><code>git branch 分支名</code>：创建分支</li>
 <li><code>git checkout 分支名</code>：切换分支</li>
-<li><code>git merge 分之名</code>：合并指定分支到当前分支上，若出现冲突，<code>&lt;&lt;&lt; HEAD</code>与<code>===</code>之间的内容表示当前分支内容，<code>===</code>与<code>&gt;&gt;&gt;***</code>之间的内容表示指定分支内容。冲突处理步骤如下：
-<ol type="1">
-<li>修改冲突</li>
-<li>添加暂存区</li>
-<li><code>git commit -m 'message'</code>注意不用带文件名，因为这时为合并状态</li>
-</ol></li>
+<li><code>git merge 分之名</code>：合并指定分支到当前分支上，若出现冲突，<code>&lt;&lt;&lt; HEAD</code>与<code>===</code>之间的内容表示当前分支内容，<code>===</code>与<code>&gt;&gt;&gt;***</code>之间的内容表示指定分支内容。冲突处理步骤如下：<pre><code> 1. 修改冲突
+ 2. 添加暂存区
+ 3. `git commit -m &#39;message&#39;`注意不用带文件名，因为这时为合并状态
+</code></pre></li>
 </ul>
-<h3 id="github">GitHub</h3>
-<ul>
+<h3 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h3><ul>
 <li><code>git psuh</code>：将提交内容推送到库，项目团队人员可用，否则无法push，团队外成员需要先<code>fork</code>自己的GitHub</li>
 <li><code>git remote -v</code>：查看当前所有别名</li>
 <li><code>git remote add 别名 链接</code>：起别名</li>
 <li><code>git push 别名 master</code>：本地<code>master</code>分支推送到远程仓库</li>
 <li><code>git pull 别名 分支</code>：拉取仓库（尽量随时让本地仓库保持最新状态）</li>
-<li><code>git clone 链接</code>：无需登录账号，做了以下三件事：
-<ol type="1">
+<li><code>git clone 链接</code>：无需登录账号，做了以下三件事：<ol>
 <li>拉取代码</li>
 <li>初始化本地仓库</li>
 <li>起好别名：origin</li>
-</ol></li>
+</ol>
+</li>
 <li><code>ssh-keygen -t rsa -C 邮箱</code>：ssh免密登陆，<code>~/.ssh/</code>目录下会出现<code>id_rsa.pub</code>和<code>id_rsa</code>，复制<code>id_rsa.pub</code>文件中内容填入GitHub即可。</li>
 </ul>
 
