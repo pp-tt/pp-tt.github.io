@@ -120,13 +120,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">1. 预备知识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.</span> <span class="nav-text">2. 神经网络复杂度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E8%A1%B0%E5%87%8F%E5%AD%A6%E4%B9%A0%E7%8E%87"><span class="nav-number">3.</span> <span class="nav-text">3. 指数衰减学习率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">4.激活函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#sigmoid-%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 Sigmoid 函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#relu%E5%87%BD%E6%95%B0"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 Relu函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.3.</span> <span class="nav-text">4.2 总结</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">5.损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9D%87%E6%96%B9%E8%AF%AF%E5%B7%AE%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 均方误差损失函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 自定义损失函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0cross-entropy"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 交叉熵损失函数（Cross
-Entropy）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AC%A0%E6%8B%9F%E5%90%88%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88"><span class="nav-number">6.</span> <span class="nav-text">6. 欠拟合与过拟合</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 解决方案</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96%E7%BC%93%E8%A7%A3%E8%BF%87%E6%8B%9F%E5%90%88"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 正则化缓解过拟合</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%99%A8"><span class="nav-number">7.</span> <span class="nav-text">7. 优化器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E5%8F%82%E6%95%B0%E5%9B%9B%E6%AD%A5%E9%AA%A4"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 更新参数四步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sgd%E6%97%A0momentum%E5%B8%B8%E7%94%A8%E7%9A%84%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95"><span class="nav-number">7.2.</span> <span class="nav-text">7.2
-SGD（无momentum），常用的梯度下降法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sgdm%E5%90%ABmomentum%E7%9A%84sgd%E5%9C%A8-sgd-%E5%9F%BA%E7%A1%80%E4%B8%8A%E5%A2%9E%E5%8A%A0%E4%BA%86%E4%B8%80%E9%98%B6%E5%8A%A8%E9%87%8F"><span class="nav-number">7.3.</span> <span class="nav-text">7.3
-SGDM（含momentum的SGD），在 SGD 基础上增加了一阶动量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#adagrad-%E5%9C%A8-sgd-%E5%9F%BA%E7%A1%80%E4%B8%8A%E5%A2%9E%E5%8A%A0%E4%BA%8C%E9%98%B6%E5%8A%A8%E9%87%8F"><span class="nav-number">7.4.</span> <span class="nav-text">7.4 Adagrad, 在 SGD
-基础上增加二阶动量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#rmspropsgd%E5%9F%BA%E7%A1%80%E4%B8%8A%E5%A2%9E%E5%8A%A0%E4%BA%8C%E9%98%B6%E5%8A%A8%E9%87%8F"><span class="nav-number">7.5.</span> <span class="nav-text">7.5
-RMSProp，SGD基础上增加二阶动量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#adam%E5%90%8C%E6%97%B6%E7%BB%93%E5%90%88-sgdm-%E7%9A%84%E4%B8%80%E9%98%B6%E5%8A%A8%E9%87%8F%E5%92%8C-rmsprop-%E4%BA%8C%E9%98%B6%E5%8A%A8%E9%87%8F"><span class="nav-number">7.6.</span> <span class="nav-text">7.6
-Adam，同时结合 SGDM 的一阶动量和 RMSProp 二阶动量</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">1. 预备知识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.</span> <span class="nav-text">2. 神经网络复杂度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%8C%87%E6%95%B0%E8%A1%B0%E5%87%8F%E5%AD%A6%E4%B9%A0%E7%8E%87"><span class="nav-number">3.</span> <span class="nav-text">3. 指数衰减学习率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">4.激活函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-Sigmoid-%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 Sigmoid 函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-Relu%E5%87%BD%E6%95%B0"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 Relu函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-%E6%80%BB%E7%BB%93"><span class="nav-number">4.3.</span> <span class="nav-text">4.2 总结</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text">5.损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5-1-%E5%9D%87%E6%96%B9%E8%AF%AF%E5%B7%AE%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 均方误差损失函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-2-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 自定义损失函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-3-%E4%BA%A4%E5%8F%89%E7%86%B5%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%EF%BC%88Cross-Entropy%EF%BC%89"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 交叉熵损失函数（Cross Entropy）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E6%AC%A0%E6%8B%9F%E5%90%88%E4%B8%8E%E8%BF%87%E6%8B%9F%E5%90%88"><span class="nav-number">6.</span> <span class="nav-text">6. 欠拟合与过拟合</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 解决方案</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-2-%E6%AD%A3%E5%88%99%E5%8C%96%E7%BC%93%E8%A7%A3%E8%BF%87%E6%8B%9F%E5%90%88"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 正则化缓解过拟合</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E4%BC%98%E5%8C%96%E5%99%A8"><span class="nav-number">7.</span> <span class="nav-text">7. 优化器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-1-%E6%9B%B4%E6%96%B0%E5%8F%82%E6%95%B0%E5%9B%9B%E6%AD%A5%E9%AA%A4"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 更新参数四步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-SGD%EF%BC%88%E6%97%A0momentum%EF%BC%89%EF%BC%8C%E5%B8%B8%E7%94%A8%E7%9A%84%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 SGD（无momentum），常用的梯度下降法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-3-SGDM%EF%BC%88%E5%90%ABmomentum%E7%9A%84SGD%EF%BC%89%EF%BC%8C%E5%9C%A8-SGD-%E5%9F%BA%E7%A1%80%E4%B8%8A%E5%A2%9E%E5%8A%A0%E4%BA%86%E4%B8%80%E9%98%B6%E5%8A%A8%E9%87%8F"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 SGDM（含momentum的SGD），在 SGD 基础上增加了一阶动量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-4-Adagrad-%E5%9C%A8-SGD-%E5%9F%BA%E7%A1%80%E4%B8%8A%E5%A2%9E%E5%8A%A0%E4%BA%8C%E9%98%B6%E5%8A%A8%E9%87%8F"><span class="nav-number">7.4.</span> <span class="nav-text">7.4 Adagrad, 在 SGD 基础上增加二阶动量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-5-RMSProp%EF%BC%8CSGD%E5%9F%BA%E7%A1%80%E4%B8%8A%E5%A2%9E%E5%8A%A0%E4%BA%8C%E9%98%B6%E5%8A%A8%E9%87%8F"><span class="nav-number">7.5.</span> <span class="nav-text">7.5 RMSProp，SGD基础上增加二阶动量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-6-Adam%EF%BC%8C%E5%90%8C%E6%97%B6%E7%BB%93%E5%90%88-SGDM-%E7%9A%84%E4%B8%80%E9%98%B6%E5%8A%A8%E9%87%8F%E5%92%8C-RMSProp-%E4%BA%8C%E9%98%B6%E5%8A%A8%E9%87%8F"><span class="nav-number">7.6.</span> <span class="nav-text">7.6 Adam，同时结合 SGDM 的一阶动量和 RMSProp 二阶动量</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -253,7 +247,7 @@ Adam，同时结合 SGDM 的一阶动量和 RMSProp 二阶动量</span></a></li>
     
     <div class="post-body" itemprop="articleBody">
         <p>介绍神经网络的优化过程，主要有：</p>
-<ol type="1">
+<ol>
 <li>神经网络复杂度</li>
 <li>指数衰减学习率</li>
 <li>激活函数</li>
@@ -263,14 +257,12 @@ Adam，同时结合 SGDM 的一阶动量和 RMSProp 二阶动量</span></a></li>
 <li>优化器更新网络参数</li>
 </ol>
 <span id="more"></span>
-<h4 id="预备知识">1. 预备知识</h4>
-<ul>
+<h4 id="1-预备知识"><a href="#1-预备知识" class="headerlink" title="1. 预备知识"></a>1. 预备知识</h4><ul>
 <li><code>tf.where(条件语句，真返回A，假返回B)</code>：条件语句，真返回A，假返回B</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = tf.constant([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>])</span><br><span class="line">b = tf.constant([<span class="number">0</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line">c = tf.where(tf.greater(a, b), a, b) <span class="comment"># 若a&gt;b，返回 a 对应位置的元素，否则返回 b 对应位置的元素</span></span><br><span class="line"></span><br><span class="line">输出：c = tf.Tensor([<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span>], shape=(<span class="number">5</span>,), dtype=int32)</span><br></pre></td></tr></table></figure>
 <ul>
-<li><code>np.random.RandomState.rand(维度)</code>：返回 [0, 1)
-之间的随机数</li>
+<li><code>np.random.RandomState.rand(维度)</code>：返回 [0, 1) 之间的随机数</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rdm = np.random.RandomState(seed=<span class="number">1</span>)</span><br><span class="line">a = rdm.rand() <span class="comment"># 返回一个随机标量</span></span><br><span class="line">b = rdm.rand(<span class="number">2</span>, <span class="number">3</span>) <span class="comment"># 返回维度为2行3列随机数矩阵</span></span><br></pre></td></tr></table></figure>
 <ul>
@@ -278,11 +270,10 @@ Adam，同时结合 SGDM 的一阶动量和 RMSProp 二阶动量</span></a></li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">b = np.array([<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line">c = np.vstack((a, b))</span><br><span class="line"></span><br><span class="line">结果：</span><br><span class="line">[[<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>]</span><br><span class="line">[<span class="number">4</span> <span class="number">5</span> <span class="number">6</span>]]</span><br></pre></td></tr></table></figure>
 <ul>
-<li><code>np.mgrid[]   .ravel()    np.c_[]</code></li>
+<li><code>np.mgrid[]    .ravel()    np.c_[]</code></li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">np.mgrid[起始值:结束值:步长, 起始值:结束值:步长, ...] <span class="comment"># 几组生成的数据就几纬，列数由组参数决定</span></span><br><span class="line">x.ravel() <span class="comment"># 将 x 变为一维数组，&quot;把 . 前的变量拉直&quot;</span></span><br><span class="line">np.c_[] 使返回的间隔数值点配对</span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x, y = np.mgrid[<span class="number">1</span>:<span class="number">3</span>:<span class="number">1</span>, <span class="number">2</span>:<span class="number">4</span>:<span class="number">0.5</span>]</span><br><span class="line">grid = np.c_[x.ravel(), y.ravel()]</span><br></pre></td></tr></table></figure>
-<h4 id="神经网络复杂度">2. 神经网络复杂度</h4>
-<p>空间复杂度：</p>
+<h4 id="2-神经网络复杂度"><a href="#2-神经网络复杂度" class="headerlink" title="2. 神经网络复杂度"></a>2. 神经网络复杂度</h4><p>空间复杂度：</p>
 <ul>
 <li>层数 = 隐藏层的层数 + 1个输出层</li>
 <li>总参数 = 总w + 总b</li>
@@ -291,108 +282,72 @@ Adam，同时结合 SGDM 的一阶动量和 RMSProp 二阶动量</span></a></li>
 <ul>
 <li>即乘加运算次数</li>
 </ul>
-<h4 id="指数衰减学习率">3. 指数衰减学习率</h4>
-<p>可以先用较大的学习率，快速得到较优解，然后逐步减小学习率，使模型在训练后期稳定。
-<span class="math display">\[
-指数衰减学习率 = 初始学习率 * 学习率衰减^{当前轮数 / 多少轮衰减一次}
-\]</span></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">epoch = <span class="number">40</span></span><br><span class="line">LR_BASE = <span class="number">0.2</span></span><br><span class="line">LR_DECAY = <span class="number">0.99</span></span><br><span class="line">LR_STEP = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(epoch):</span><br><span class="line">  lr = LR_BASE * LR_DECAY ** (epoch / LR_STEP)</span><br><span class="line">  <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">    loss = tf.square(w + <span class="number">1</span>)</span><br><span class="line">  grads = tape.gradient(loss, w)</span><br><span class="line">  w.assign_sub(lr * grads)</span><br></pre></td></tr></table></figure>
-<h4 id="激活函数">4.激活函数</h4>
-<h5 id="sigmoid-函数">4.1 Sigmoid 函数</h5>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.sigmoid(x)</span><br></pre></td></tr></table></figure>
-<p><span class="math display">\[
-f(x) = \frac{1}{1+{e^{-x}}}
-\]</span></p>
-<p>特点：</p>
-<ol type="1">
+<h4 id="3-指数衰减学习率"><a href="#3-指数衰减学习率" class="headerlink" title="3. 指数衰减学习率"></a>3. 指数衰减学习率</h4><p>可以先用较大的学习率，快速得到较优解，然后逐步减小学习率，使模型在训练后期稳定。</p>
+<script type="math/tex; mode=display">
+指数衰减学习率 = 初始学习率 * 学习率衰减^{当前轮数 / 多少轮衰减一次}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">epoch = <span class="number">40</span></span><br><span class="line">LR_BASE = <span class="number">0.2</span></span><br><span class="line">LR_DECAY = <span class="number">0.99</span></span><br><span class="line">LR_STEP = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(epoch):</span><br><span class="line">  lr = LR_BASE * LR_DECAY ** (epoch / LR_STEP)</span><br><span class="line">  <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">    loss = tf.square(w + <span class="number">1</span>)</span><br><span class="line">  grads = tape.gradient(loss, w)</span><br><span class="line">  w.assign_sub(lr * grads)</span><br></pre></td></tr></table></figure>
+<h4 id="4-激活函数"><a href="#4-激活函数" class="headerlink" title="4.激活函数"></a>4.激活函数</h4><h5 id="4-1-Sigmoid-函数"><a href="#4-1-Sigmoid-函数" class="headerlink" title="4.1 Sigmoid 函数"></a>4.1 Sigmoid 函数</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.sigmoid(x)</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+f(x) = \frac{1}{1+{e^{-x}}}</script><p>特点：</p>
+<ol>
 <li>容易造成梯度消失(因为梯度小)</li>
 <li>输出非0均值，收敛慢</li>
 <li>幂运算复杂，训练时间长</li>
 </ol>
-<h5 id="relu函数">4.2 Relu函数</h5>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.relu(x)</span><br></pre></td></tr></table></figure>
-<p><span class="math display">\[
-f(x) = max(x, 0) = \begin{cases}0, &amp; x&lt;0 \\ 1, &amp; x
-\ge0\end{cases}
-\]</span></p>
-<p>优点：</p>
-<ol type="1">
+<h5 id="4-2-Relu函数"><a href="#4-2-Relu函数" class="headerlink" title="4.2 Relu函数"></a>4.2 Relu函数</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.relu(x)</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+f(x) = max(x, 0) = \begin{cases}0, & x<0 \\ 1, & x \ge0\end{cases}</script><p>优点：</p>
+<ol>
 <li>解决了梯度消失问题</li>
 <li>只需要判断输入是否大于0，计算速度快</li>
 <li>收敛速度远快于<code>sigmoid</code>和<code>tanh</code></li>
 </ol>
 <p>缺点：</p>
-<ol type="1">
+<ol>
 <li>输出非 0 均值，收敛慢</li>
 <li>某些神经元可能永远未被激活，导致相应的参数永远不能被更新</li>
 </ol>
-<h5 id="总结">4.2 总结</h5>
-<ul>
-<li><p>首选 relu 激活函数</p></li>
-<li><p>学习率设置较小值</p></li>
-<li><p>输入特征标准化，即让输入特征满足以 0 为均值，1
-为标准差的正态分布</p></li>
-<li><p>初始参数中心化，即让随机生成的参数满足以0为均值，<span
-class="math inline">\(\sqrt\frac{2}{当前输入特征个数}\)</span></p>
-<p>为标准差的正态分布。</p></li>
+<h5 id="4-2-总结"><a href="#4-2-总结" class="headerlink" title="4.2 总结"></a>4.2 总结</h5><ul>
+<li><p>首选 relu 激活函数</p>
+</li>
+<li><p>学习率设置较小值</p>
+</li>
+<li><p>输入特征标准化，即让输入特征满足以 0 为均值，1 为标准差的正态分布</p>
+</li>
+<li><p>初始参数中心化，即让随机生成的参数满足以0为均值，$\sqrt\frac{2}{当前输入特征个数}$</p>
+<p>为标准差的正态分布。</p>
+</li>
 </ul>
-<h4 id="损失函数">5.损失函数</h4>
-<p>损失函数：预测值（y）与已知答案（y_）的差距</p>
+<h4 id="5-损失函数"><a href="#5-损失函数" class="headerlink" title="5.损失函数"></a>5.损失函数</h4><p>损失函数：预测值（y）与已知答案（y_）的差距</p>
 <p>损失函数的优化目标：使 loss 最小，主要有以下损失函数</p>
 <ul>
 <li>mse (Mean Squared Error)</li>
 <li>自定义</li>
 <li>ce(Cross Entropy)</li>
 </ul>
-<h5 id="均方误差损失函数">5.1 均方误差损失函数</h5>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loss_mse = tf.reduce_mean(tf.square(y_-y))</span><br></pre></td></tr></table></figure>
-<p><span class="math display">\[
-MSE(y\_, y) = \frac{\Sigma^n_{i=1}(y-y\_)^2}{n}
-\]</span> 例：</p>
+<h5 id="5-1-均方误差损失函数"><a href="#5-1-均方误差损失函数" class="headerlink" title="5.1 均方误差损失函数"></a>5.1 均方误差损失函数</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loss_mse = tf.reduce_mean(tf.square(y_-y))</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+MSE(y\_, y) = \frac{\Sigma^n_{i=1}(y-y\_)^2}{n}</script><p>例：</p>
 <blockquote>
-<p>预测酸奶日销量 y，<span class="math inline">\(x_1\)</span> 和 <span
-class="math inline">\(x_2\)</span>是影响日常销量的因素。</p>
-</blockquote>
-<blockquote>
-<p>建模前，应预先采集的数据有：每日<span
-class="math inline">\(x_1\)</span> , <span
-class="math inline">\(x_2\)</span>和日销量<span
-class="math inline">\(y\_\)</span>（即已知答案：最佳情况：产量=销量），拟造数据集<span
-class="math inline">\(X\)</span>, <span
-class="math inline">\(Y\_\)</span> : <span class="math inline">\(y\_=x_1
-+ x_2\)</span> 噪声：<span class="math inline">\(-0.05~+0.05\)</span>
-拟合可以预测销量的函数。</p>
+<p>预测酸奶日销量 y，$x_1$ 和 $x_2$是影响日常销量的因素。</p>
+<p>建模前，应预先采集的数据有：每日$x<em>1$ , $x_2$和日销量$y\</em>$（即已知答案：最佳情况：产量=销量），拟造数据集$X$, $Y_$  :  $y_=x_1 + x_2$   噪声：$-0.05~+0.05$ 拟合可以预测销量的函数。</p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">SEED = <span class="number">23455</span></span><br><span class="line"></span><br><span class="line">rdm = np.random.RandomState(SEED)</span><br><span class="line">x = rdm.rand(<span class="number">32</span>, <span class="number">2</span>)</span><br><span class="line">y_ = [[x1 + x2 + (rdm.rand() / <span class="number">10.0</span> - <span class="number">0.05</span>)] <span class="keyword">for</span> (x1, x2) <span class="keyword">in</span> x]</span><br><span class="line">x = tf.cast(x, dtype=tf.float32)</span><br><span class="line"></span><br><span class="line">w1 = tf.Variable(tf.random.normal([<span class="number">2</span>, <span class="number">1</span>], stddev=<span class="number">1</span>, seed=<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">epoch = <span class="number">15000</span></span><br><span class="line">lr = <span class="number">0.002</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(epoch):</span><br><span class="line">    <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">        y = tf.matmul(x, w1)</span><br><span class="line">        loss_mse = tf.reduce_mean(tf.square(y_ - y))</span><br><span class="line">    grads = tape.gradient(loss_mse, w1)</span><br><span class="line">    w1.assign_sub(lr * grads)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> epoch % <span class="number">500</span> == <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;After %d training steps, w1 is &quot;</span> % (epoch))</span><br><span class="line">        <span class="built_in">print</span>(w1.numpy(), <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Final w1 is: &quot;</span>, w1.numpy())</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">  ...</span><br><span class="line">  Final w1 <span class="keyword">is</span>:  [[<span class="number">1.0009792</span>]</span><br><span class="line"> 	[<span class="number">0.9977485</span>]]</span><br></pre></td></tr></table></figure>
-<h5 id="自定义损失函数">5.2 自定义损失函数</h5>
-<p>如 5.1 预测商品销量，预测多了，损失成本；预测少了，损失利润。若<span
-class="math inline">\(利润\neq成本\)</span>则 mse 产生的 loss
-无法实现利益最大化。 <span class="math display">\[
-自定义损失函数：loss(y\_,y)=\Sigma{f({y\_}, y)}
-\]</span> 优化 5.1 损失函数</p>
+<h5 id="5-2-自定义损失函数"><a href="#5-2-自定义损失函数" class="headerlink" title="5.2 自定义损失函数"></a>5.2 自定义损失函数</h5><p>如 5.1 预测商品销量，预测多了，损失成本；预测少了，损失利润。若$利润\neq成本$则 mse 产生的 loss 无法实现利益最大化。</p>
+<script type="math/tex; mode=display">
+自定义损失函数：loss(y\_,y)=\Sigma{f({y\_}, y)}</script><p>优化 5.1 损失函数</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loss_zdy = tf.reduce_sum(tf.where(tf.greater(y, y_), COST(y-y_), PROFIT(y_-y)))</span><br></pre></td></tr></table></figure>
-<p><span class="math display">\[
-f(y\_,y)=\begin{cases}PROFIT*(y\_-y), &amp; y&lt;y\_ &amp;
-预测的y少了，损失利润\\ COST*(y-y\_), &amp; y \ge y\_ &amp;
-预测的y多了，损失成本 \end{cases}
-\]</span></p>
-<p>例：</p>
+<script type="math/tex; mode=display">
+f(y\_,y)=\begin{cases}PROFIT*(y\_-y), & y<y\_ & 预测的y少了，损失利润\\ COST*(y-y\_), & y \ge y\_ & 预测的y多了，损失成本 \end{cases}</script><p>例：</p>
 <blockquote>
 <p>预测酸奶销量，酸奶成本（COST）1元，酸奶利润（PROFIT）99元。预测少了损失利润99元，预测多了损失成本1元。预测少了损失大，希望生成的预测函数往多了预测。</p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">SEED = <span class="number">23455</span></span><br><span class="line">COST = <span class="number">1</span></span><br><span class="line">PROFIT = <span class="number">99</span></span><br><span class="line"></span><br><span class="line">rdm = np.random.RandomState(SEED)</span><br><span class="line">x = rdm.rand(<span class="number">32</span>, <span class="number">2</span>)</span><br><span class="line">y_ = [[x1 + x2 + (rdm.rand() / <span class="number">10.0</span> - <span class="number">0.05</span>)] <span class="keyword">for</span> (x1, x2) <span class="keyword">in</span> x]</span><br><span class="line">x = tf.cast(x, dtype=tf.float32)</span><br><span class="line"></span><br><span class="line">w1 = tf.Variable(tf.random.normal([<span class="number">2</span>, <span class="number">1</span>], stddev=<span class="number">1</span>, seed=<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">epoch = <span class="number">15000</span></span><br><span class="line">lr = <span class="number">0.002</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(epoch):</span><br><span class="line">    <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">        y = tf.matmul(x, w1)</span><br><span class="line">        <span class="comment"># loss_mse = tf.reduce_mean(tf.square(y_ - y))</span></span><br><span class="line">        loss = tf.reduce_sum(tf.where(tf.greater(y, y_), (y-y_) * COST, (y_-y) * PROFIT))</span><br><span class="line">    grads = tape.gradient(loss, w1)</span><br><span class="line">    w1.assign_sub(lr * grads)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> epoch % <span class="number">500</span> == <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;After %d training steps, w1 is &quot;</span> % (epoch))</span><br><span class="line">        <span class="built_in">print</span>(w1.numpy(), <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Final w1 is: &quot;</span>, w1.numpy())</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">  Final w1 <span class="keyword">is</span>:  [[<span class="number">1.1420637</span>]</span><br><span class="line"> 	[<span class="number">1.101678</span> ]]</span><br></pre></td></tr></table></figure>
-<h5 id="交叉熵损失函数cross-entropy">5.3 交叉熵损失函数（Cross
-Entropy）</h5>
-<p>交叉熵损失函数：表征两个概率分布之间的距离</p>
+<h5 id="5-3-交叉熵损失函数（Cross-Entropy）"><a href="#5-3-交叉熵损失函数（Cross-Entropy）" class="headerlink" title="5.3 交叉熵损失函数（Cross Entropy）"></a>5.3 交叉熵损失函数（Cross Entropy）</h5><p>交叉熵损失函数：表征两个概率分布之间的距离</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.losses.categorical_crossentropy(y_, y)</span><br></pre></td></tr></table></figure>
-<p><span class="math display">\[
-H(y\_,y)=-\Sigma y\_*\ln y
-\]</span> <strong>softmax 与交叉熵结合</strong>：输出先过 softmax
-函数，再计算 y 与 y_ 的交叉熵损失函数。</p>
+<script type="math/tex; mode=display">
+H(y\_,y)=-\Sigma y\_*\ln y</script><p><strong>softmax 与交叉熵结合</strong>：输出先过 softmax 函数，再计算 y 与 y_ 的交叉熵损失函数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.softmax_cross_entropy_with_logits(y_, y)</span><br><span class="line">y_ = np.array([[<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>], [<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>,], [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>]])</span><br><span class="line">y = np.array([[<span class="number">12</span>, <span class="number">3</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">10</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>], [<span class="number">4</span>, <span class="number">6.5</span>, <span class="number">1.2</span>], [<span class="number">3</span>, <span class="number">6</span>, <span class="number">1</span>]])</span><br><span class="line">y_pro = tf.nn.softmax(y)</span><br><span class="line">loss_ce1 = tf.losses.categorical_crossentropy(y_, y_pro)</span><br><span class="line">loss_ce2 = tf.nn.softmax_cross_entropy_with_logits(y_, y)</span><br><span class="line"></span><br><span class="line">tf.nn.softmax_cross_entropy_with_logits(y_, y) 函数内部就有 softmax算法，不用再 softmax 了</span><br></pre></td></tr></table></figure>
-<h4 id="欠拟合与过拟合">6. 欠拟合与过拟合</h4>
-<h5 id="解决方案">6.1 解决方案</h5>
-<p>欠拟合解决方法：</p>
+<h4 id="6-欠拟合与过拟合"><a href="#6-欠拟合与过拟合" class="headerlink" title="6. 欠拟合与过拟合"></a>6. 欠拟合与过拟合</h4><h5 id="6-1-解决方案"><a href="#6-1-解决方案" class="headerlink" title="6.1 解决方案"></a>6.1 解决方案</h5><p>欠拟合解决方法：</p>
 <ul>
 <li>增加输入特征项</li>
 <li>增加网络参数</li>
@@ -405,110 +360,46 @@ H(y\_,y)=-\Sigma y\_*\ln y
 <li>采用正则化</li>
 <li>增大正则化参数</li>
 </ul>
-<h5 id="正则化缓解过拟合">6.2 正则化缓解过拟合</h5>
-<p>正则化在损失函数中引入模型复杂度指标，利用给 W
-加权值，弱化了训练数据的噪声（一般不正则化b） <span
-class="math display">\[
-loss = loss(y, y\_) + REGULARIZER * loss(w)
-\]</span> L1 正则化： <span class="math display">\[
-loss_{L1}(w) = \Sigma{|w_i|}
-\]</span> L2 正则化： <span class="math display">\[
-loss_{L2}(w)=\Sigma{|w_{i}^2|}
-\]</span> 正则化的选择：</p>
+<h5 id="6-2-正则化缓解过拟合"><a href="#6-2-正则化缓解过拟合" class="headerlink" title="6.2 正则化缓解过拟合"></a>6.2 正则化缓解过拟合</h5><p>正则化在损失函数中引入模型复杂度指标，利用给 W 加权值，弱化了训练数据的噪声（一般不正则化b）</p>
+<script type="math/tex; mode=display">
+loss = loss(y, y\_) + REGULARIZER * loss(w)</script><p>L1 正则化：</p>
+<script type="math/tex; mode=display">
+loss_{L1}(w) = \Sigma{|w_i|}</script><p>L2 正则化：</p>
+<script type="math/tex; mode=display">
+loss_{L2}(w)=\Sigma{|w_{i}^2|}</script><p>正则化的选择：</p>
 <ul>
-<li>L1 正则化大概率会使很多参数变为
-0，因此该方法可通过稀疏参数，即减少参数的数量，降低复杂度。</li>
-<li>L2 正则化会使参数很接近 0 但不为
-0，因为该方法可通过减少参数值的大小降低复杂度。</li>
+<li>L1 正则化大概率会使很多参数变为 0，因此该方法可通过稀疏参数，即减少参数的数量，降低复杂度。</li>
+<li>L2 正则化会使参数很接近 0 但不为 0，因为该方法可通过减少参数值的大小降低复杂度。</li>
 </ul>
-<h4 id="优化器">7. 优化器</h4>
-<h5 id="更新参数四步骤">7.1 更新参数四步骤</h5>
-<ol type="1">
-<li>计算 <span class="math inline">\(t\)</span>
-时刻损失函数关于当前参数的梯度 $g_t== $</li>
-<li>计算 <span class="math inline">\(t\)</span> 时刻一阶动量 <span
-class="math inline">\(m_t\)</span> 和二阶动量 <span
-class="math inline">\(V_t\)</span></li>
-<li>计算 <span class="math inline">\(t\)</span> 时刻下降梯度：<span
-class="math inline">\(\eta{_t}=lr. \frac{m_t}{\sqrt{V_t}}\)</span></li>
-<li>计算 t+1 时刻参数： <span class="math inline">\(w_{t+1}=w_t -
-\eta{_t} = w_t - lr. \frac{m_t}{\sqrt V_t}\)</span></li>
+<h4 id="7-优化器"><a href="#7-优化器" class="headerlink" title="7. 优化器"></a>7. 优化器</h4><h5 id="7-1-更新参数四步骤"><a href="#7-1-更新参数四步骤" class="headerlink" title="7.1 更新参数四步骤"></a>7.1 更新参数四步骤</h5><ol>
+<li>计算 $t$ 时刻损失函数关于当前参数的梯度      $g_t=\nabla{loss}=\frac{\partial loss}{\partial (w_t)} $</li>
+<li>计算  $t$ 时刻一阶动量 $m_t$ 和二阶动量 $V_t$</li>
+<li>计算 $t$ 时刻下降梯度：$\eta{_t}=lr. \frac{m_t}{\sqrt{V_t}}$</li>
+<li>计算 t+1 时刻参数： $w_{t+1}=w_t - \eta{_t} = w_t - lr. \frac{m_t}{\sqrt V_t}$</li>
 </ol>
 <p>其中：</p>
 <ul>
 <li>一阶动量：与梯度相关的函数</li>
 <li>二阶动量：与梯度平方相关的函数</li>
 </ul>
-<h5 id="sgd无momentum常用的梯度下降法">7.2
-SGD（无momentum），常用的梯度下降法</h5>
-<p><span class="math display">\[
-m_t = g_t \hspace{3cm} V_t = 1
-\]</span></p>
-<p><span class="math display">\[
-\eta_t = lr. \frac {m_t}{\sqrt V_t} = lr.g_t
-\]</span></p>
-<p><span class="math display">\[
-w_{t+1} = w_t - \eta_t = w_t-lr. \frac {m_t}{\sqrt{V_t}}=w_t-lr.g_t
-\]</span></p>
-<p><span class="math display">\[
-w_{t+1}=w_t-lr.\frac{\partial loss}{\partial (w_t)}
-\]</span></p>
-<h5 id="sgdm含momentum的sgd在-sgd-基础上增加了一阶动量">7.3
-SGDM（含momentum的SGD），在 SGD 基础上增加了一阶动量</h5>
-<p><span class="math display">\[
-m_t = \beta.m_{t-1} + (1-\beta).g_t \hspace{3cm} V_t = 1
-\]</span></p>
-<p><span class="math display">\[
-\eta_t=lr.\frac{m_t}{\sqrt{V_t}}=lr.m_t=lr.(\beta.m_{t-1} +
-(1-\beta).g_t)
-\]</span></p>
-<p><span class="math display">\[
-w_{t+1} = w_t - \eta_t=w_t-lr.(\beta.m_{t-1} + (1-\beta).g_t)
-\]</span></p>
-<h5 id="adagrad-在-sgd-基础上增加二阶动量">7.4 Adagrad, 在 SGD
-基础上增加二阶动量</h5>
-<p><span class="math display">\[
-m_t = g_t \hspace{3cm} V_t = \Sigma^t_\tau g^2_\tau
-\]</span></p>
-<p><span class="math display">\[
-\eta_t = lr.\frac{m_t}{\sqrt V_t} = lr.\frac{g_t}{\sqrt{\Sigma^t_\tau
-g^2_\tau}}
-\]</span></p>
-<p><span class="math display">\[
-w_{t+1} = w_t - \eta_t=w_t-lr.\frac{g_t}{\Sigma^t_\tau g^2_\tau}
-\]</span></p>
-<h5 id="rmspropsgd基础上增加二阶动量">7.5
-RMSProp，SGD基础上增加二阶动量</h5>
-<p><span class="math display">\[
-m_t = g_t \hspace{3cm} V_t = \beta.V_{t-1} + (1-\beta).g_t^2
-\]</span></p>
-<p><span class="math display">\[
-\eta_t = lr.\frac{m_t}{\sqrt V_t} = lr.\frac{g_t}{\sqrt{\beta.V_{t-1} +
-(1-\beta).g_t^2}}
-\]</span></p>
-<p><span class="math display">\[
-w_{t+1} = w_t - \eta_t=w_t-lr.\frac{g_t}{\sqrt{\beta.V_{t-1} +
-(1-\beta).g_t^2}}
-\]</span></p>
-<h5 id="adam同时结合-sgdm-的一阶动量和-rmsprop-二阶动量">7.6
-Adam，同时结合 SGDM 的一阶动量和 RMSProp 二阶动量</h5>
-<p><span class="math display">\[
-m_t = \beta.m_{t-1} + (1-\beta).g_t \hspace{1cm}
-修正一阶动量的偏差：\widehat{m_t}=\frac{m_t}{1-\beta_1^t}
-\]</span></p>
-<p><span class="math display">\[
-V_t = \beta.V_{t-1} + (1-\beta).g_t^2 \hspace{1cm}
-修正一阶动量的偏差：\widehat{V_t}=\frac{V_t}{1-\beta_2^t}
-\]</span></p>
-<p><span class="math display">\[
-\eta_t =
-lr.\frac{\widehat{m_t}}{\sqrt{\widehat{V_t}}}=lr.\frac{\frac{m_t}{1-\beta_1^t}}{\frac{V_t}{1-\beta_2^t}}
-\]</span></p>
-<p><span class="math display">\[
-w_{t+1} = w_t - \eta_t = w_t -
-lr.\frac{\frac{m_t}{1-\beta_1^t}}{\frac{V_t}{1-\beta_2^t}}
-\]</span></p>
-
+<h5 id="7-2-SGD（无momentum），常用的梯度下降法"><a href="#7-2-SGD（无momentum），常用的梯度下降法" class="headerlink" title="7.2 SGD（无momentum），常用的梯度下降法"></a>7.2 SGD（无momentum），常用的梯度下降法</h5><script type="math/tex; mode=display">
+m_t = g_t \hspace{3cm} V_t = 1</script><script type="math/tex; mode=display">
+\eta_t = lr. \frac {m_t}{\sqrt V_t} = lr.g_t</script><script type="math/tex; mode=display">
+w_{t+1} = w_t - \eta_t = w_t-lr. \frac {m_t}{\sqrt{V_t}}=w_t-lr.g_t</script><script type="math/tex; mode=display">
+w_{t+1}=w_t-lr.\frac{\partial loss}{\partial (w_t)}</script><h5 id="7-3-SGDM（含momentum的SGD），在-SGD-基础上增加了一阶动量"><a href="#7-3-SGDM（含momentum的SGD），在-SGD-基础上增加了一阶动量" class="headerlink" title="7.3 SGDM（含momentum的SGD），在 SGD 基础上增加了一阶动量"></a>7.3 SGDM（含momentum的SGD），在 SGD 基础上增加了一阶动量</h5><script type="math/tex; mode=display">
+m_t = \beta.m_{t-1} + (1-\beta).g_t \hspace{3cm} V_t = 1</script><script type="math/tex; mode=display">
+\eta_t=lr.\frac{m_t}{\sqrt{V_t}}=lr.m_t=lr.(\beta.m_{t-1} + (1-\beta).g_t)</script><script type="math/tex; mode=display">
+w_{t+1} = w_t - \eta_t=w_t-lr.(\beta.m_{t-1} + (1-\beta).g_t)</script><h5 id="7-4-Adagrad-在-SGD-基础上增加二阶动量"><a href="#7-4-Adagrad-在-SGD-基础上增加二阶动量" class="headerlink" title="7.4 Adagrad, 在 SGD 基础上增加二阶动量"></a>7.4 Adagrad, 在 SGD 基础上增加二阶动量</h5><script type="math/tex; mode=display">
+m_t = g_t \hspace{3cm} V_t = \Sigma^t_\tau g^2_\tau</script><script type="math/tex; mode=display">
+\eta_t = lr.\frac{m_t}{\sqrt V_t} = lr.\frac{g_t}{\sqrt{\Sigma^t_\tau g^2_\tau}}</script><script type="math/tex; mode=display">
+w_{t+1} = w_t - \eta_t=w_t-lr.\frac{g_t}{\Sigma^t_\tau g^2_\tau}</script><h5 id="7-5-RMSProp，SGD基础上增加二阶动量"><a href="#7-5-RMSProp，SGD基础上增加二阶动量" class="headerlink" title="7.5 RMSProp，SGD基础上增加二阶动量"></a>7.5 RMSProp，SGD基础上增加二阶动量</h5><script type="math/tex; mode=display">
+m_t = g_t \hspace{3cm} V_t = \beta.V_{t-1} + (1-\beta).g_t^2</script><script type="math/tex; mode=display">
+\eta_t = lr.\frac{m_t}{\sqrt V_t} = lr.\frac{g_t}{\sqrt{\beta.V_{t-1} + (1-\beta).g_t^2}}</script><script type="math/tex; mode=display">
+w_{t+1} = w_t - \eta_t=w_t-lr.\frac{g_t}{\sqrt{\beta.V_{t-1} + (1-\beta).g_t^2}}</script><h5 id="7-6-Adam，同时结合-SGDM-的一阶动量和-RMSProp-二阶动量"><a href="#7-6-Adam，同时结合-SGDM-的一阶动量和-RMSProp-二阶动量" class="headerlink" title="7.6 Adam，同时结合 SGDM 的一阶动量和 RMSProp 二阶动量"></a>7.6 Adam，同时结合 SGDM 的一阶动量和 RMSProp 二阶动量</h5><script type="math/tex; mode=display">
+m_t = \beta.m_{t-1} + (1-\beta).g_t \hspace{1cm} 修正一阶动量的偏差：\widehat{m_t}=\frac{m_t}{1-\beta_1^t}</script><script type="math/tex; mode=display">
+V_t = \beta.V_{t-1} + (1-\beta).g_t^2 \hspace{1cm} 修正一阶动量的偏差：\widehat{V_t}=\frac{V_t}{1-\beta_2^t}</script><script type="math/tex; mode=display">
+\eta_t = lr.\frac{\widehat{m_t}}{\sqrt{\widehat{V_t}}}=lr.\frac{\frac{m_t}{1-\beta_1^t}}{\frac{V_t}{1-\beta_2^t}}</script><script type="math/tex; mode=display">
+w_{t+1} = w_t - \eta_t = w_t - lr.\frac{\frac{m_t}{1-\beta_1^t}}{\frac{V_t}{1-\beta_2^t}}</script>
     </div>
 
     
