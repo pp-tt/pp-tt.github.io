@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"mhwy.cc","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"display":"remove","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"mhwy.cc","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"display":"always","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 <meta name="description" content="对 Java 多线程问题简单梳理总结。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java 多线程">
@@ -28,7 +28,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="https://gitee.com/pp-tt/blogImage/raw/master/202203181947330.png">
 <meta property="article:published_time" content="2022-03-17T08:11:02.000Z">
-<meta property="article:modified_time" content="2022-03-18T14:09:55.397Z">
+<meta property="article:modified_time" content="2022-03-18T14:27:36.841Z">
 <meta property="article:author" content="噗噗通通">
 <meta property="article:tag" content="并发">
 <meta property="article:tag" content="多线程">
@@ -90,6 +90,7 @@
 <nav class="site-nav">
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
         <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
   </ul>
@@ -99,6 +100,79 @@
 
 
 </div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">1 相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%92%8C%E5%B9%B6%E5%8F%91"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 并行和并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 进程和线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 多线程的实现方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF-thread-%E7%B1%BB%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">2 继承 Thread 类实现多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E4%BB%A3%E7%A0%81"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 相关代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 相关问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#runnable-%E6%8E%A5%E5%8F%A3%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">3 Runnable 接口方式实现多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 实现步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E4%BB%A3%E7%A0%81-1"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 相关代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#callable-%E5%92%8C-future-%E6%8E%A5%E5%8F%A3%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">4 Callable 和 Future
+接口实现多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4-1"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 实现步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E4%BB%A3%E7%A0%81-2"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 相关代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%96%B9%E5%BC%8F%E5%8C%BA%E5%88%AB"><span class="nav-number">5.</span> <span class="nav-text">5 三种多线程方式区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#thread-%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">6 Thread 相关方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">7.</span> <span class="nav-text">7 线程安全问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="nav-number">7.1.</span> <span class="nav-text">7.1 同步代码块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95"><span class="nav-number">7.2.</span> <span class="nav-text">7.2 同步方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E4%B8%BE%E4%BE%8B"><span class="nav-number">7.3.</span> <span class="nav-text">7.3 死锁举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E5%92%8C%E6%B6%88%E8%B4%B9%E8%80%85"><span class="nav-number">8.</span> <span class="nav-text">8 生产者和消费者</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%89%E5%BE%85%E5%92%8C%E5%94%A4%E9%86%92%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">8.1.</span> <span class="nav-text">8.1 等待和唤醒的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97"><span class="nav-number">8.2.</span> <span class="nav-text">8.2 阻塞队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">9.</span> <span class="nav-text">9 线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="nav-number">9.1.</span> <span class="nav-text">9.1 线程状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0-1"><span class="nav-number">9.2.</span> <span class="nav-text">9.2 线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">9.2.1.</span> <span class="nav-text">9.2.1 默认线程池</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E4%B8%8A%E9%99%90%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">9.2.2.</span> <span class="nav-text">9.2.1 指定上限线程池</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%AF%B9%E8%B1%A1"><span class="nav-number">9.2.3.</span> <span class="nav-text">9.2.2 自定义线程池对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#volatile-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">9.2.4.</span> <span class="nav-text">9.2.3 volatile 关键字</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="噗噗通通"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">噗噗通通</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yourname" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zbx996@gmail.com" title="E-Mail → mailto:zbx996@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
     </header>
 
     
@@ -154,7 +228,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-18 22:09:55" itemprop="dateModified" datetime="2022-03-18T22:09:55+08:00">2022-03-18</time>
+      <time title="Modified: 2022-03-18 22:27:36" itemprop="dateModified" datetime="2022-03-18T22:27:36+08:00">2022-03-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -416,6 +490,8 @@ alt="image-20220317220315722" />
 <p>结束状态（TERMINATED）———— 全部代码运行完毕</p></li>
 </ul>
 <h3 id="线程池-1">9.2 线程池</h3>
+<p><img
+src="https://gitee.com/pp-tt/blogImage/raw/master/202203182227218.png" /></p>
 <h4 id="默认线程池">9.2.1 默认线程池</h4>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个默认线程池对象，池子中默认是空的，最多可容纳 int 类型最大值的线程数量</span></span><br><span class="line"><span class="comment">// Executor --- 帮助创建线程池对象</span></span><br><span class="line"><span class="comment">// ExecutorService --- 帮助控制线程池</span></span><br><span class="line">ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line"></span><br><span class="line">executorService.submit(()-&gt;&#123;</span><br><span class="line">  System.out.println(Thread.currentThread().getName() + <span class="string">&quot;在执行了&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">executorService.submit(()-&gt;&#123;</span><br><span class="line">  System.out.println(Thread.currentThread().getName() + <span class="string">&quot;在执行了&quot;</span>)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">executorService.shutdown();</span><br></pre></td></tr></table></figure>
 <h4 id="指定上限线程池">9.2.1 指定上限线程池</h4>
