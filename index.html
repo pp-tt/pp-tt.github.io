@@ -130,7 +130,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -187,6 +187,183 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://mhwy.cc/2022/04/13/AjAX-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="噗噗通通">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="噗噗通通">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/04/13/AjAX-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" class="post-title-link" itemprop="url">AjAX 快速入门</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-04-13 20:54:17 / Modified: 22:31:57" itemprop="dateCreated datePublished" datetime="2022-04-13T20:54:17+08:00">2022-04-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h3><h4 id="1-1-概念"><a href="#1-1-概念" class="headerlink" title="1.1 概念"></a>1.1 概念</h4><p>AJAX （Asynchronous JavaScript And XML）：异步的 JavaScript 和 XML。</p>
+<h4 id="1-2-AJAX-作用"><a href="#1-2-AJAX-作用" class="headerlink" title="1.2 AJAX 作用"></a>1.2 AJAX 作用</h4><ol>
+<li>与服务器进行数据交换：通过 AJAX 可以给服务器发送请求，并获取服务器响应数据。<ul>
+<li>使用 AJAX 和服务器进行通信，就可以使用 HTML + AJAX 来替换 JSP 页面。</li>
+</ul>
+</li>
+<li><p>异步交互：可以在不重新加载整个页面的情况下，与服务器交换数据并更新网页的技术，如搜索联想等。</p>
+<ul>
+<li>异步和同步的区别：<ul>
+<li>异步客户端浏览器不用等待服务端处理，客户端是连续不间断的操作，然后同步需要等待服务器处理完返回。 </li>
+</ul>
+</li>
+</ul>
+<h3 id="2-快速入门"><a href="#2-快速入门" class="headerlink" title="2. 快速入门"></a>2. 快速入门</h3></li>
+</ol>
+<h4 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h4><ol>
+<li><p>在服务端编写 Servlet，并使用 response 输出字符串，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(&quot;/ajaxServlet&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AjaxServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        resp.getWriter().write(<span class="string">&quot;hello ajax&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.doGet(req, resp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写 Ajax 程序</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1 创建核心 XMLHttpRequest 对象，用于和服务器交换数据</span></span><br><span class="line"><span class="keyword">var</span> xhttp;</span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.XMLHttpRequest) &#123;</span><br><span class="line">    xhttp = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// code for IE6, IE5</span></span><br><span class="line">    xhttp = <span class="keyword">new</span> ActiveXObject(<span class="string">&quot;Microsoft.XMLHTTP&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2 向服务器发送请求</span></span><br><span class="line">xhttp.open(<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;http://localhost/ajaxServlet&quot;</span>, <span class="literal">true</span>);</span><br><span class="line">xhttp.send();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 3 获取服务器响应数据</span></span><br><span class="line">xhttp.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">this</span>.readyState == <span class="number">4</span> &amp;&amp; <span class="built_in">this</span>.status == <span class="number">200</span>) &#123;</span><br><span class="line">        alert(<span class="built_in">this</span>.responseText)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="3-Axios-快速入门"><a href="#3-Axios-快速入门" class="headerlink" title="3.Axios 快速入门"></a>3.Axios 快速入门</h3><ol>
+<li><p>引入 axios 的 js 文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;js/axios-0.18.0.js&quot;</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 axios 发送请求，并获取响应结果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// get 请求</span></span><br><span class="line">axios.get(<span class="string">&quot;http://localhost/ajaxServlet&quot;</span>)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">resp</span>) </span>&#123;</span><br><span class="line">    alert(resp.data);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// post 请求</span></span><br><span class="line">axios.get(<span class="string">&quot;url&quot;</span>, <span class="string">&quot;参数(key=val)&quot;</span>)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">resp</span>) </span>&#123;</span><br><span class="line">    alert(resp.data);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://mhwy.cc/2022/04/07/Java-%E9%9B%86%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="噗噗通通">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="噗噗通通">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/04/07/Java-%E9%9B%86%E5%90%88/" class="post-title-link" itemprop="url">Java 集合</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-04-07 11:12:39 / Modified: 11:30:40" itemprop="dateCreated datePublished" datetime="2022-04-07T11:12:39+08:00">2022-04-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><h3 id="集合概念"><a href="#集合概念" class="headerlink" title="集合概念"></a>集合概念</h3><p>对象的容器，实现了对对象的常用操作</p>
+<h3 id="集合和数组的区别"><a href="#集合和数组的区别" class="headerlink" title="集合和数组的区别"></a>集合和数组的区别</h3><ol>
+<li>数组长度固定，集合长度不固定</li>
+<li>数组可以存储基本类型和引用类型，集合只能存储引用类型</li>
+</ol>
+<p><img src="https://img2020.cnblogs.com/blog/1998506/202008/1998506-20200830225616629-1434055405.png" alt="1998506-20200830225616629-1434055405"></p>
+<h2 id="Collection"><a href="#Collection" class="headerlink" title="Collection"></a>Collection</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>代表一组任意类型的对象，无序、无下标、不能重复。</p>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><ul>
+<li><code>boolean add(Object obj)</code></li>
+<li><code>boolean addAll(Collection c)</code></li>
+<li><code>void clear()</code></li>
+<li><code>boolean contains(Object obj)</code></li>
+<li><code>boolean equals(Object obj)</code></li>
+<li><code>boolean isEnpty()</code></li>
+<li><code>boolean remove(Object obj)</code></li>
+<li><code>boolean size()</code></li>
+<li><code>Object[] toArray()</code></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://mhwy.cc/2022/03/26/Jave-%E7%9B%B8%E5%85%B3%E7%AE%80%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -218,7 +395,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-28 14:37:16" itemprop="dateModified" datetime="2022-03-28T14:37:16+08:00">2022-03-28</time>
+      <time title="Modified: 2022-04-28 09:52:03" itemprop="dateModified" datetime="2022-04-28T09:52:03+08:00">2022-04-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -297,9 +474,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2022-03-22 17:47:38 / Modified: 18:13:29" itemprop="dateCreated datePublished" datetime="2022-03-22T17:47:38+08:00">2022-03-22</time>
+      <time title="Created: 2022-03-22 17:47:38" itemprop="dateCreated datePublished" datetime="2022-03-22T17:47:38+08:00">2022-03-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-04-28 09:54:17" itemprop="dateModified" datetime="2022-04-28T09:54:17+08:00">2022-04-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -378,9 +561,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2022-03-21 18:57:44 / Modified: 19:18:49" itemprop="dateCreated datePublished" datetime="2022-03-21T18:57:44+08:00">2022-03-21</time>
+      <time title="Created: 2022-03-21 18:57:44" itemprop="dateCreated datePublished" datetime="2022-03-21T18:57:44+08:00">2022-03-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-04-28 09:54:10" itemprop="dateModified" datetime="2022-04-28T09:54:10+08:00">2022-04-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -467,7 +656,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-21 12:54:25" itemprop="dateModified" datetime="2022-03-21T12:54:25+08:00">2022-03-21</time>
+      <time title="Modified: 2022-04-28 09:51:04" itemprop="dateModified" datetime="2022-04-28T09:51:04+08:00">2022-04-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -554,7 +743,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-19 20:43:35" itemprop="dateModified" datetime="2022-03-19T20:43:35+08:00">2022-03-19</time>
+      <time title="Modified: 2022-04-28 09:53:39" itemprop="dateModified" datetime="2022-04-28T09:53:39+08:00">2022-04-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -633,9 +822,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2022-03-15 15:38:11 / Modified: 22:40:53" itemprop="dateCreated datePublished" datetime="2022-03-15T15:38:11+08:00">2022-03-15</time>
+      <time title="Created: 2022-03-15 15:38:11" itemprop="dateCreated datePublished" datetime="2022-03-15T15:38:11+08:00">2022-03-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-04-28 09:53:26" itemprop="dateModified" datetime="2022-04-28T09:53:26+08:00">2022-04-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -657,10 +852,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="配置-oh-my-zsh">1 配置 Oh My ZSH</h2>
-<p>官网链接：http://ohmyz.sh/</p>
-<h3 id="安装">1.1 安装</h3>
-<p>安装命令如下：</p>
+          <h2 id="1-配置-Oh-My-ZSH"><a href="#1-配置-Oh-My-ZSH" class="headerlink" title="1 配置 Oh My ZSH"></a>1 配置 Oh My ZSH</h2><p>官网链接：<a target="_blank" rel="noopener" href="http://ohmyz.sh/">http://ohmyz.sh/</a></p>
+<h3 id="1-1-安装"><a href="#1-1-安装" class="headerlink" title="1.1 安装"></a>1.1 安装</h3><p>安装命令如下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c &quot;$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&quot;</span><br></pre></td></tr></table></figure>
 <p>输出如下：</p>
           <!--noindex-->
@@ -848,180 +1041,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/02/28/brew-%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://mhwy.cc/2022/02/28/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="噗噗通通">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="噗噗通通">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/02/28/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">docker 常用命令</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-02-28 15:34:02" itemprop="dateCreated datePublished" datetime="2022-02-28T15:34:02+08:00">2022-02-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-04-04 16:34:48" itemprop="dateModified" datetime="2022-04-04T16:34:48+08:00">2022-04-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Other/" itemprop="url" rel="index"><span itemprop="name">Other</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>整理关于 docker 的一些常用命令!</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/02/28/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://mhwy.cc/2022/02/21/SwiftUI-%E4%BF%A1%E6%81%AF%E8%A7%86%E5%9B%BE-Views/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="噗噗通通">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="噗噗通通">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/02/21/SwiftUI-%E4%BF%A1%E6%81%AF%E8%A7%86%E5%9B%BE-Views/" class="post-title-link" itemprop="url">SwiftUI 信息视图 Views</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-02-21 17:38:30" itemprop="dateCreated datePublished" datetime="2022-02-21T17:38:30+08:00">2022-02-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-03-16 09:19:22" itemprop="dateModified" datetime="2022-03-16T09:19:22+08:00">2022-03-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Swift/" itemprop="url" rel="index"><span itemprop="name">Swift</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>SwiftUI 信息视图！</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/02/21/SwiftUI-%E4%BF%A1%E6%81%AF%E8%A7%86%E5%9B%BE-Views/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
