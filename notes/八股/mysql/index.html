@@ -3,18 +3,20 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content=" 1. 什么是内连接、外连接、交叉连接、笛卡尔积呢？ # 内连接（inner join）：取得两张表中满足存在连接匹配关系的记录。
+<meta content="1. 什么是内连接、外连接、交叉连接、笛卡尔积呢？ # 内连接（inner join）：取得两张表中满足存在连接匹配关系的记录。
 -- 标准语法（显式内连接） SELECT 列名 FROM 表名1 [INNER] JOIN 表名2 ON 条件; -- 查询用户信息和对应的订单信息 SELECT * FROM USER INNER JOIN orderlist ON user.id=orderlist.uid; -- 标准语法(隐式内连接) SELECT 列名 FROM 表名1,表名2 WHERE 条件; 外连接（outer join）：不只取得两张表中满足存在连接匹配关系的记录，还包括某张表（或两张表）中不满足匹配关系的记录。
 交叉连接（cross join）：显示两张表所有记录一一对应，没有匹配关系进行筛选，它是笛卡尔积在 SQL 中的实现，如果 A 表有 m 行，B 表有 n 行，那么 A 和 B 交叉连接的结果就有 m*n 行。
 笛卡尔积：是数学中的一个概念，例如集合 A={a,b}，集合 B={1,2,3}，那么 A✖️B={&lt;a,o&gt;,&lt;a,1&gt;,&lt;a,2&gt;,&lt;b,0&gt;,&lt;b,1&gt;,&lt;b,2&gt;,}。
-# " name="description"/>
+2.说一下数据库的三大范式？ # 第一范式：数据表中的每一列（每个字段）都不可以再拆分。例如用户表，用户地址还可以拆分成国家、省份、市，这样才是符合第一范式的。 第二范式：在第一范式的基础上，非主键列完全依赖于主键，而不能是依赖于主键的一部分。例如订单表里，存储了商品信息（商品价格、商品类型），那就需要把商品 ID 和订单 ID 作为联合主键，才满足第二范式。 第三范式：在满足第二范式的基础上，表中的非主键只依赖于主键，而不依赖于其他非主键。例如订单表，就不能存储用户信息（姓名、地址）。 三大范式的作用是为了控制数据库的冗余，是对空间的节省，实际上，一般互联网公司的设计都是反范式的，通过冗余一些数据，避免跨表跨库，利用空间换时间，提高性能。
+3.varchar 与 char 的区别？ # char：" name="description"/>
 <meta content="#FFFFFF" name="theme-color"/>
 <meta content="light dark" name="color-scheme"/><meta content="MySQL" property="og:title"/>
-<meta content=" 1. 什么是内连接、外连接、交叉连接、笛卡尔积呢？ # 内连接（inner join）：取得两张表中满足存在连接匹配关系的记录。
+<meta content="1. 什么是内连接、外连接、交叉连接、笛卡尔积呢？ # 内连接（inner join）：取得两张表中满足存在连接匹配关系的记录。
 -- 标准语法（显式内连接） SELECT 列名 FROM 表名1 [INNER] JOIN 表名2 ON 条件; -- 查询用户信息和对应的订单信息 SELECT * FROM USER INNER JOIN orderlist ON user.id=orderlist.uid; -- 标准语法(隐式内连接) SELECT 列名 FROM 表名1,表名2 WHERE 条件; 外连接（outer join）：不只取得两张表中满足存在连接匹配关系的记录，还包括某张表（或两张表）中不满足匹配关系的记录。
 交叉连接（cross join）：显示两张表所有记录一一对应，没有匹配关系进行筛选，它是笛卡尔积在 SQL 中的实现，如果 A 表有 m 行，B 表有 n 行，那么 A 和 B 交叉连接的结果就有 m*n 行。
 笛卡尔积：是数学中的一个概念，例如集合 A={a,b}，集合 B={1,2,3}，那么 A✖️B={&lt;a,o&gt;,&lt;a,1&gt;,&lt;a,2&gt;,&lt;b,0&gt;,&lt;b,1&gt;,&lt;b,2&gt;,}。
-# " property="og:description"/>
+2.说一下数据库的三大范式？ # 第一范式：数据表中的每一列（每个字段）都不可以再拆分。例如用户表，用户地址还可以拆分成国家、省份、市，这样才是符合第一范式的。 第二范式：在第一范式的基础上，非主键列完全依赖于主键，而不能是依赖于主键的一部分。例如订单表里，存储了商品信息（商品价格、商品类型），那就需要把商品 ID 和订单 ID 作为联合主键，才满足第二范式。 第三范式：在满足第二范式的基础上，表中的非主键只依赖于主键，而不依赖于其他非主键。例如订单表，就不能存储用户信息（姓名、地址）。 三大范式的作用是为了控制数据库的冗余，是对空间的节省，实际上，一般互联网公司的设计都是反范式的，通过冗余一些数据，避免跨表跨库，利用空间换时间，提高性能。
+3.varchar 与 char 的区别？ # char：" property="og:description"/>
 <meta content="article" property="og:type"/>
 <meta content="https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/mysql/" property="og:url"/><meta content="notes" property="article:section"/>
 <title>MySQL | 噗通 🍀</title>
@@ -22,7 +24,7 @@
 <link href="/favicon.png" rel="icon" type="image/x-icon"/>
 <link crossorigin="anonymous" href="/book.min.a82d7e77ceb134d151c4d7e381eeb30623fbd5a524d58c584d8716ecec0205bd.css" integrity="sha256-qC1+d86xNNFRxNfjge6zBiP71aUk1YxYTYcW7OwCBb0=" rel="stylesheet"/>
 <script defer="" src="/flexsearch.min.js"></script>
-<script crossorigin="anonymous" defer="" integrity="sha256-MnfvAnqI1IuM2X+NY4uzy7ZNIrXLvN/yFRz0fO4RFz4=" src="/zh.search.min.3277ef027a88d48b8cd97f8d638bb3cbb64d22b5cbbcdff2151cf47cee11173e.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-XY7DjhDejv/avLrQkXky2cyibsaQiqK8lhvec8YDNjA=" src="/zh.search.min.5d8ec38e10de8effdabcbad0917932d9cca26ec6908aa2bc961bde73c6033630.js"></script>
 <script crossorigin="anonymous" defer="" integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js"></script>
 <!--
 Made with Book Theme
@@ -426,6 +428,23 @@ https://github.com/alex-shpak/hugo-book
 <li>
 <ul>
 <li><a href="#1-什么是内连接外连接交叉连接笛卡尔积呢">1. 什么是内连接、外连接、交叉连接、笛卡尔积呢？</a></li>
+<li><a href="#2说一下数据库的三大范式">2.说一下数据库的三大范式？</a></li>
+<li><a href="#3varchar-与-char-的区别">3.varchar 与 char 的区别？</a></li>
+<li><a href="#4blob-和-text-有什么区别">4.blob 和 text 有什么区别？</a></li>
+<li><a href="#5datetime-和-timestamp-的异同">5.DATETIME 和 TIMESTAMP 的异同？</a></li>
+<li><a href="#6mysql-中-in-和-exists-的区别">6.MySQL 中 in 和 exists 的区别？</a></li>
+<li><a href="#7mysql-里记录货币用什么字段类型比较好">7.MySQL 里记录货币用什么字段类型比较好？</a></li>
+<li><a href="#8mysql-怎么存储-emoji">8.MySQL 怎么存储 emoji😊?</a></li>
+<li><a href="#9dropdelete-与-truncate-的区别">9.drop、delete 与 truncate 的区别？</a></li>
+<li><a href="#10union-与-union-all-的区别">10.UNION 与 UNION ALL 的区别？</a></li>
+<li><a href="#11count1count-与-count列名-的区别">11.count(1)、count(*) 与 count(列名) 的区别？</a></li>
+<li><a href="#12说说-mysql-的基础架构">12.说说 MySQL 的基础架构?</a></li>
+<li><a href="#13什么是关系型数据库">13.什么是关系型数据库？</a></li>
+<li><a href="#14什么是-sql">14.什么是 SQL？</a></li>
+<li><a href="#15mysql-有哪些常见存储引擎">15.MySQL 有哪些常见存储引擎？</a></li>
+<li><a href="#16那存储引擎应该怎么选择">16.那存储引擎应该怎么选择？</a></li>
+<li><a href="#17innodb-和-mylsam-主要有什么区别">17.InnoDB 和 MylSAM 主要有什么区别？</a></li>
+<li><a href="#18mysql-存储引擎架构了解吗">18.MySQL 存储引擎架构了解吗？</a></li>
 <li><a href="#heading"></a></li>
 </ul>
 </li>
@@ -460,6 +479,259 @@ https://github.com/alex-shpak/hugo-book
 <p>笛卡尔积：是数学中的一个概念，例如集合 A={a,b}，集合 B={1,2,3}，那么 A✖️B=<code>{&lt;a,o&gt;,&lt;a,1&gt;,&lt;a,2&gt;,&lt;b,0&gt;,&lt;b,1&gt;,&lt;b,2&gt;,}</code>。</p>
 </li>
 </ul>
+<h3 id="2说一下数据库的三大范式">
+  2.说一下数据库的三大范式？
+  <a class="anchor" href="#2%e8%af%b4%e4%b8%80%e4%b8%8b%e6%95%b0%e6%8d%ae%e5%ba%93%e7%9a%84%e4%b8%89%e5%a4%a7%e8%8c%83%e5%bc%8f">#</a>
+</h3>
+<ul>
+<li>第一范式：数据表中的每一列（每个字段）都不可以再拆分。例如用户表，用户地址还可以拆分成国家、省份、市，这样才是符合第一范式的。</li>
+<li>第二范式：在第一范式的基础上，非主键列完全依赖于主键，而不能是依赖于主键的一部分。例如订单表里，存储了商品信息（商品价格、商品类型），那就需要把商品 ID 和订单 ID 作为联合主键，才满足第二范式。</li>
+<li>第三范式：在满足第二范式的基础上，表中的非主键只依赖于主键，而不依赖于其他非主键。例如订单表，就不能存储用户信息（姓名、地址）。</li>
+</ul>
+<p>三大范式的作用是为了控制数据库的冗余，是对空间的节省，实际上，一般互联网公司的设计都是反范式的，通过冗余一些数据，避免跨表跨库，利用空间换时间，提高性能。</p>
+<h3 id="3varchar-与-char-的区别">
+  3.varchar 与 char 的区别？
+  <a class="anchor" href="#3varchar-%e4%b8%8e-char-%e7%9a%84%e5%8c%ba%e5%88%ab">#</a>
+</h3>
+<p><strong>char</strong>：</p>
+<ul>
+<li>char 表示定长字符串，长度是固定的；</li>
+<li>如果插入数据的长度小于 char 的固定长度时，则用空格填充；</li>
+<li>因为长度固定，所以存取速度要比 varchar 快很多，甚至能快 50%，但正因为其长度固定，所以会占据多余的空间，是空间换时间的做法；</li>
+<li>对于 char 来说，最多能存放的字符个数为 255，和编码无关</li>
+</ul>
+<p><strong>varchar</strong>：</p>
+<ul>
+<li>varchar 表示可变长字符串，长度是可变的；</li>
+<li>插入的数据是多长，就按照多长来存储；</li>
+<li>varchar 在存取方面与 char 相反，它存取慢，因为长度不固定，但正因如此，不占据多余的空间，是时间换空间的做法；</li>
+<li>对于 varchar 来说，最多能存放的字符个数为 65532</li>
+</ul>
+<p>日常的设计，对于长度相对固定的字符串，可以使用 char，对于长度不确定的，使用 varchar 更合适一些。</p>
+<h3 id="4blob-和-text-有什么区别">
+  4.blob 和 text 有什么区别？
+  <a class="anchor" href="#4blob-%e5%92%8c-text-%e6%9c%89%e4%bb%80%e4%b9%88%e5%8c%ba%e5%88%ab">#</a>
+</h3>
+<ul>
+<li>blob 用于存储二进制数据，而 text 用于存储大字符串。</li>
+<li>blob 没有字符集，text 有一个字符集，并且根据字符集的校对规则对值进行排序和比较</li>
+</ul>
+<h3 id="5datetime-和-timestamp-的异同">
+  5.DATETIME 和 TIMESTAMP 的异同？
+  <a class="anchor" href="#5datetime-%e5%92%8c-timestamp-%e7%9a%84%e5%bc%82%e5%90%8c">#</a>
+</h3>
+<p><strong>相同点:</strong></p>
+<ol>
+<li>两个数据类型存储时间的表现格式一致。均为 <code>YYYY-MM-DD HH:MM:SS</code></li>
+<li>两个数据类型都包含「日期」和「时间」部分。</li>
+<li>两个数据类型都可以存储微秒的小数秒（秒后 6 位小数秒）</li>
+</ol>
+<p><strong>区别:</strong></p>
+<ol>
+<li><strong>日期范围</strong>：DATETIME 的日期范围是 <code>1000-01-01 00:00:00.000000</code> 到 <code>9999-12-31 23:59:59.999999</code>；TIMESTAMP 的时间范围是<code>1970-01-01 00:00:01.000000</code> UTC <code>到 ``2038-01-09 03:14:07.999999</code> UTC</li>
+<li><strong>存储空间</strong>：DATETIME 的存储空间为 8 字节；TIMESTAMP 的存储空间为 4 字节</li>
+<li><strong>时区相关</strong>：DATETIME 存储时间与时区无关；TIMESTAMP 存储时间与时区有关，显示的值也依赖于时区</li>
+<li><strong>默认值</strong>：DATETIME 的默认值为 null；TIMESTAMP 的字段默认不为空(not null)，默认值为当前时间(CURRENT_TIMESTAMP)</li>
+</ol>
+<h3 id="6mysql-中-in-和-exists-的区别">
+  6.MySQL 中 in 和 exists 的区别？
+  <a class="anchor" href="#6mysql-%e4%b8%ad-in-%e5%92%8c-exists-%e7%9a%84%e5%8c%ba%e5%88%ab">#</a>
+</h3>
+<p>MySQL 中的 in 语句是把外表和内表作 hash 连接，而 exists 语句是对外表作 loop 循环，每次 loop 循环再对内表进行查询。我们可能认为 exists 比 in 语句的效率要高，这种说法其实是不准确的，要区分情景：</p>
+<ol>
+<li>如果查询的两个表大小相当，那么用 in 和 exists 差别不大。</li>
+<li>如果两个表中一个较小，一个是大表，则子查询表大的用 exists，子查询表小的用 in。</li>
+<li>not in 和 not exists：如果查询语句使用了 not in，那么内外表都进行全表扫描，没有用到索引；而 not extsts 的子查询依然能用到表上的索引。所以无论那个表大，用 not exists 都比 not in 要快。</li>
+</ol>
+<h3 id="7mysql-里记录货币用什么字段类型比较好">
+  7.MySQL 里记录货币用什么字段类型比较好？
+  <a class="anchor" href="#7mysql-%e9%87%8c%e8%ae%b0%e5%bd%95%e8%b4%a7%e5%b8%81%e7%94%a8%e4%bb%80%e4%b9%88%e5%ad%97%e6%ae%b5%e7%b1%bb%e5%9e%8b%e6%af%94%e8%be%83%e5%a5%bd">#</a>
+</h3>
+<p>货币在数据库中 MySQL 常用 Decimal 和 Numric 类型表示，这两种类型被 MySQL 实现为同样的类型。他们被用于保存与货币有关的数据。</p>
+<p>例如 salary DECIMAL(9,2)，9(precision)代表将被用于存储值的总的小数位数，而 2(scale)代表将被用于存储小数点后的位数。存储在 salary 列中的值的范围是从-9999999.99 到 9999999.99。</p>
+<p>DECIMAL 和 NUMERIC 值作为字符串存储，而不是作为二进制浮点数，以便保存那些值的小数精度。</p>
+<p>之所以不使用 float 或者 double 的原因：因为 float 和 double 是以二进制存储的，所以有一定的误差。</p>
+<h3 id="8mysql-怎么存储-emoji">
+  8.MySQL 怎么存储 emoji😊?
+  <a class="anchor" href="#8mysql-%e6%80%8e%e4%b9%88%e5%ad%98%e5%82%a8-emoji">#</a>
+</h3>
+<p>MySQL 可以直接使用字符串存储 emoji。</p>
+<p>但是需要注意的，utf8 编码是不行的，MySQL 中的 utf8 是阉割版的 utf8，它最多只用 3 个字节存储字符，所以存储不了表情。那该怎么办？</p>
+<p>需要使用 utf8mb4 编码。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-mysql" data-lang="mysql"><span style="display:flex;"><span><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> blogs modify content <span style="color:#66d9ef">text</span> <span style="color:#66d9ef">CHARACTER</span> <span style="color:#66d9ef">SET</span> utf8mb4 <span style="color:#66d9ef">COLLATE</span> utf8mb4_unicode_ci <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>;
+</span></span></code></pre></div><h3 id="9dropdelete-与-truncate-的区别">
+  9.drop、delete 与 truncate 的区别？
+  <a class="anchor" href="#9dropdelete-%e4%b8%8e-truncate-%e7%9a%84%e5%8c%ba%e5%88%ab">#</a>
+</h3>
+<p>三者都表示删除，但是三者有一些差别：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">delete</th>
+<th style="text-align:center">truncate</th>
+<th style="text-align:center">drop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">类型</td>
+<td style="text-align:center">属于 DML</td>
+<td style="text-align:center">属于 DDL</td>
+</tr>
+<tr>
+<td style="text-align:center">回滚</td>
+<td style="text-align:center">可回滚</td>
+<td style="text-align:center">不可回滚</td>
+</tr>
+<tr>
+<td style="text-align:center">删除内容</td>
+<td style="text-align:center">表结构还在，删除表的全部或者一部分数据行</td>
+<td style="text-align:center">表结构还在，删除表中的所有数据</td>
+</tr>
+<tr>
+<td style="text-align:center">删除速度</td>
+<td style="text-align:center">删除速度慢，需要逐行删除</td>
+<td style="text-align:center">删除速度快</td>
+</tr>
+</tbody>
+</table>
+<p>因此，在不再需要一张表的时候，用 drop；在想删除部分数据行时候，用 delete；在保留表而删除所有数据的时候用 truncate。</p>
+<h3 id="10union-与-union-all-的区别">
+  10.UNION 与 UNION ALL 的区别？
+  <a class="anchor" href="#10union-%e4%b8%8e-union-all-%e7%9a%84%e5%8c%ba%e5%88%ab">#</a>
+</h3>
+<ul>
+<li>如果使用 UNION，会在表链接后筛选掉重复的记录行</li>
+<li>如果使用 UNION ALL，不会合并重复的记录行</li>
+<li>从效率上说，UNION ALL 要比 UNION 快很多，如果合并没有刻意要删除重复行，那么就使用 UNION All</li>
+</ul>
+<h3 id="11count1count-与-count列名-的区别">
+  11.count(1)、count(*) 与 count(列名) 的区别？
+  <a class="anchor" href="#11count1count-%e4%b8%8e-count%e5%88%97%e5%90%8d-%e7%9a%84%e5%8c%ba%e5%88%ab">#</a>
+</h3>
+<ul>
+<li>count(*)包括了所有的列，相当于行数，在统计结果的时候，不会忽略列值为 NULL</li>
+<li>count(1)包括了忽略所有列，用 1 代表代码行，在统计结果的时候，不会忽略列值为 NULL</li>
+<li>count(列名)只包括列名那一列，在统计结果的时候，会忽略列值为空（这里的空不是只空字符串或者 0，而是表示 null）的计数，即某个字段值为 NULL 时，不统计。</li>
+</ul>
+<p><strong>执行速度</strong>：</p>
+<ul>
+<li>列名为主键，count(列名)会比 count(1)快</li>
+<li>列名不为主键，count(1)会比 count(列名)快</li>
+<li>如果表多个列并且没有主键，则 count（1） 的执行效率优于 count（*）</li>
+<li>如果有主键，则 select count（主键）的执行效率是最优的</li>
+<li>如果表只有一个字段，则 select count（*）最优。</li>
+</ul>
+<h3 id="12说说-mysql-的基础架构">
+  12.说说 MySQL 的基础架构?
+  <a class="anchor" href="#12%e8%af%b4%e8%af%b4-mysql-%e7%9a%84%e5%9f%ba%e7%a1%80%e6%9e%b6%e6%9e%84">#</a>
+</h3>
+<img alt="image-20230321214335147" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202303212143237.png" style="zoom: 33%;"/>
+<p>从上图可以看出， MySQL 主要由下面几部分构成：</p>
+<ul>
+<li><strong>连接器：</strong> 身份认证和权限相关(登录 MySQL 的时候)。</li>
+<li><strong>查询缓存：</strong> 执行查询语句的时候，会先查询缓存（MySQL 8.0 版本后移除，因为这个功能不太实用）。</li>
+<li><strong>分析器：</strong> 没有命中缓存的话，SQL 语句就会经过分析器，分析器说白了就是要先看你的 SQL 语句要干嘛，再检查你的 SQL 语句语法是否正确。</li>
+<li><strong>优化器：</strong> 按照 MySQL 认为最优的方案去执行。</li>
+<li><strong>执行器：</strong> 执行语句，然后从存储引擎返回数据。 执行语句之前会先判断是否有权限，如果没有权限的话，就会报错。</li>
+<li><strong>插件式存储引擎</strong> ： 主要负责数据的存储和读取，采用的是插件式架构，支持 InnoDB、MyISAM、Memory 等多种存储引擎。</li>
+</ul>
+<h3 id="13什么是关系型数据库">
+  13.什么是关系型数据库？
+  <a class="anchor" href="#13%e4%bb%80%e4%b9%88%e6%98%af%e5%85%b3%e7%b3%bb%e5%9e%8b%e6%95%b0%e6%8d%ae%e5%ba%93">#</a>
+</h3>
+<p>顾名思义，关系型数据库（RDBMS，Relational Database Management System）就是一种建立在关系模型的基础上的数据库。</p>
+<h3 id="14什么是-sql">
+  14.什么是 SQL？
+  <a class="anchor" href="#14%e4%bb%80%e4%b9%88%e6%98%af-sql">#</a>
+</h3>
+<p>SQL 是一种结构化查询语言(Structured Query Language)，专门用来与数据库打交道，目的是提供一种从数据库中读写数据的简单有效的方法。</p>
+<h3 id="15mysql-有哪些常见存储引擎">
+  15.MySQL 有哪些常见存储引擎？
+  <a class="anchor" href="#15mysql-%e6%9c%89%e5%93%aa%e4%ba%9b%e5%b8%b8%e8%a7%81%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e">#</a>
+</h3>
+<p>主要存储引擎以及功能如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">功能</th>
+<th>MylSAM</th>
+<th>MEMORY</th>
+<th>InnoDB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">存储限制</td>
+<td>256TB</td>
+<td>RAM</td>
+<td>64TB</td>
+</tr>
+<tr>
+<td style="text-align:center">支持事务</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">支持全文索引</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">支持树索引</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">支持哈希索引</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">支持数据缓存</td>
+<td>No</td>
+<td>N/A</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td style="text-align:center">支持外键</td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>MySQL5.5 之前，默认存储引擎是 MylSAM，5.5 之后变成了 InnoDB。</p>
+<h3 id="16那存储引擎应该怎么选择">
+  16.那存储引擎应该怎么选择？
+  <a class="anchor" href="#16%e9%82%a3%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e%e5%ba%94%e8%af%a5%e6%80%8e%e4%b9%88%e9%80%89%e6%8b%a9">#</a>
+</h3>
+<p>大致上可以这么选择：</p>
+<ul>
+<li>大多数情况下，使用默认的 InnoDB 就够了。如果要提供提交、回滚和恢复的事务安全（ACID 兼容）能力，并要求实现并发控制，InnoDB 就是比较靠前的选择了。</li>
+<li>如果数据表主要用来插入和查询记录，则 MyISAM 引擎提供较高的处理效率。</li>
+<li>如果只是临时存放数据，数据量不大，并且不需要较高的数据安全性，可以选择将数据保存在内存的 MEMORY 引擎中，MySQL 中使用该引擎作为临时表，存放查询的中间结果。</li>
+</ul>
+<p>使用哪一种引擎可以根据需要灵活选择，因为存储引擎是基于表的，所以一个数据库中多个表可以使用不同的引擎以满足各种性能和实际需求。使用合适的存储引擎将会提高整个数据库的性能。</p>
+<h3 id="17innodb-和-mylsam-主要有什么区别">
+  17.InnoDB 和 MylSAM 主要有什么区别？
+  <a class="anchor" href="#17innodb-%e5%92%8c-mylsam-%e4%b8%bb%e8%a6%81%e6%9c%89%e4%bb%80%e4%b9%88%e5%8c%ba%e5%88%ab">#</a>
+</h3>
+<p><strong>1.是否支持行级锁</strong>:MyISAM 只有表级锁(table-level locking)，而 InnoDB 支持行级锁(row-level locking)和表级锁,默认为行级锁。</p>
+<p><strong>2.是否支持事务</strong>:MyISAM 不提供事务支持。</p>
+<p><strong>3.是否支持外键</strong>:MyISAM 不支持，而 InnoDB 支持。</p>
+<p><strong>4.是否支持数据库异常崩溃后的安全恢复</strong>:MyISAM 不支持，而 InnoDB 支持。</p>
+<p><strong>5.是否支持 MVCC</strong>:MyISAM 不支持，而 InnoDB 支持。</p>
+<p><strong>6.索引实现不一样。</strong>:虽然 MyISAM 引擎和 InnoDB 引擎都是使用 B+Tree 作为索引结构，但是两者的实现方式不太一样。</p>
+<h3 id="18mysql-存储引擎架构了解吗">
+  18.MySQL 存储引擎架构了解吗？
+  <a class="anchor" href="#18mysql-%e5%ad%98%e5%82%a8%e5%bc%95%e6%93%8e%e6%9e%b6%e6%9e%84%e4%ba%86%e8%a7%a3%e5%90%97">#</a>
+</h3>
+<p>MySQL 存储引擎采用的是 <strong>插件式架构</strong> ，支持多种存储引擎，我们甚至可以为不同的数据库表设置不同的存储引擎以适应不同场景的需要。<strong>存储引擎是基于表的，而不是数据库。</strong></p>
 <h3 id="heading">
 <a class="anchor" href="#heading">#</a>
 </h3>
@@ -482,6 +754,23 @@ https://github.com/alex-shpak/hugo-book
 <li>
 <ul>
 <li><a href="#1-什么是内连接外连接交叉连接笛卡尔积呢">1. 什么是内连接、外连接、交叉连接、笛卡尔积呢？</a></li>
+<li><a href="#2说一下数据库的三大范式">2.说一下数据库的三大范式？</a></li>
+<li><a href="#3varchar-与-char-的区别">3.varchar 与 char 的区别？</a></li>
+<li><a href="#4blob-和-text-有什么区别">4.blob 和 text 有什么区别？</a></li>
+<li><a href="#5datetime-和-timestamp-的异同">5.DATETIME 和 TIMESTAMP 的异同？</a></li>
+<li><a href="#6mysql-中-in-和-exists-的区别">6.MySQL 中 in 和 exists 的区别？</a></li>
+<li><a href="#7mysql-里记录货币用什么字段类型比较好">7.MySQL 里记录货币用什么字段类型比较好？</a></li>
+<li><a href="#8mysql-怎么存储-emoji">8.MySQL 怎么存储 emoji😊?</a></li>
+<li><a href="#9dropdelete-与-truncate-的区别">9.drop、delete 与 truncate 的区别？</a></li>
+<li><a href="#10union-与-union-all-的区别">10.UNION 与 UNION ALL 的区别？</a></li>
+<li><a href="#11count1count-与-count列名-的区别">11.count(1)、count(*) 与 count(列名) 的区别？</a></li>
+<li><a href="#12说说-mysql-的基础架构">12.说说 MySQL 的基础架构?</a></li>
+<li><a href="#13什么是关系型数据库">13.什么是关系型数据库？</a></li>
+<li><a href="#14什么是-sql">14.什么是 SQL？</a></li>
+<li><a href="#15mysql-有哪些常见存储引擎">15.MySQL 有哪些常见存储引擎？</a></li>
+<li><a href="#16那存储引擎应该怎么选择">16.那存储引擎应该怎么选择？</a></li>
+<li><a href="#17innodb-和-mylsam-主要有什么区别">17.InnoDB 和 MylSAM 主要有什么区别？</a></li>
+<li><a href="#18mysql-存储引擎架构了解吗">18.MySQL 存储引擎架构了解吗？</a></li>
 <li><a href="#heading"></a></li>
 </ul>
 </li>

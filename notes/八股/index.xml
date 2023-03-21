@@ -40,11 +40,12 @@ String resource = &amp;#34;org/mybatis/example/mybatis-config.xml&amp;#34;; Inpu
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/mysql/</guid>
-      <description> 1. 什么是内连接、外连接、交叉连接、笛卡尔积呢？ # 内连接（inner join）：取得两张表中满足存在连接匹配关系的记录。
+      <description>1. 什么是内连接、外连接、交叉连接、笛卡尔积呢？ # 内连接（inner join）：取得两张表中满足存在连接匹配关系的记录。
 -- 标准语法（显式内连接） SELECT 列名 FROM 表名1 [INNER] JOIN 表名2 ON 条件; -- 查询用户信息和对应的订单信息 SELECT * FROM USER INNER JOIN orderlist ON user.id=orderlist.uid; -- 标准语法(隐式内连接) SELECT 列名 FROM 表名1,表名2 WHERE 条件; 外连接（outer join）：不只取得两张表中满足存在连接匹配关系的记录，还包括某张表（或两张表）中不满足匹配关系的记录。
 交叉连接（cross join）：显示两张表所有记录一一对应，没有匹配关系进行筛选，它是笛卡尔积在 SQL 中的实现，如果 A 表有 m 行，B 表有 n 行，那么 A 和 B 交叉连接的结果就有 m*n 行。
 笛卡尔积：是数学中的一个概念，例如集合 A={a,b}，集合 B={1,2,3}，那么 A✖️B={&amp;lt;a,o&amp;gt;,&amp;lt;a,1&amp;gt;,&amp;lt;a,2&amp;gt;,&amp;lt;b,0&amp;gt;,&amp;lt;b,1&amp;gt;,&amp;lt;b,2&amp;gt;,}。
-# </description>
+2.说一下数据库的三大范式？ # 第一范式：数据表中的每一列（每个字段）都不可以再拆分。例如用户表，用户地址还可以拆分成国家、省份、市，这样才是符合第一范式的。 第二范式：在第一范式的基础上，非主键列完全依赖于主键，而不能是依赖于主键的一部分。例如订单表里，存储了商品信息（商品价格、商品类型），那就需要把商品 ID 和订单 ID 作为联合主键，才满足第二范式。 第三范式：在满足第二范式的基础上，表中的非主键只依赖于主键，而不依赖于其他非主键。例如订单表，就不能存储用户信息（姓名、地址）。 三大范式的作用是为了控制数据库的冗余，是对空间的节省，实际上，一般互联网公司的设计都是反范式的，通过冗余一些数据，避免跨表跨库，利用空间换时间，提高性能。
+3.varchar 与 char 的区别？ # char：</description>
     </item>
     
   </channel>
