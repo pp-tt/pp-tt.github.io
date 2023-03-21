@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MyBatisPlus on 噗通 🍀</title>
+    <link>https://pp-tt.github.io.git/notes/mybatisplus/</link>
+    <description>Recent content in MyBatisPlus on 噗通 🍀</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://pp-tt.github.io.git/notes/mybatisplus/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MP快速入门</title>
+      <link>https://pp-tt.github.io.git/notes/mybatisplus/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/mybatisplus/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</guid>
+      <description>共分为以下6步：
+1 创建表 # 创建数据表，用于测试使用，数据库名为 mybatis_plus，建表语句如下：
+# 创建表 CREATE TABLE user ( id BIGINT(20) NOT NULL COMMENT &amp;#39;主键ID&amp;#39;, name VARCHAR(30) NULL DEFAULT NULL COMMENT &amp;#39;姓名&amp;#39;, age INT(11) NULL DEFAULT NULL COMMENT &amp;#39;年龄&amp;#39;, email VARCHAR(50) NULL DEFAULT NULL COMMENT &amp;#39;邮箱&amp;#39;, PRIMARY KEY (id) ); # 插入数据 INSERT INTO user (id, name, age, email) VALUES (1, &amp;#39;Jone&amp;#39;, 18, &amp;#39;test1@baomidou.com&amp;#39;), (2, &amp;#39;Jack&amp;#39;, 20, &amp;#39;test2@baomidou.com&amp;#39;), (3, &amp;#39;Tom&amp;#39;, 28, &amp;#39;test3@baomidou.com&amp;#39;), (4, &amp;#39;Sandy&amp;#39;, 21, &amp;#39;test4@baomidou.com&amp;#39;), (5, &amp;#39;Billie&amp;#39;, 24, &amp;#39;test5@baomidou.</description>
+    </item>
+    
+    <item>
+      <title>一般查询操作</title>
+      <link>https://pp-tt.github.io.git/notes/mybatisplus/%E4%B8%80%E8%88%AC%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/mybatisplus/%E4%B8%80%E8%88%AC%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C/</guid>
+      <description>按照增、删、改、查的顺序，分别如下：
+1 新增记录 # @Test void addTest() { User user = new User(); user.setName(&amp;#34;测试2&amp;#34;); user.setAge(20); user.setEmail(&amp;#34;xzb996@gmail.com&amp;#34;); userMapper.insert(user); testSelectList(); } 2 删除指定 id # // 根据 ID 删除单个 @Test void testDelByID() { userMapper.deleteById(1614632871479058433L); testSelectList(); } 3 批量删除指定 id # // 根据 ID 批量删除 @Test void testDelBatchByID() { userMapper.deleteBatchIds(Arrays.asList(1614631462599655425L, 1614627651596423170L)); testSelectList(); } 4 根据 id 修改记录 # @Test void testUpdateByID() { User user = userMapper.selectById(1L); user.setName(&amp;#34;科比&amp;#34;); userMapper.updateById(user); testSelectList(); } 5 查询全部 # @Autowired UserMapper userMapper; // 查询全部 @Test void testSelectList() { List&amp;lt;User&amp;gt; userList = userMapper.</description>
+    </item>
+    
+    <item>
+      <title>分页查询</title>
+      <link>https://pp-tt.github.io.git/notes/mybatisplus/%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/mybatisplus/%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/</guid>
+      <description>分页查询主要分为两个步骤，其一为添加分页插件，其二为配置分页参数。具体如下：
+1 添加分页插件 # 在 config 包中添加配置类， 这里命名为 MpConfig。其中代码如下：
+package com.atguigu.config; import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor; import org.springframework.context.annotation.Bean; import org.springframework.context.annotation.Configuration; @Configuration public class MpConfig { @Bean public PaginationInterceptor paginationInterceptor() { return new PaginationInterceptor(); } } 2 配置分页参数 # Page&amp;lt;User&amp;gt; page = new Page&amp;lt;&amp;gt;(1, 2); // 意思为从第一条记录开始，每页显示两条记录 userMapper.selectPage(page, null);	// 将 page 配置绑定到 userMapper 3 相关查询 API # page.getRecords().forEach(System.out::println); // 当前页所有记录 System.out.println(page.getPages()); // 总共页数 System.out.println(page.getCurrent()); // 获取当前页数 System.out.println(page.getSize()); // 每页记录数 System.out.println(page.getTotal()); // 总记录数 System.out.println(page.hasNext()); // 是否有下一页 System.</description>
+    </item>
+    
+    <item>
+      <title>逻辑删除</title>
+      <link>https://pp-tt.github.io.git/notes/mybatisplus/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/mybatisplus/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/</guid>
+      <description>逻辑删除主要步骤如下：
+新增 deleted 字段
+实体类中添加对应字段并注释，如下
+@TableLogic private Integer deleted; 配置文件默认如下，也可以自定义，主要用于指定删除或未删除的默认值
+mybatis-plus: global-config: db-config: logic-delete-value: 1 logic-not-delete-value: 0 </description>
+    </item>
+    
+    <item>
+      <title>条件查询</title>
+      <link>https://pp-tt.github.io.git/notes/mybatisplus/%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/mybatisplus/%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/</guid>
+      <description>1 比较符号 # 符号 意义 ge 大于 gt 大于等于 le 小于 eq 等于 nq 不等于 le 小于 @Test public void testSelect() { QueryWrapper&amp;lt;User&amp;gt; queryWrapper = new QueryWrapper&amp;lt;&amp;gt;(); queryWrapper.ge(&amp;#34;age&amp;#34;, 28); List&amp;lt;User&amp;gt; users = userMapper.selectList(queryWrapper); System.out.println(users); } @Test public void testSelectOne() { QueryWrapper&amp;lt;User&amp;gt; queryWrapper = new QueryWrapper&amp;lt;&amp;gt;(); queryWrapper.eq(&amp;#34;name&amp;#34;, &amp;#34;Tom&amp;#34;); // seletOne返回的是一条实体记录，当出现多条时会报错 User user = userMapper.selectOne(queryWrapper); System.out.println(user); } 2 模糊查询 # 符号 意义 like %xx% likeLeft %xx rightLeft xx% selectMaps返回Map集合列表
+@Test public void testSelectMaps() { QueryWrapper&amp;lt;User&amp;gt; queryWrapper = new QueryWrapper&amp;lt;&amp;gt;(); queryWrapper .</description>
+    </item>
+    
+    <item>
+      <title>封装service使用</title>
+      <link>https://pp-tt.github.io.git/notes/mybatisplus/%E5%B0%81%E8%A3%85service%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/mybatisplus/%E5%B0%81%E8%A3%85service%E4%BD%BF%E7%94%A8/</guid>
+      <description> 1 创建service # public interface UserService extends IService&amp;lt;User&amp;gt; { } 2 创建service实现类 # @Service public class UserServiceImpl extends ServiceImpl&amp;lt;UserMapper, User&amp;gt; implements UserService { } 3 底层封装了注入Mapper过程 # 4 方法调用测试 # @SpringBootTest class TestApplicationTests { //注入service @Autowired private UserService userService; //查询表所有数据 @Test public void findAll() { List&amp;lt;User&amp;gt; userList = userService.list(); for (User user:userList) { System.out.println(user); } } } </description>
+    </item>
+    
+  </channel>
+</rss>

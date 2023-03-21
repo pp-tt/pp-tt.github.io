@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java八股 on 噗通 🍀</title>
+    <link>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/</link>
+    <description>Recent content in Java八股 on 噗通 🍀</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Concurrence</title>
+      <link>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/%E5%B9%B6%E5%8F%91/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/%E5%B9%B6%E5%8F%91/</guid>
+      <description>基础 # 1.并行跟并发有什么区别？ # 并行就是同一时刻，两个线程都在执行。这就要求有两个CPU去分别执行两个线程。 并发就是同一时刻，只有一个执行，但是一个时间段内，两个线程都执行了。并发的实现依赖于CPU切换线程，因为切换的时间特别短，所以基本对于用户是无感知的。 2.说说什么是进程和线程？ # 进程：进程是代码在数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位。 线程：线程是进程的一个执行路径，一个进程中至少有一个线程，进程中的多个线程共享进程的资源。 3.说说线程有几种创建方式？ # Java中创建线程主要有三种方式，分别为继承Thread类、实现Runnable接口、实现Callable接口。
+继承Thread类，重写run()方法，调用start()方法启动线程
+public class ThreadTest { /** * 继承Thread类 */ public static class MyThread extends Thread { @Override public void run() { System.out.println(&amp;#34;This is child thread&amp;#34;); } } public static void main(String[] args) { MyThread thread = new MyThread(); thread.start(); } } 实现 Runnable 接口，重写run()方法
+public class RunnableTask implements Runnable { public void run() { System.out.println(&amp;#34;Runnable!&amp;#34;); } public static void main(String[] args) { RunnableTask task = new RunnableTask(); new Thread(task).</description>
+    </item>
+    
+    <item>
+      <title>MyBatis</title>
+      <link>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/mybatis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/mybatis/</guid>
+      <description>1. 说说什么是MyBatis? # Mybatis 是一个半 自动ORM（对象关系映射）框架，它内部封装了 JDBC，开发时只需要关注 SQL 语句本身，不需要花费精力去处理加载驱动、创建连接、创建statement 等繁杂的过程。 MyBatis 可以使用 XML 或注解来配置和映射原生信息，将 POJO 映射成数据库中的记录，避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。 2.为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？ # Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。 而Mybatis在查询关联对象或关联集合对象时，需要手动编写SQL来完成，所以，被称之为半自动ORM映射工具。 3.Hibernate 和 MyBatis 有什么区别？ # 相同点
+都是对jdbc的封装，都是应用于持久层的框架。 不同点
+1）映射关系
+MyBatis 是一个半自动映射的框架，配置Java对象与sql语句执行结果的对应关系，多表关联关系配置简单 Hibernate 是一个全表映射的框架，配置Java对象与数据库表的对应关系，多表关联关系配置复杂 2）SQL优化和移植性
+Hibernate 对SQL语句封装，提供了日志、缓存、级联（级联比 MyBatis 强大）等特性，此外还提供 HQL（Hibernate Query Language）操作数据库，数据库无关性支持好，但会多消耗性能。如果项目需要支持多种数据库，代码开发量少，但SQL语句优化困难。 MyBatis 需要手动编写 SQL，支持动态 SQL、处理列表、动态生成表名、支持存储过程。开发工作量相对大些。直接使用SQL语句操作数据库，不支持数据库无关性，但sql语句优化容易。 3）MyBatis和Hibernate的适用场景不同
+Hibernate 是标准的ORM框架，SQL编写量较少，但不够灵活，适合于需求相对稳定，中小型的软件项目，比如：办公自动化系统 MyBatis 是半ORM框架，需要编写较多SQL，但是比较灵活，适合于需求变化频繁，快速迭代的项目，比如：电商网站 3. MyBatis使用过程？生命周期？ # MyBatis基本使用的过程大概可以分为这么几步：
+1）创建SqlSessionFactory
+可以从配置或者直接编码来创建SqlSessionFactory
+String resource = &amp;#34;org/mybatis/example/mybatis-config.xml&amp;#34;; InputStream inputStream = Resources.getResourceAsStream(resource); SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().</description>
+    </item>
+    
+    <item>
+      <title>MySQL</title>
+      <link>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/mysql/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/mysql/</guid>
+      <description> 1. 什么是内连接、外连接、交叉连接、笛卡尔积呢？ # 内连接（inner join）：取得两张表中满足存在连接匹配关系的记录。
+-- 标准语法（显式内连接） SELECT 列名 FROM 表名1 [INNER] JOIN 表名2 ON 条件; -- 查询用户信息和对应的订单信息 SELECT * FROM USER INNER JOIN orderlist ON user.id=orderlist.uid; -- 标准语法(隐式内连接) SELECT 列名 FROM 表名1,表名2 WHERE 条件; 外连接（outer join）：不只取得两张表中满足存在连接匹配关系的记录，还包括某张表（或两张表）中不满足匹配关系的记录。
+交叉连接（cross join）：显示两张表所有记录一一对应，没有匹配关系进行筛选，它是笛卡尔积在 SQL 中的实现，如果 A 表有 m 行，B 表有 n 行，那么 A 和 B 交叉连接的结果就有 m*n 行。
+笛卡尔积：是数学中的一个概念，例如集合 A={a,b}，集合 B={1,2,3}，那么 A✖️B={&amp;lt;a,o&amp;gt;,&amp;lt;a,1&amp;gt;,&amp;lt;a,2&amp;gt;,&amp;lt;b,0&amp;gt;,&amp;lt;b,1&amp;gt;,&amp;lt;b,2&amp;gt;,}。
+# </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on 噗通 🍀</title>
+    <link>https://pp-tt.github.io.git/notes/java/</link>
+    <description>Recent content in Java on 噗通 🍀</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://pp-tt.github.io.git/notes/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/java/arraylist-%E6%89%A9%E5%AE%B9%E8%A7%84%E5%88%99/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/java/arraylist-%E6%89%A9%E5%AE%B9%E8%A7%84%E5%88%99/</guid>
+      <description>掌握 ArrayList 的扩容相关机制 # 目标 # 掌握 ArrayList 的扩容机制 掌握 Iterator 的 fail-fast、fail-safe 机制 ArrayList 扩容机制 # new ArrayList() 会使用长度为零的数组 new ArrayList(int initialCapacity) 会使用指定容量的数组 public ArrayList(Collection&amp;lt;? extends E&amp;gt; c) 会使用 c 的大小作为数组容量 add(Object o) 首次扩容为 10，再次扩容为上次容量的 1.5 倍 addAll(Collection c) 没有元素时，扩容为 Math.max(10, 实际元素个数)，有元素时为 Math.max(原容量1.5倍, 实际元素个数) ArrayList 前 20 次扩容规律（底层用的是右移计算，如果口算 * 1.5 的话，则取整）：
+[0, 10, 15, 22, 33, 49, 73, 109, 163, 244, 366, 549, 823, 1234,1851, 2776, 4164, 6246, 9369, 14053, 21079] 相关问题 # 问：往数组中添加 100 个元素，会扩容成多大？ # 点击展开 .</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/java/hashmap-%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/java/hashmap-%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</guid>
+      <description>HashMap 相关学习总结 # 相关问题 # 红黑树相关问题 # 关于底层数据结构，HashMap 的 JDK 1.7 和 JDK 1.8 有何不同？ # 点击展开 ... JDK 1.7 组成：数组 + 链表 JDK 1.8 组成：数组 + 链表/红黑树 为什么要用红黑树？ # 点击展开 ... 红黑树用来避免 DoS 攻击，防止链表超长时性能下降，树化应当是偶然情况。 为何不一上来就树化？ # 点击展开 ... 刚刚开始时，链表长度都比较短，这时候链表的效率并不一定比树化后低，并且树化还会浪费存储。
+其次，hash 表的查找、更新的时间复杂度是 O(1) ，而红黑树的查找、更新的时间复杂度是 O(log2 n)，TreeNode 占用空间也比普通 Node 的大，如非必要，尽量还是使用链表。
+树化阈值为何为 8？ # 点击展开 ... 主要是为在时间和空间上恰好达到平衡，8 是根据概率统计而寻找的值。
+hash 值如果足够随机，则在 hash 表内按泊松分布，在负载因子 0.75 的情况下，长度超过8的链表出现概率是
+0.00000006（亿分之六），选择 8 就是为了让树化机率足够小。
+是不是一超过阈值就立马变为红黑树？是否要满足一些其他条件？ # 点击展开 ... 不是。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/java/java-%E5%8F%8D%E5%B0%84/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/java/java-%E5%8F%8D%E5%B0%84/</guid>
+      <description>Java 反射 # 将类的各个组成部分封装为其他对象，这就是反射机制。
+1 反射的一般步骤 # 获取类字节码 获取构造函数、成员变量或成员方法 执行或构造需要的业务 2 获取字节码的三种方式 # Class.forName(&amp;quot;全类名&amp;quot;)：多用于配置文件，将类名定义在配置文件中。读取文件，加载类 类名.class：多用于参数的传递 对象.getClass()：多用于从对象获取字节码的方式 同一个字节码文件在一次程序运行过程中，只会被加载一次，不论通过哪种方式获取的 class 对象都是同一个。
+3 Class 对象的功能 # 如上图，针对 Java 代码在计算机中经历的三个阶段来说，对于 Class 类对象阶段，主要有以下三种对象：
+Field Constructor Method 针对这三种对象，Class 分别提供 get*** 和 getDeclared*** 方法来获取，前者获取 public 的，后者获取所有被声明的。以下代码针对 get*** 给出代码演示和说明，getDeclared*** 类似。
+3.1 针对构造方法 # 获取 public 修饰的
+`Constructor getConstructors()`` ``Constructor getConstructor(类, 参数类型)` 获取全部类型
+Constructor getDeclaredConstructors() Constructor getDeclaredConstructor(类, 参数类型) 3.1.1 获取public修饰的有参构造函数并创建对象 # Class cls = Student.class; // 获取public修饰的有参构造函数并创建对象 Constructor constructor = cls.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>设计模式 on 噗通 🍀</title>
+    <link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+    <description>Recent content in 设计模式 on 噗通 🍀</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE%E9%BB%91%E9%A9%AC/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE%E9%BB%91%E9%A9%AC/</guid>
+      <description>UML图 # 统一建模语言（Unified Modeling Language，UML）是用来设计软件的可视化建模语言。它的特点是简单、统一、图形化、能表达软件设计中的动态与静态信息。
+UML 从目标系统的不同角度出发，定义了用例图、类图、对象图、状态图、活动图、时序图、协作图、构件图、部署图等 9 种图。
+1 类图概述 # 类图(Class diagram)是显示了模型的静态结构，特别是模型中存在的类、类的内部结构以及它们与其他类的关系等。类图不显示暂时性的信息。类图是面向对象建模的主要组成部分。
+2 类图的作用 # 在软件工程中，类图是一种静态的结构图，描述了系统的类的集合，类的属性和类之间的关系，可以简化了人们对系统的理解； 类图是系统分析和设计阶段的重要产物，是系统编码和测试的重要模型。 3 类的表示方式 # 在UML类图中，类使用包含类名、属性(field) 和方法(method) 且带有分割线的矩形来表示，比如下图表示一个Employee类，它包含name,age和address这3个属性，以及work()方法。
+属性/方法名称前加的加号和减号表示了这个属性/方法的可见性，UML类图中表示可见性的符号有三种：
++：表示public
+-：表示private
+#：表示protected
+属性的完整表示方式是： 可见性 名称 ：类型 [ = 缺省值]
+方法的完整表示方式是： 可见性 名称(参数列表) [ ： 返回类型]
+注意：
+​	1，中括号中的内容表示是可选的
+​	2，也有将类型放在变量名前面，返回值类型放在方法名前面
+举个栗子：
+上图Demo类定义了三个方法：
+method()方法：修饰符为public，没有参数，没有返回值。 method1()方法：修饰符为private，没有参数，返回值类型为String。 method2()方法：修饰符为protected，接收两个参数，第一个参数类型为int，第二个参数类型为String，返回值类型是int。 4 类图的表示方式 # 4.1 关联关系 # 关联关系是对象之间的一种引用关系，用于表示一类对象与另一类对象之间的联系，如老师和学生、师傅和徒弟、丈夫和妻子等。关联关系是类与类之间最常用的一种关系，分为一般关联关系、聚合关系和组合关系。我们先介绍一般关联。
+关联又可以分为单向关联，双向关联，自关联。
+4.1.1 单向关联 # 在UML类图中单向关联用一个带箭头的实线表示。上图表示每个顾客都有一个地址，这通过让Customer类持有一个类型为Address的成员变量类实现。
+4.1.2 双向关联 # 从上图中我们很容易看出，所谓的双向关联就是双方各自持有对方类型的成员变量。
+在UML类图中，双向关联用一个不带箭头的直线表示。上图中在Customer类中维护一个List&amp;lt;Product&amp;gt;，表示一个顾客可以购买多个商品；在Product类中维护一个Customer类型的成员变量表示这个产品被哪个顾客所购买。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E9%BB%91%E9%A9%AC/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E9%BB%91%E9%A9%AC/</guid>
+      <description>设计原则 # 在软件开发中，为了提高软件系统的可维护性和可复用性，增加软件的可扩展性和灵活性，程序员要尽量根据6条原则来开发程序，从而提高软件开发效率、节约软件开发成本和维护成本。
+1 开闭原则 # 对扩展开放，对修改关闭。在程序需要进行拓展的时候，不能去修改原有的代码，实现一个热插拔的效果。简言之，是为了使程序的扩展性好，易于维护和升级。
+想要达到这样的效果，我们需要使用接口和抽象类。
+因为抽象灵活性好，适应性广，只要抽象的合理，可以基本保持软件架构的稳定。而软件中易变的细节可以从抽象派生来的实现类来进行扩展，当软件需要发生变化时，只需要根据需求重新派生一个实现类来扩展就可以了。
+下面以 搜狗输入法 的皮肤为例介绍开闭原则的应用。
+【例】搜狗输入法 的皮肤设计。
+分析：搜狗输入法 的皮肤是输入法背景图片、窗口颜色和声音等元素的组合。用户可以根据自己的喜爱更换自己的输入法的皮肤，也可以从网上下载新的皮肤。这些皮肤有共同的特点，可以为其定义一个抽象类（AbstractSkin），而每个具体的皮肤（DefaultSpecificSkin和HeimaSpecificSkin）是其子类。用户窗体可以根据需要选择或者增加新的主题，而不需要修改原代码，所以它是满足开闭原则的。
+2 里氏代换原则 # 里氏代换原则是面向对象设计的基本原则之一。
+里氏代换原则：**任何基类可以出现的地方，子类一定可以出现。**通俗理解：子类可以扩展父类的功能，但不能改变父类原有的功能。换句话说，子类继承父类时，除添加新的方法完成新增功能外，尽量不要重写父类的方法。
+如果通过重写父类的方法来完成新的功能，这样写起来虽然简单，但是整个继承体系的可复用性会比较差，特别是运用多态比较频繁时，程序运行出错的概率会非常大。
+下面看一个里氏替换原则中经典的一个例子
+【例】正方形不是长方形。
+在数学领域里，正方形毫无疑问是长方形，它是一个长宽相等的长方形。所以，我们开发的一个与几何图形相关的软件系统，就可以顺理成章的让正方形继承自长方形。
+代码如下：
+长方形类（Rectangle）：
+public class Rectangle { private double length; private double width; public double getLength() { return length; } public void setLength(double length) { this.length = length; } public double getWidth() { return width; } public void setWidth(double width) { this.width = width; } } 正方形（Square）：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</guid>
+      <description>ceshi
+创建型模式 # 创建型模式的主要关注点是“怎样创建对象？”，它的主要特点是“将对象的创建与使用分离”。
+这样可以降低系统的耦合度，使用者不需要关注对象的创建细节。
+1 单例设计模式 # 1.1 概述 # 单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。
+这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保只有单个对象被创建。这个类提供了一种访问其唯一的对象的方式，可以直接访问，不需要实例化该类的对象。
+1.2 结构 # 单例模式的主要有以下角色：
+单例类。只能创建一个实例的类 访问类。使用单例类 1.3 案例实现 # 单例设计模式分类两种：
+​	饿汉式：类加载就会导致该单实例对象被创建
+​	懒汉式：类加载不会导致该单实例对象被创建，而是首次使用该对象时才会创建
+1.2.1 饿汉式 # 方式1（静态变量方式）
+点击展开 ... /** * 饿汉式 * 静态变量创建类的对象 */ public class Singleton { //私有构造方法 private Singleton() {} //在成员位置创建该类的对象 private static Singleton instance = new Singleton(); //对外提供静态方法获取该对象 public static Singleton getInstance() { return instance; } } 说明：
+​	该方式在成员位置声明Singleton类型的静态变量，并创建Singleton类的对象instance。instance对象是随着类的加载而创建的。如果该对象足够大的话，而一直没有使用就会造成内存的浪费。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</guid>
+      <description>结构型模式 # 1 代理模式 # 1.1 概述 # 由于某些原因需要给某对象提供一个代理以控制对该对象的访问。这时，访问对象不适合或者不能直接引用目标对象，代理对象作为访问对象和目标对象之间的中介。
+Java中的代理按照代理类生成时机不同又分为静态代理和动态代理。静态代理代理类在编译期就生成，而动态代理代理类则是在Java运行时动态生成。动态代理又有JDK代理和CGLib代理两种。
+1.2 结构 # 代理（Proxy）模式分为三种角色：
+抽象主题（Subject）类： 通过接口或抽象类声明真实主题和代理对象实现的业务方法。 真实主题（Real Subject）类： 实现了抽象主题中的具体业务，是代理对象所代表的真实对象，是最终要引用的对象。 代理（Proxy）类 ： 提供了与真实主题相同的接口，其内部含有对真实主题的引用，它可以访问、控制或扩展真实主题的功能。 1.3 案例实现 # 火车站卖票：如果要买火车票的话，需要去火车站买票，坐车到火车站，排队等一系列的操作，显然比较麻烦。而火车站在多个地方都有代售点，我们去代售点买票就方便很多了。这个例子其实就是典型的代理模式，火车站是目标对象，代售点是代理对象。类图如下：
+1.3.1 静态代理 # 点击展开 ... //卖票接口 public interface SellTickets { void sell(); } //火车站 火车站具有卖票功能，所以需要实现SellTickets接口 public class TrainStation implements SellTickets { public void sell() { System.out.println(&amp;#34;火车站卖票&amp;#34;); } } //代售点 public class ProxyPoint implements SellTickets { private TrainStation station = new TrainStation(); public void sell() { System.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</guid>
+      <description>行为型模式 # 行为型模式用于描述程序在运行时复杂的流程控制，即描述多个类或对象之间怎样相互协作共同完成单个对象都无法单独完成的任务，它涉及算法与对象间职责的分配。
+行为型模式分为类行为模式和对象行为模式，前者采用继承机制来在类间分派行为，后者采用组合或聚合在对象间分配行为。由于组合关系或聚合关系比继承关系耦合度低，满足“合成复用原则”，所以对象行为模式比类行为模式具有更大的灵活性。
+1 模板方法模式 # 1.1 概述 # 在面向对象程序设计过程中，程序员常常会遇到这种情况：设计一个系统时知道了算法所需的关键步骤，而且确定了这些步骤的执行顺序，但某些步骤的具体实现还未知，或者说某些步骤的实现与具体的环境相关。
+例如，去银行办理业务一般要经过以下4个流程：取号、排队、办理具体业务、对银行工作人员进行评分等，其中取号、排队和对银行工作人员进行评分的业务对每个客户是一样的，可以在父类中实现，但是办理具体业务却因人而异，它可能是存款、取款或者转账等，可以延迟到子类中实现。
+定义一个操作中的算法骨架，而将算法的一些步骤延迟到子类中，使得子类可以不改变该算法结构的情况下重定义该算法的某些特定步骤。
+1.2 结构 # 模板方法（Template Method）模式包含以下主要角色：
+抽象类（Abstract Class）：负责给出一个算法的轮廓和骨架。它由一个模板方法和若干个基本方法构成。
+模板方法：定义了算法的骨架，按某种顺序调用其包含的基本方法。
+基本方法：是实现算法各个步骤的方法，是模板方法的组成部分。基本方法又可以分为三种：
+抽象方法(Abstract Method) ：一个抽象方法由抽象类声明、由其具体子类实现。
+具体方法(Concrete Method) ：一个具体方法由一个抽象类或具体类声明并实现，其子类可以进行覆盖也可以直接继承。
+钩子方法(Hook Method) ：在抽象类中已经实现，包括用于判断的逻辑方法和需要子类重写的空方法两种。
+一般钩子方法是用于判断的逻辑方法，这类方法名一般为isXxx，返回值类型为boolean类型。
+具体子类（Concrete Class）：实现抽象类中所定义的抽象方法和钩子方法，它们是一个顶级逻辑的组成步骤。
+1.3 案例实现 # 炒菜：炒菜的步骤是固定的，分为倒油、热油、倒蔬菜、倒调料品、翻炒等步骤。现通过模板方法模式来用代码模拟。类图如下：
+点击展开 ... public abstract class AbstractClass { public final void cookProcess() { //第一步：倒油 this.pourOil(); //第二步：热油 this.heatOil(); //第三步：倒蔬菜 this.pourVegetable(); //第四步：倒调味料 this.pourSauce(); //第五步：翻炒 this.fry(); } public void pourOil() { System.out.println(&amp;#34;倒油&amp;#34;); } //第二步：热油是一样的，所以直接实现 public void heatOil() { System.</description>
+    </item>
+    
+  </channel>
+</rss>

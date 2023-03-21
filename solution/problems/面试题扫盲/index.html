@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="计算机网络 # OSI 七层模型及其作用？ # 应用层：为计算机用户提供服务
+表示层：数据处理（编解码、加密解密、压缩解压缩）
+会话层：管理（建立、维护、重连）应用程序之间的会话
+传输层：为两台主机进程之间的通信提供通用的数据传输服务
+网络层：路由和寻址(決定数据在网络的游走路径）
+数据链路层：帧编码和误差纠正控制
+物理层：透明地传送比特流传输
+TCP/IP 四层体系分层结构？ # 应用层：为计算机用户提供服务 传输层：为两台主机进程之间的通信提供通用的数据传输服务 网络层：路由和寻址(決定数据在网络的游走路径） 网络接口层：透明地传送比特流传输 三次握手的过程？ # 一次握手:客户端发送带有 SYN（SEQ=x） 标志的数据包 -&gt; 服务端，然后客户端进入 SYN_SEND 状态，等待服务器的确认； 二次握手:服务端发送带有 SYN+ACK(SEQ=y,ACK=x+1) 标志的数据包 –&gt; 客户端,然后服务端进入 SYN_RECV 状态 三次握手:客户端发送带有 ACK(ACK=y+1) 标志的数据包 –&gt; 服务端，然后客户端和服务器端都进入ESTABLISHED 状态，完成TCP三次握手。 为什么要三次握手? # 确定自己和对方的发送与接收都是正常的。
+解释一下四次挥手？ # 第一次挥手 ：客户端发送一个 FIN（SEQ=X） 标志的数据包-&gt;服务端，用来关闭客户端到服务器的数据传送。然后，客户端进入 FIN-WAIT-1 状态。 第二次挥手 ：服务器收到这个 FIN（SEQ=X） 标志的数据包，它发送一个 ACK （SEQ=X+1）标志的数据包-&gt;客户端 。然后，此时服务端进入CLOSE-WAIT状态，客户端进入FIN-WAIT-2状态。 第三次挥手 ：服务端关闭与客户端的连接并发送一个 FIN (SEQ=y)标志的数据包-&gt;客户端请求关闭连接，然后，服务端进入LAST-ACK状态。 第四次挥手 ：客户端发送 ACK (SEQ=y+1)标志的数据包-&gt;服务端并且进入TIME-WAIT状态，服务端在收到 ACK (SEQ=y+1)标志的数据包后进入 CLOSE 状态。此时，如果客户端等待 2MSL 后依然没有收到回复，就证明服务端已正常关闭，随后，客户端也可以关闭连接了。 为什么要四次挥手？ # TCP是全双工通信，可以双向传输数据。任何一方都可以在数据传送结束后发出连接释放的通知，待对方确认后进入半关闭状态。当另一方也没有数据再发送的时候，则发出连接释放通知，对方确认后就完全关闭了 TCP 连接。" name="description"/>
+<meta content="#FFFFFF" name="theme-color"/>
+<meta content="light dark" name="color-scheme"/><meta content="" property="og:title"/>
+<meta content="计算机网络 # OSI 七层模型及其作用？ # 应用层：为计算机用户提供服务
+表示层：数据处理（编解码、加密解密、压缩解压缩）
+会话层：管理（建立、维护、重连）应用程序之间的会话
+传输层：为两台主机进程之间的通信提供通用的数据传输服务
+网络层：路由和寻址(決定数据在网络的游走路径）
+数据链路层：帧编码和误差纠正控制
+物理层：透明地传送比特流传输
+TCP/IP 四层体系分层结构？ # 应用层：为计算机用户提供服务 传输层：为两台主机进程之间的通信提供通用的数据传输服务 网络层：路由和寻址(決定数据在网络的游走路径） 网络接口层：透明地传送比特流传输 三次握手的过程？ # 一次握手:客户端发送带有 SYN（SEQ=x） 标志的数据包 -&gt; 服务端，然后客户端进入 SYN_SEND 状态，等待服务器的确认； 二次握手:服务端发送带有 SYN+ACK(SEQ=y,ACK=x+1) 标志的数据包 –&gt; 客户端,然后服务端进入 SYN_RECV 状态 三次握手:客户端发送带有 ACK(ACK=y+1) 标志的数据包 –&gt; 服务端，然后客户端和服务器端都进入ESTABLISHED 状态，完成TCP三次握手。 为什么要三次握手? # 确定自己和对方的发送与接收都是正常的。
+解释一下四次挥手？ # 第一次挥手 ：客户端发送一个 FIN（SEQ=X） 标志的数据包-&gt;服务端，用来关闭客户端到服务器的数据传送。然后，客户端进入 FIN-WAIT-1 状态。 第二次挥手 ：服务器收到这个 FIN（SEQ=X） 标志的数据包，它发送一个 ACK （SEQ=X+1）标志的数据包-&gt;客户端 。然后，此时服务端进入CLOSE-WAIT状态，客户端进入FIN-WAIT-2状态。 第三次挥手 ：服务端关闭与客户端的连接并发送一个 FIN (SEQ=y)标志的数据包-&gt;客户端请求关闭连接，然后，服务端进入LAST-ACK状态。 第四次挥手 ：客户端发送 ACK (SEQ=y+1)标志的数据包-&gt;服务端并且进入TIME-WAIT状态，服务端在收到 ACK (SEQ=y+1)标志的数据包后进入 CLOSE 状态。此时，如果客户端等待 2MSL 后依然没有收到回复，就证明服务端已正常关闭，随后，客户端也可以关闭连接了。 为什么要四次挥手？ # TCP是全双工通信，可以双向传输数据。任何一方都可以在数据传送结束后发出连接释放的通知，待对方确认后进入半关闭状态。当另一方也没有数据再发送的时候，则发出连接释放通知，对方确认后就完全关闭了 TCP 连接。" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="https://pp-tt.github.io.git/solution/problems/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%89%AB%E7%9B%B2/" property="og:url"/><meta content="solution" property="article:section"/>
+<title>面试题扫盲 | 噗通 🍀</title>
+<link href="/manifest.json" rel="manifest"/>
+<link href="/favicon.png" rel="icon" type="image/x-icon"/>
+<link crossorigin="anonymous" href="/book.min.a82d7e77ceb134d151c4d7e381eeb30623fbd5a524d58c584d8716ecec0205bd.css" integrity="sha256-qC1+d86xNNFRxNfjge6zBiP71aUk1YxYTYcW7OwCBb0=" rel="stylesheet"/>
+<script defer="" src="/flexsearch.min.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-bvvSeOt+kqT2EcxvtEJLycY1J7HRvYurUKXXFWQ1vWU=" src="/zh.search.min.6efbd278eb7e92a4f611cc6fb4424bc9c63527b1d1bd8bab50a5d7156435bd65.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+</head>
+<body dir="ltr">
+<input class="hidden toggle" id="menu-control" type="checkbox"/>
+<input class="hidden toggle" id="toc-control" type="checkbox"/>
+<main class="container flex">
+<aside class="book-menu">
+<div class="book-menu-content">
+<nav>
+<h2 class="book-brand">
+<a class="flex align-center" href="/"><span>噗通 🍀</span>
+</a>
+</h2>
+<div class="book-search">
+<input aria-label="Search" data-hotkeys="s/" id="book-search-input" maxlength="64" placeholder="Search" type="text"/>
+<div class="book-search-spinner hidden"></div>
+<ul id="book-search-results"></ul>
+</div>
+<ul>
+<li class="book-section-flat">
+<span>--学习笔记--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-0f70934a6e5284fbc93928c61dfe9c83" type="checkbox"/>
+<label class="flex justify-between" for="section-0f70934a6e5284fbc93928c61dfe9c83">
+<a class="" role="button">Java</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/java/arraylist-%E6%89%A9%E5%AE%B9%E8%A7%84%E5%88%99/">Array List 扩容规则</a>
+</li>
+<li>
+<a class="" href="/notes/java/hashmap-%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">Hash Map 相关学习总结</a>
+</li>
+<li>
+<a class="" href="/notes/java/java-%E5%8F%8D%E5%B0%84/">Java 反射</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-4364152b7ab5995d509c0b7b811005c4" type="checkbox"/>
+<label class="flex justify-between" for="section-4364152b7ab5995d509c0b7b811005c4">
+<a class="" role="button">JVM</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/jvm/%E4%BB%80%E4%B9%88%E6%98%AF-jvm/">什么是 Jvm</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/">程序计数器</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/">虚拟机栈</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88-/">本地方法栈</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%A0%86/">堆</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E6%96%B9%E6%B3%95%E5%8C%BA/">方法区</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/">直接内存</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">垃圾回收</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/">垃圾回收器</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-b7444509cb631180897a34f028407c2c" type="checkbox"/>
+<label class="flex justify-between" for="section-b7444509cb631180897a34f028407c2c">
+<a class="" role="button">设计模式</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE%E9%BB%91%E9%A9%AC/">Uml 图（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E9%BB%91%E9%A9%AC/">设计原则（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/">创建型模式（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/">结构型模式（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/">行为型模式（黑马）</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-61661238f18c0095524962a5d1d6e676" type="checkbox"/>
+<label class="flex justify-between" for="section-61661238f18c0095524962a5d1d6e676">
+<a class="" role="button">Spring</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/spring/beanfactory%E4%B8%8Eapplicationcontext/">Bean Factory与 Application Context</a>
+</li>
+<li>
+<a class="" href="/notes/spring/nacos-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/">Nacos 配置中心</a>
+</li>
+<li>
+<a class="" href="/notes/spring/open-feign-%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B/">Open Feign 远程调用示例</a>
+</li>
+<li>
+<a class="" href="/notes/spring/springboot-%E6%95%B4%E5%90%88-mybatis-plus/">Spring Boot 整合 My Batis Plus</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-58f730a0b22fcdc7a886db614d77f88c" type="checkbox"/>
+<label class="flex justify-between" for="section-58f730a0b22fcdc7a886db614d77f88c">
+<a class="" role="button">代码随想录刷题</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/leetcode/day001-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/">Day001 第一章数组</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day002-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/">Day002 第一章数组</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day003-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/">Day003 第二章链表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day004-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/">Day004 第二章链表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day006-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/">Day006 第三章哈希表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day007-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/">Day007 第三章哈希表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day008-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/">Day008 第四章字符串</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day009-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/">Day009 第四章字符串</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day010-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day010 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day011-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day011 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day013-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day013 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day014-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day014 第六章二叉树</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day015-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day015 第六章二叉树</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day017-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day017 第六章二叉树</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-4f95435d3a74007e2c985ea455bbb6e6" type="checkbox"/>
+<label class="flex justify-between" for="section-4f95435d3a74007e2c985ea455bbb6e6">
+<a class="" role="button">MyBatisPlus</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">MP快速入门</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E4%B8%80%E8%88%AC%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C/">一般查询操作</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">分页查询</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/">逻辑删除</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/">条件查询</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%B0%81%E8%A3%85service%E4%BD%BF%E7%94%A8/">封装service使用</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-e2ca0d138d67d9d3ae55da25ac044829" type="checkbox"/>
+<label class="flex justify-between" for="section-e2ca0d138d67d9d3ae55da25ac044829">
+<a class="" role="button">Redis</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/redis/nosql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E4%BB%8B/">No Sql数据库简介</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-key/">Redis Key</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-string/">Redis String</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-list/">Redis List</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-set/">Redis Set</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-hash/">Redis Hash</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-zset/">Redis Zset</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/">Redis 发布与订阅</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-jedis/">Redis Jedis</a>
+</li>
+<li>
+<a class="" href="/notes/redis/springboot-%E6%95%B4%E5%90%88-redis/">Spring Boot 整合 Redis</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81%E6%9C%BA%E5%88%B6/">Redis 事务和锁机制</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-39abd0d44427d4a54e694a2b3f22d967" type="checkbox"/>
+<label class="flex justify-between" for="section-39abd0d44427d4a54e694a2b3f22d967">
+<a class="" role="button">TensorFlow</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%80/">Tensor Flow 笔记（一）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%8C/">Tensor Flow 笔记（二）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%89/">Tensor Flow 笔记（三）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E5%9B%9B/">Tensor Flow 笔记（四）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%94/">Tensor Flow 笔记（五）</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-a42f4efe12b0d964f8de7588b38cb659" type="checkbox"/>
+<label class="flex justify-between" for="section-a42f4efe12b0d964f8de7588b38cb659">
+<a class="" role="button">Java八股</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/%E5%B9%B6%E5%8F%91/">Concurrence</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/mybatis/">MyBatis</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/mysql/">MySQL</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-3907b2cf55ed520ad784e24525c8baa4" type="checkbox"/>
+<label class="flex justify-between" for="section-3907b2cf55ed520ad784e24525c8baa4">
+<a class="" role="button">Swift</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/swift/swiftui-%E5%B8%B8%E7%94%A8%E8%A7%86%E5%9B%BE-views/">Swift Ui 常用视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E4%BF%A1%E6%81%AF%E8%A7%86%E5%9B%BE-views/">Swift Ui 信息视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E5%B1%82%E7%BA%A7%E8%A7%86%E5%9B%BE-views/">Swift Ui 层级视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E6%8E%A7%E5%88%B6%E8%A7%86%E5%9B%BE-views/">Swift Ui 控制视图 Views</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="book-section-flat">
+<span>--解决方案--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-f1d4602254471b9d0da445dd468cd456" type="checkbox"/>
+<label class="flex justify-between" for="section-f1d4602254471b9d0da445dd468cd456">
+<a class="" role="button">环境配置</a>
+</label>
+<ul>
+<li>
+<a class="" href="/solution/environment/apple-m%E7%B3%BB%E5%88%97%E8%8A%AF%E7%89%87%E5%AE%89%E8%A3%85-pyqt/">Apple M系列芯片安装 Pyqt</a>
+</li>
+<li>
+<a class="" href="/solution/environment/docker-%E5%AE%89%E8%A3%85-redis-/">Docker 安装 Redis</a>
+</li>
+<li>
+<a class="" href="/solution/environment/hugo-%E4%B8%BB%E9%A2%98-hugo-book-%E4%B8%AD%E8%8B%B1%E6%96%87%E6%90%9C%E7%B4%A2%E9%85%8D%E7%BD%AE/">Hugo 主题 Hugo Book 中英文搜索配置</a>
+</li>
+<li>
+<a class="" href="/solution/environment/iterm2-oh-my-zsh-%E9%85%8D%E7%BD%AE/">I Term2 Oh My Zsh 配置</a>
+</li>
+<li>
+<a class="" href="/solution/environment/m1-%E8%8A%AF%E7%89%87-docker-%E5%AE%89%E8%A3%85-mysql5.7-/">M1 芯片 Docker 安装 Mysql5.7</a>
+</li>
+<li>
+<a class="" href="/solution/environment/mac-idea-%E5%BF%AB%E6%8D%B7%E9%94%AE%E4%BD%8D/">MAC Idea 快捷键位</a>
+</li>
+<li>
+<a class="" href="/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">内网穿透</a>
+</li>
+<li>
+<a class="" href="/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E7%9A%84%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE/">内网穿透的自启动设置</a>
+</li>
+</ul>
+</li>
+<li>
+<input checked="" class="toggle" id="section-5a76a664ba4855b79d3c1bc77e5b08b1" type="checkbox"/>
+<label class="flex justify-between" for="section-5a76a664ba4855b79d3c1bc77e5b08b1">
+<a class="" role="button">杂乱问题</a>
+</label>
+<ul>
+<li>
+<a class="" href="/solution/problems/brew-%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Brew 一些常用命令</a>
+</li>
+<li>
+<a class="" href="/solution/problems/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Docker 常用命令</a>
+</li>
+<li>
+<a class="" href="/solution/problems/git-github-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">Git Git Hub 相关命令整理</a>
+</li>
+<li>
+<a class="active" href="/solution/problems/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%89%AB%E7%9B%B2/">面试题扫盲</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="book-section-flat">
+<span>--其他记录--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-9ef4d2063ddc9af7785b193647f22260" type="checkbox"/>
+<label class="flex justify-between" for="section-9ef4d2063ddc9af7785b193647f22260">
+<a class="" role="button">我和阿刁</a>
+</label>
+<ul>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%812022%E5%B9%B4%E7%9A%84%E7%94%9F%E6%97%A5%E7%9A%84%E5%B0%8F%E8%AE%BA%E6%96%87/">关于阿刁2022年的生日的小论文</a>
+</li>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">关于阿刁的2021年度总结</a>
+</li>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842022%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">关于阿刁的2022年度总结</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+</div>
+</aside>
+<div class="book-page">
+<header class="book-header">
+<div class="flex align-center justify-between">
+<label for="menu-control">
+<img alt="Menu" class="book-icon" src="/svg/menu.svg"/>
+</label>
+<strong>面试题扫盲</strong>
+<label for="toc-control">
+<img alt="Table of Contents" class="book-icon" src="/svg/toc.svg"/>
+</label>
+</div>
+<aside class="hidden clearfix">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#计算机网络">计算机网络</a>
+<ul>
+<li>
+<ul>
+<li><a href="#osi-七层模型及其作用">OSI 七层模型及其作用？</a></li>
+<li><a href="#tcpip-四层体系分层结构">TCP/IP 四层体系分层结构？</a></li>
+<li><a href="#三次握手的过程">三次握手的过程？</a></li>
+<li><a href="#为什么要三次握手">为什么要三次握手?</a></li>
+<li><a href="#解释一下四次挥手">解释一下四次挥手？</a></li>
+<li><a href="#为什么要四次挥手">为什么要四次挥手？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#java">Java</a>
+<ul>
+<li>
+<ul>
+<li><a href="#关于底层数据结构hashmap-的-jdk-17-和-jdk-18-有何不同">关于底层数据结构，HashMap 的 JDK 1.7 和 JDK 1.8 有何不同？</a></li>
+<li><a href="#jdk18-中hashmap-树化的条件">JDK1.8 中，HashMap 树化的条件？</a></li>
+<li><a href="#hashmap-的-push-流程">HashMap 的 push 流程？</a></li>
+<li><a href="#arraylist是如何扩容的">ArrayList是如何扩容的？</a></li>
+<li><a href="#代理和-cglib-动态代理对比">代理和 CGLIB 动态代理对比</a></li>
+<li><a href="#静态代理和动态代理的对比">静态代理和动态代理的对比</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#设计模式">设计模式</a>
+<ul>
+<li>
+<ul>
+<li><a href="#六大设计原则">六大设计原则</a></li>
+<li><a href="#单例模式">单例模式</a>
+<ul>
+<li><a href="#饿汉式">饿汉式</a></li>
+<li><a href="#懒汉式">懒汉式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</aside>
+</header>
+<article class="markdown"><h2 id="计算机网络">
+  计算机网络
+  <a class="anchor" href="#%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c">#</a>
+</h2>
+<h4 id="osi-七层模型及其作用">
+  OSI 七层模型及其作用？
+  <a class="anchor" href="#osi-%e4%b8%83%e5%b1%82%e6%a8%a1%e5%9e%8b%e5%8f%8a%e5%85%b6%e4%bd%9c%e7%94%a8">#</a>
+</h4>
+<ol>
+<li>
+<p>应用层：为计算机用户提供服务</p>
+</li>
+<li>
+<p>表示层：数据处理（编解码、加密解密、压缩解压缩）</p>
+</li>
+<li>
+<p>会话层：管理（建立、维护、重连）应用程序之间的会话</p>
+</li>
+<li>
+<p>传输层：为两台主机进程之间的通信提供通用的数据传输服务</p>
+</li>
+<li>
+<p>网络层：路由和寻址(決定数据在网络的游走路径）</p>
+</li>
+<li>
+<p>数据链路层：帧编码和误差纠正控制</p>
+</li>
+<li>
+<p>物理层：透明地传送比特流传输</p>
+</li>
+</ol>
+<h4 id="tcpip-四层体系分层结构">
+  TCP/IP 四层体系分层结构？
+  <a class="anchor" href="#tcpip-%e5%9b%9b%e5%b1%82%e4%bd%93%e7%b3%bb%e5%88%86%e5%b1%82%e7%bb%93%e6%9e%84">#</a>
+</h4>
+<ol>
+<li>应用层：为计算机用户提供服务</li>
+<li>传输层：为两台主机进程之间的通信提供通用的数据传输服务</li>
+<li>网络层：路由和寻址(決定数据在网络的游走路径）</li>
+<li>网络接口层：透明地传送比特流传输</li>
+</ol>
+<h4 id="三次握手的过程">
+  三次握手的过程？
+  <a class="anchor" href="#%e4%b8%89%e6%ac%a1%e6%8f%a1%e6%89%8b%e7%9a%84%e8%bf%87%e7%a8%8b">#</a>
+</h4>
+<ul>
+<li><strong>一次握手</strong>:客户端发送带有 SYN（SEQ=x） 标志的数据包 -&gt; 服务端，然后客户端进入 <strong>SYN_SEND</strong> 状态，等待服务器的确认；</li>
+<li><strong>二次握手</strong>:服务端发送带有 SYN+ACK(SEQ=y,ACK=x+1) 标志的数据包 –&gt; 客户端,然后服务端进入 <strong>SYN_RECV</strong> 状态</li>
+<li><strong>三次握手</strong>:客户端发送带有 ACK(ACK=y+1) 标志的数据包 –&gt; 服务端，然后客户端和服务器端都进入<strong>ESTABLISHED</strong> 状态，完成TCP三次握手。</li>
+</ul>
+<h4 id="为什么要三次握手">
+  为什么要三次握手?
+  <a class="anchor" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e4%b8%89%e6%ac%a1%e6%8f%a1%e6%89%8b">#</a>
+</h4>
+<p>确定自己和对方的发送与接收都是正常的。</p>
+<h4 id="解释一下四次挥手">
+  解释一下四次挥手？
+  <a class="anchor" href="#%e8%a7%a3%e9%87%8a%e4%b8%80%e4%b8%8b%e5%9b%9b%e6%ac%a1%e6%8c%a5%e6%89%8b">#</a>
+</h4>
+<ol>
+<li><strong>第一次挥手</strong> ：客户端发送一个 FIN（SEQ=X） 标志的数据包-&gt;服务端，用来关闭客户端到服务器的数据传送。然后，客户端进入 <strong>FIN-WAIT-1</strong> 状态。</li>
+<li><strong>第二次挥手</strong> ：服务器收到这个 FIN（SEQ=X） 标志的数据包，它发送一个 ACK （SEQ=X+1）标志的数据包-&gt;客户端 。然后，此时服务端进入<strong>CLOSE-WAIT</strong>状态，客户端进入<strong>FIN-WAIT-2</strong>状态。</li>
+<li><strong>第三次挥手</strong> ：服务端关闭与客户端的连接并发送一个 FIN (SEQ=y)标志的数据包-&gt;客户端请求关闭连接，然后，服务端进入<strong>LAST-ACK</strong>状态。</li>
+<li><strong>第四次挥手</strong> ：客户端发送 ACK (SEQ=y+1)标志的数据包-&gt;服务端并且进入<strong>TIME-WAIT</strong>状态，服务端在收到 ACK (SEQ=y+1)标志的数据包后进入 CLOSE 状态。此时，如果客户端等待 <strong>2MSL</strong> 后依然没有收到回复，就证明服务端已正常关闭，随后，客户端也可以关闭连接了。</li>
+</ol>
+<h4 id="为什么要四次挥手">
+  为什么要四次挥手？
+  <a class="anchor" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%9b%9b%e6%ac%a1%e6%8c%a5%e6%89%8b">#</a>
+</h4>
+<p>TCP是全双工通信，可以双向传输数据。任何一方都可以在数据传送结束后发出连接释放的通知，待对方确认后进入半关闭状态。当另一方也没有数据再发送的时候，则发出连接释放通知，对方确认后就完全关闭了 TCP 连接。</p>
+<h2 id="java">
+  Java
+  <a class="anchor" href="#java">#</a>
+</h2>
+<h4 id="关于底层数据结构hashmap-的-jdk-17-和-jdk-18-有何不同">
+  关于底层数据结构，HashMap 的 JDK 1.7 和 JDK 1.8 有何不同？
+  <a class="anchor" href="#%e5%85%b3%e4%ba%8e%e5%ba%95%e5%b1%82%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84hashmap-%e7%9a%84-jdk-17-%e5%92%8c-jdk-18-%e6%9c%89%e4%bd%95%e4%b8%8d%e5%90%8c">#</a>
+</h4>
+<p>JDK 1.7 组成：数组 + 链表</p>
+<p>JDK 1.8 组成：数组 + 链表/红黑树</p>
+<h4 id="jdk18-中hashmap-树化的条件">
+  JDK1.8 中，HashMap 树化的条件？
+  <a class="anchor" href="#jdk18-%e4%b8%adhashmap-%e6%a0%91%e5%8c%96%e7%9a%84%e6%9d%a1%e4%bb%b6">#</a>
+</h4>
+<p>需要同时满足以下条件：</p>
+<ol>
+<li>数组容量大于等于64</li>
+<li>链表长度大于8</li>
+</ol>
+<h4 id="hashmap-的-push-流程">
+  HashMap 的 push 流程？
+  <a class="anchor" href="#hashmap-%e7%9a%84-push-%e6%b5%81%e7%a8%8b">#</a>
+</h4>
+<ol>
+<li>
+<p>HashMap 是懒惰创建数组的，首次使用才创建数组</p>
+</li>
+<li>
+<p>计算索引（桶下标）</p>
+</li>
+<li>
+<p>如果桶下标还没人占用，创建 Node 占位返回</p>
+</li>
+<li>
+<p>如果桶下标已经有人占用</p>
+<ol>
+<li>已经是 TreeNode 走红黑树的添加或更新逻辑</li>
+<li>是普通 Node，走链表的添加或更新逻辑，如果链表长度超过树化阈值，并且容量大于等于64，走树化逻辑</li>
+</ol>
+</li>
+<li>
+<p>返回前检查容量是否超过阈值，一旦超过进行扩容</p>
+</li>
+</ol>
+<h4 id="arraylist是如何扩容的">
+  ArrayList是如何扩容的？
+  <a class="anchor" href="#arraylist%e6%98%af%e5%a6%82%e4%bd%95%e6%89%a9%e5%ae%b9%e7%9a%84">#</a>
+</h4>
+<p>ArrayList扩容后的大小等于扩容前大小的1.5倍。</p>
+<p>可能会导致的问题：</p>
+<ol>
+<li>内存不足抛出OutOfMemoryError。</li>
+<li>扩容的时候还需要对数组进行拷贝，这个也挺费时的。</li>
+</ol>
+<p>解决方案：面对大量数据时，使用的时候要竭力避免扩容，提供一个初始估计容量参数，以免扩容对性能带来较大影响。</p>
+<h4 id="代理和-cglib-动态代理对比">
+  代理和 CGLIB 动态代理对比
+  <a class="anchor" href="#%e4%bb%a3%e7%90%86%e5%92%8c-cglib-%e5%8a%a8%e6%80%81%e4%bb%a3%e7%90%86%e5%af%b9%e6%af%94">#</a>
+</h4>
+<ol>
+<li>JDK 动态代理只能代理实现了接口的类或者直接代理接口，而 CGLIB 可以代理未实现任何接口的类。 另外， CGLIB 动态代理是通过生成一个被代理类的子类来拦截被代理类的方法调用，因此不能代理声明为 final 类型的类和方法。</li>
+<li>就二者的效率来说，大部分情况都是 JDK 动态代理更优秀，随着 JDK 版本的升级，这个优势更加明显。</li>
+</ol>
+<h4 id="静态代理和动态代理的对比">
+  静态代理和动态代理的对比
+  <a class="anchor" href="#%e9%9d%99%e6%80%81%e4%bb%a3%e7%90%86%e5%92%8c%e5%8a%a8%e6%80%81%e4%bb%a3%e7%90%86%e7%9a%84%e5%af%b9%e6%af%94">#</a>
+</h4>
+<ol>
+<li>灵活性 ：动态代理更加灵活，不需要必须实现接口，可以直接代理实现类，并且可以不需要针对每个目标类都创建一个代理类。另外，静态代理中，接口一旦新增加方法，目标对象和代理对象都要进行修改，这是非常麻烦的！</li>
+<li>JVM 层面 ：静态代理在编译时就将接口、实现类、代理类这些都变成了一个个实际的 class 文件。而动态代理是在运行时动态生成类字节码，并加载到 JVM 中的。</li>
+</ol>
+<h2 id="设计模式">
+  设计模式
+  <a class="anchor" href="#%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f">#</a>
+</h2>
+<h4 id="六大设计原则">
+  六大设计原则
+  <a class="anchor" href="#%e5%85%ad%e5%a4%a7%e8%ae%be%e8%ae%a1%e5%8e%9f%e5%88%99">#</a>
+</h4>
+<ol>
+<li>**开闭原则：**对扩展开放，对修改关闭。在程序需要进行拓展的时候，不能去修改原有的代码，实现一个热插拔的效果。简言之，是为了使程序的扩展性好，易于维护和升级。</li>
+<li>**里氏代换原则：**任何基类可以出现的地方，子类一定可以出现。子类可以扩展父类的功能，但不能改变父类原有的功能。换句话说，子类继承父类时，除添加新的方法完成新增功能外，尽量不要重写父类的方法。</li>
+<li>**依赖倒转原则：**高层模块不应该依赖低层模块，两者都应该依赖其抽象；抽象不应该依赖细节，细节应该依赖抽象。简单的说就是要求对抽象进行编程，不要对实现进行编程，这样就降低了客户与实现模块间的耦合。</li>
+<li>**接口隔离原则：**客户端不应该被迫依赖于它不使用的方法；一个类对另一个类的依赖应该建立在最小的接口上。</li>
+<li>**迪米特法则：**如果两个软件实体无须直接通信，那么就不应当发生直接的相互调用，可以通过第三方转发该调用。其目的是降低类之间的耦合度，提高模块的相对独立性。</li>
+<li>**合成复用原则：**尽量先使用组合或者聚合等关联关系来实现，其次才考虑使用继承关系来实现。</li>
+</ol>
+<h4 id="单例模式">
+  单例模式
+  <a class="anchor" href="#%e5%8d%95%e4%be%8b%e6%a8%a1%e5%bc%8f">#</a>
+</h4>
+<h5 id="饿汉式">
+  饿汉式
+  <a class="anchor" href="#%e9%a5%bf%e6%b1%89%e5%bc%8f">#</a>
+</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Singleton</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//私有构造方法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">Singleton</span><span style="color:#f92672">()</span> <span style="color:#f92672">{}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//在成员位置创建该类的对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> Singleton instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Singleton<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//对外提供静态方法获取该对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Singleton <span style="color:#a6e22e">getInstance</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> instance<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h5 id="懒汉式">
+  懒汉式
+  <a class="anchor" href="#%e6%87%92%e6%b1%89%e5%bc%8f">#</a>
+</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 双重检查方式
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Singleton</span> <span style="color:#f92672">{</span> 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//私有构造方法
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">Singleton</span><span style="color:#f92672">()</span> <span style="color:#f92672">{}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> Singleton instance<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">//对外提供静态方法获取该对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Singleton <span style="color:#a6e22e">getInstance</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">//第一次判断，如果instance不为null，不进入抢锁阶段，直接返回实例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>instance <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">synchronized</span> <span style="color:#f92672">(</span>Singleton<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">//抢到锁之后再次判断是否为null
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>instance <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                    instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Singleton<span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> instance<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div></article>
+<footer class="book-footer">
+<div class="flex flex-wrap justify-between">
+</div>
+<script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+</footer>
+<div class="book-comments">
+</div>
+<label class="hidden book-menu-overlay" for="menu-control"></label>
+</div>
+<aside class="book-toc">
+<div class="book-toc-content">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#计算机网络">计算机网络</a>
+<ul>
+<li>
+<ul>
+<li><a href="#osi-七层模型及其作用">OSI 七层模型及其作用？</a></li>
+<li><a href="#tcpip-四层体系分层结构">TCP/IP 四层体系分层结构？</a></li>
+<li><a href="#三次握手的过程">三次握手的过程？</a></li>
+<li><a href="#为什么要三次握手">为什么要三次握手?</a></li>
+<li><a href="#解释一下四次挥手">解释一下四次挥手？</a></li>
+<li><a href="#为什么要四次挥手">为什么要四次挥手？</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#java">Java</a>
+<ul>
+<li>
+<ul>
+<li><a href="#关于底层数据结构hashmap-的-jdk-17-和-jdk-18-有何不同">关于底层数据结构，HashMap 的 JDK 1.7 和 JDK 1.8 有何不同？</a></li>
+<li><a href="#jdk18-中hashmap-树化的条件">JDK1.8 中，HashMap 树化的条件？</a></li>
+<li><a href="#hashmap-的-push-流程">HashMap 的 push 流程？</a></li>
+<li><a href="#arraylist是如何扩容的">ArrayList是如何扩容的？</a></li>
+<li><a href="#代理和-cglib-动态代理对比">代理和 CGLIB 动态代理对比</a></li>
+<li><a href="#静态代理和动态代理的对比">静态代理和动态代理的对比</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#设计模式">设计模式</a>
+<ul>
+<li>
+<ul>
+<li><a href="#六大设计原则">六大设计原则</a></li>
+<li><a href="#单例模式">单例模式</a>
+<ul>
+<li><a href="#饿汉式">饿汉式</a></li>
+<li><a href="#懒汉式">懒汉式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</aside>
+</main>
+</body>
+</html>

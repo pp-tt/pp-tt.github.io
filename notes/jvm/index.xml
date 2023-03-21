@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JVM on 噗通 🍀</title>
+    <link>https://pp-tt.github.io.git/notes/jvm/</link>
+    <description>Recent content in JVM on 噗通 🍀</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 10 Mar 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://pp-tt.github.io.git/notes/jvm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/jvm/%E4%BB%80%E4%B9%88%E6%98%AF-jvm/</link>
+      <pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/jvm/%E4%BB%80%E4%B9%88%E6%98%AF-jvm/</guid>
+      <description> 什么是 JVM # JVM 定义 # Java Virtual Machine 是 java 程序的运行环境（java 二进制字节码的运行环境）。
+JVM 有什么好处？ # 一次编写，到处运行 自动内存管理，垃圾回收功能 数组下标越界检查 多态 JVM、JRE、JDK 三者之间关系？ # JRE（Java Runtime Environment）：JVM + 基础类库
+JDK（Java Developm Kit）：JVM + 基础类库 + 编译工具
+JVM 组成结构 # 补充：
+ClassLoader： 加载二进制字节码到 JVM 中。 Method Area： 类均放在方法区部分。 Heap： 类创建的实例对象放在 Heap 部分，堆中的实例调用方法时用到 JVM Stacks、PC Register、Native Method Stacks。方法中的每行代码由执行引擎中的 Interpreter 逐行执行， JIT 对方法中的热点代码进行优化后执行。 GC： 对 Heap 中不再被引用的对象进行垃圾回收。 </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/jvm/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/jvm/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/</guid>
+      <description>程序计数器（Program Counter Register） # 程序计数器用途 # 记住下一条 jvm 指令的执行地址，在物理上是通过寄存器来实现的。
+程序计数器执行流程 # 二进制字节码 ➡️ 解释器（中间解释器还需要去程序计数器取下一条指令的执行地址） ➡️ 机器码 ➡️ CPU。二进制字节码和 Java 源代码如下：
+二进制字节码 java 源代码 （每一条是jvm指令） 0: getstatic #20 // PrintStream out = System.out; 3: astore_1	// -- 4: aload_1	// out.println(1); 5: iconst_1	// -- 6: invokevirtual #26	// -- 9: aload_1	// out.println(2); 10: iconst_2	// -- 11: invokevirtual #26	// --	14: aload_1	// out.println(3); 15: iconst_3	// -- 16: invokevirtual #26	// -- 19: aload_1	// out.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/jvm/%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/jvm/%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/</guid>
+      <description>虚拟机栈 # 什么是虚拟机栈 # 即线程运行时需要的内存空间，多个线程多个虚拟机栈。每个虚拟机栈由栈帧组成，一个栈帧对应一次方法的调用，所以每个方法运行时需要的内存空间可以称之为栈帧。每个线程只能有一个活动栈帧，对应着当前正在执行的那个方法。
+问题辨析 # 垃圾回收是否涉及到栈内存？
+栈内存是一次次的方法调用所产生的栈帧内存，每次方法调用完毕，栈帧就会弹出 ，不需要垃圾回收来管理。
+栈内存分配越大越好吗？
+栈内存划分越大，会支持越多次数的方法递归调用，但是线程数量会越少， 因为物理内存是固定的。
+**栈内存在idea中设置方法：**Edit Configurations&amp;hellip; &amp;gt; Modify options &amp;gt; Add VM options
+然后设置参数如下：
+方法内的局部变量是否是线程安全的？
+判断一个变量是否安全，不仅要看是否为方法内的局部变量，还要判断其是否离开了方法的作用范围，如：行参、返回值等都能够引起线程不安全。基本类型是安全的，但是引用类型要考虑下述问题：
+如果方法内局部变量没有逃离方法的作用访问，它是线程安全的 如果是局部变量引用了对象（基本类型安全），并逃离方法的作用方法，需要考虑线程安全 栈内存溢出的原因？ # 过多的栈帧入栈，但是没有出栈就很容易导致栈内存溢出，一般递归调用没有一个正确的递归条件的话，就很容易导致栈内存溢出 栈帧过大 栈内存溢出问题案例分析： # Emp 和Dept 类之间存在相互引用，这时转 json 的话会出现无限递归的报错导致栈溢出，这时候只需要在被依赖的变量上添加注解@JsonIgnore打断循环依赖即可。
+/** * json 数据转换 */ public class Demo1_19 { public static void main(String[] args) throws JsonProcessingException { Dept d = new Dept(); d.setName(&amp;#34;Market&amp;#34;); Emp e1 = new Emp(); e1.setName(&amp;#34;zhang&amp;#34;); e1.setDept(d); Emp e2 = new Emp(); e2.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/jvm/%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88-/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/jvm/%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88-/</guid>
+      <description>本地方法栈 # Java 语言不能直接和系统底层硬件打交道，这时候需要用到 C/C++编写的方法来与操作系统更底层的 API 通信，Java 代码可以通过本地方法（一般 native 修饰）来调用底层功能，这些本地方法运行的时候，所使用的内存就是本地方法栈。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/jvm/%E5%A0%86/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/jvm/%E5%A0%86/</guid>
+      <description>堆（Heap） # 通过 new 关键字创建的对象都会使用堆。
+堆的特点 # 线程共享，堆中的对象都需要考虑线程安全问题。 有垃圾回收机制 堆内存溢出代码 # public class Demo1_5 { public static void main(String[] args) { int i = 0; try { List&amp;lt;String&amp;gt; list = new ArrayList&amp;lt;&amp;gt;(); String a = &amp;#34;hello&amp;#34;; while (true) { list.add(a); a = a + a; i++; } } catch (Throwable e) { e.printStackTrace(); System.out.println(i); } } } 报错代码 ... java.lang.OutOfMemoryError: Java heap space at java.base/java.util.Arrays.copyOf(Arrays.java:3512) at java.base/java.util.Arrays.copyOf(Arrays.java:3481) at java.base/java.util.ArrayList.grow(ArrayList.java:237) at java.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/jvm/%E6%96%B9%E6%B3%95%E5%8C%BA/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/jvm/%E6%96%B9%E6%B3%95%E5%8C%BA/</guid>
+      <description>方法区 # 方法区是所有 Java 虚拟机线程共享的区域，它存储和类结构相关的信息，如成员变量、方法数据、成员方法和构造器方法的代码部分，以及类的构造器和运行时常量池等。方法区在虚拟机启动时被创建，如果内存不足，方法区也会跑出 OutOfMemoryError。
+JVM 1.8前后方法区的区别 # JVM 1.8 之前 和 JVM 1.8 的方法区实现不一样，JVM 1.8 之前是 PermGem（永久代），1.8 是 Metaspace（元空间），如下图：
+永久代内存溢出报错：java.lang.OutOfMemoryError: PermGen space
+永久代最大空间设置参数：-XX:MaxPermSize=8m
+元空间内存溢出报错：java.lang.OutOfMemoryError: Metaspace
+元空间最大空间设置参数：-XX:MaxMetaspaceSize=8m
+运行时常量池 # **常量池：**就是一张表，虚拟机指令根据这张表找到要执行的类名、方法名、参数类型、字面量等信息。
+**运行时常量池：**常量池是在 *.class 文件中的，当该类被加载，它的常量池信息就会放入运行时常量池，并把里面的符号地址变为真实地址。
+关于运行时常量池必知必会： # 可以使用 intern 方法，主动将串池中还没有的字符串对象放入串池 1.8 将这个字符串对象尝试放入串池，如果有则并不会放入，如果没有则放入串池并返回 1.8 将这个字符串对象尝试放入串池，如果有则并不会放入，如果没有则将此对象复制一份放入串池并返回 常量池中的字符串仅是符号，第一次用到时才变为对象 利用串池的机制来避免重复创建字符串对象 字符串变量拼接的原理是 StringBuilder（1.8） 和编译期优化 String s1 = &amp;#34;a&amp;#34;; String s2 = &amp;#34;b&amp;#34;; String s3 = &amp;#34;a&amp;#34; + &amp;#34;b&amp;#34;; String s4 = s1 + s2; String s5 = &amp;#34;ab&amp;#34;; String s6 = s4.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/</guid>
+      <description>直接内存 # 不属于 Java 虚拟机内存，是操作系统内存。
+常见于 NIO 操作时， 用于缓冲内存 分配回收成本比较高，但读写性能高 不受 JVM 内存回收管理 直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？ # 直接内存是通过主动调用 Unsafe 的 freeMenory 方法来释放内存的。
+分配和回收原理 # 使用了 Unsafe 对象完成直接内存的分配回收，并且回收需要主动调用它的 freeMemory 方法 ByteBuffer 的实现类内部，使用了 Cleaner （虚引用）来监测 ByteBuffer 对象，一旦 ByteBuffer 对象被垃圾回收，那么就会由 ReferenceHandler 线程通过 Cleaner 的 clean 方法调用 freeMemory 来释放直接內存 JVM 调优相关问题 # JVM 调优时一般会增加参数 -XX: +DisableExplicitGC 来禁用显式的垃圾回收，即 System.gc() ，但这主动调用触发的是 Full GC ，比较影响性能，因为不仅回收新生代，也会回收老年代，会使程序暂停时间比较长。所以为了防止一些程序员不小心在程序中写的 System.gc()，所以就加上 -XX: +DisableExplicitGC 。但这就会影响直接内存了，如果加上 -XX: +DisableExplicitGC 的话，直接内存就只有等到真正的垃圾回收的时候才会被清理，这就造成直接内存占用较大，长时间得不到释放。
+解决方案：
+直接内存的回收可以不用 Java 的垃圾回收，可以用 Unsafe 的 freeMenory 方法来释放内存。示例如下：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</guid>
+      <description> 垃圾回收 # 如何判断对象可以回收？ # 引用计数法 # 给对象添加一个引用计数器，每当有一个地方引用它，计数器值就加一；相反的，当引用失效的时候，计数器值就减一；任何时刻计数器为0的对象就是不可能再被使用的。 弊端： 循环引用，如下图，哪怕两个对象都没有被引用，也不会被回收，引用计数器不为0.
+可达性分析算法 # Java 虚拟机中的垃圾回收器采用可达性分析来探索所有存活的对象。 扫描堆中的对象，看是否能够沿着 GC Root 为起点的引用链找到该对象，找不到则表示可以回收。
+Java语言中，可以作为GC Roots的对象包括以下几种
+虚拟机栈（栈帧中的本地变量表）中引用的对象。 方法区中类静态属性引用的对象。 方法区中常量引用的对象。 本地方法栈中JNI（即一般说的Native方法）引用的对象。 四种引用 # 强引用
+只有所有 GC Roots 对象都不通过强引用引用该对象，该对象才能被垃圾回收
+软引用
+发生垃圾回收后又发现内存不够，这时候就会去回收仅有软引用的对象。（软引用自身也是一种引用对象，如果在创建软引用时给分配了一个引用队列，一旦其引用的对象都被回收时，软引用对象自身就会进入引用队列。）
+弱引用
+只要发生垃圾回收 (Full GC) ，不管内存够不够，都会去回收仅有弱引用的对象。（弱引用同上，软硬引用的回收可以通过引用队列来遍历然后回收）
+虚引用
+必须配合引用队列使用（软硬引用不是必须），主要配合 ByteBuffer 使用，被引用对象回收时，会将虚引用入队，由 Reference Handler 线程调用虚引用相关方法释放直接内存
+终结器引用
+必须配合引用队列使用（软硬引用不是必须）。无需手动编码，但其内部配合引用队列使用，在垃圾回收时，终结器引用入队（被引用对象暂时没有被回收），再由 Finalizer 线程通过终结器引用找到被引用对象并调用它的 finalize 方法，第二次 GC 时才能回收被引用对象。
+垃圾回收算法 # 标记清除 # 优点：速度快
+缺点：容易产生较多的内存碎片
+标记整理 # 缺点：效率较低
+优点：避免了内存碎片
+复制 # 缺点：占用双倍内存空间
+优点：不会产生内存碎片
+分代回收 # 对象首先分配在伊甸园区域 新生代不足时会触发 minor gc，伊甸园和from中存活的对象会使用 copy 复制到幸存区 to 中，存活对象年龄 +1 ，并交换 from 和 to minor gc 会引发 stop the world，并暂停其他用户线程，等待垃圾回收结束后，其他线程才会运行（因为 gc 会涉及到很多对象地址的变更，不暂停线程的话，容易引起程序崩溃） 当寿命超过阈值时，会晋升到老年代，最大寿命为 15 当老年代空间不足，会先尝试触发 minor gc，如果之后空间仍然不足，那么出发 full fc，这时 STW 时间更长 相关参数 # 含义 参数 堆初始大小 -Xms 堆最大大小 -Xmx 或 -XX:MaxHeapSize=size 新生代大小 -Xmn 或 (-XX:NewSize=size + -XX:MaxNewSize=size ) 幸存区比例(动态) -XX:InitialSurvivorRatio=ratio 和-XX:+UseAdaptiveSizePolicy 幸存区比例 -XX:SurvivorRatio=ratio 晋升阈值 -XX:MaxTenuringThreshold=threshold 晋升详情 -XX:+PrintTenuringDistribution GC详情 -XX:+PrintGCDetails -verbose:gc FullGC 前 MinorGC -XX:+ScavengeBeforeFullGC </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/</guid>
+      <description>1. 串行垃圾回收器 # 单线程的垃圾回收器
+堆内存较小，适合个人电脑
+参数设置 # -XX:+UserSerialGC = Serial + SerialOld ：打开串行垃圾回收器
+Serial : 工作在新生代，才用的是复制算法 SerialOld : 工作在老年代，采用的是标记+整理算法 2. 吞吐量优先 # 多线程垃圾回收器 堆内存较大，多核 cpu
+尽可能让单位时间内，STW 的时间最短
+参数设置 # -XX:+UseParallelGC：1.8 默认开启，新生代垃圾回收器，复制算法
+-XX:+UseParallelOldGC：1.8 默认开启，老年代，标记+整理，两个开任意一个，另一个也会自动开启
+-XX:+UseAdaptiveSizePolicy ：采用自适应调整大小
+-XX:GCTimeRatio=ratio ：采用自适应调整大小时的参数，公式为1/(1+ratio)
+-XX:MaxGCPauseMillis=ms ：采用自适应调整大小时的参数，默认值 200 ms
+-XX:ParallelGCThreads=n ：控制线程数 n
+3. 响应时间优先 # 多线程垃圾回收器
+堆内存较大，多核 CPU
+尽可能让单次 STW 的时间最短
+参数设置 # -XX:+UseConcMarkSweepGC ~ -XX:+UseParNewGC ~ SerialOld
+-XX:+UseConcMarkSweepGC ：基于标记清除的，并发，即用户线程和垃圾回收线程是并发执行，工作在老年代，并发失败时会退化成 SeriaOld
+-XX:+UseParNewGC ：工作在新生代，基于复制算法的垃圾回收器，与-XX:+UseConcMarkSweepGC 是一对
+-XX:ParallelGCThreads=n：并行线程数，一般与 CPU 核数相同</description>
+    </item>
+    
+  </channel>
+</rss>

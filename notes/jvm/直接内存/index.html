@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="直接内存 # 不属于 Java 虚拟机内存，是操作系统内存。
+常见于 NIO 操作时， 用于缓冲内存 分配回收成本比较高，但读写性能高 不受 JVM 内存回收管理 直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？ # 直接内存是通过主动调用 Unsafe 的 freeMenory 方法来释放内存的。
+分配和回收原理 # 使用了 Unsafe 对象完成直接内存的分配回收，并且回收需要主动调用它的 freeMemory 方法 ByteBuffer 的实现类内部，使用了 Cleaner （虚引用）来监测 ByteBuffer 对象，一旦 ByteBuffer 对象被垃圾回收，那么就会由 ReferenceHandler 线程通过 Cleaner 的 clean 方法调用 freeMemory 来释放直接內存 JVM 调优相关问题 # JVM 调优时一般会增加参数 -XX: +DisableExplicitGC 来禁用显式的垃圾回收，即 System.gc() ，但这主动调用触发的是 Full GC ，比较影响性能，因为不仅回收新生代，也会回收老年代，会使程序暂停时间比较长。所以为了防止一些程序员不小心在程序中写的 System.gc()，所以就加上 -XX: +DisableExplicitGC 。但这就会影响直接内存了，如果加上 -XX: +DisableExplicitGC 的话，直接内存就只有等到真正的垃圾回收的时候才会被清理，这就造成直接内存占用较大，长时间得不到释放。
+解决方案：
+直接内存的回收可以不用 Java 的垃圾回收，可以用 Unsafe 的 freeMenory 方法来释放内存。示例如下：" name="description"/>
+<meta content="#FFFFFF" name="theme-color"/>
+<meta content="light dark" name="color-scheme"/><meta content="" property="og:title"/>
+<meta content="直接内存 # 不属于 Java 虚拟机内存，是操作系统内存。
+常见于 NIO 操作时， 用于缓冲内存 分配回收成本比较高，但读写性能高 不受 JVM 内存回收管理 直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？ # 直接内存是通过主动调用 Unsafe 的 freeMenory 方法来释放内存的。
+分配和回收原理 # 使用了 Unsafe 对象完成直接内存的分配回收，并且回收需要主动调用它的 freeMemory 方法 ByteBuffer 的实现类内部，使用了 Cleaner （虚引用）来监测 ByteBuffer 对象，一旦 ByteBuffer 对象被垃圾回收，那么就会由 ReferenceHandler 线程通过 Cleaner 的 clean 方法调用 freeMemory 来释放直接內存 JVM 调优相关问题 # JVM 调优时一般会增加参数 -XX: +DisableExplicitGC 来禁用显式的垃圾回收，即 System.gc() ，但这主动调用触发的是 Full GC ，比较影响性能，因为不仅回收新生代，也会回收老年代，会使程序暂停时间比较长。所以为了防止一些程序员不小心在程序中写的 System.gc()，所以就加上 -XX: +DisableExplicitGC 。但这就会影响直接内存了，如果加上 -XX: +DisableExplicitGC 的话，直接内存就只有等到真正的垃圾回收的时候才会被清理，这就造成直接内存占用较大，长时间得不到释放。
+解决方案：
+直接内存的回收可以不用 Java 的垃圾回收，可以用 Unsafe 的 freeMenory 方法来释放内存。示例如下：" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="https://pp-tt.github.io.git/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/" property="og:url"/><meta content="notes" property="article:section"/>
+<title>直接内存 | 噗通 🍀</title>
+<link href="/manifest.json" rel="manifest"/>
+<link href="/favicon.png" rel="icon" type="image/x-icon"/>
+<link crossorigin="anonymous" href="/book.min.a82d7e77ceb134d151c4d7e381eeb30623fbd5a524d58c584d8716ecec0205bd.css" integrity="sha256-qC1+d86xNNFRxNfjge6zBiP71aUk1YxYTYcW7OwCBb0=" rel="stylesheet"/>
+<script defer="" src="/flexsearch.min.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-bvvSeOt+kqT2EcxvtEJLycY1J7HRvYurUKXXFWQ1vWU=" src="/zh.search.min.6efbd278eb7e92a4f611cc6fb4424bc9c63527b1d1bd8bab50a5d7156435bd65.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+</head>
+<body dir="ltr">
+<input class="hidden toggle" id="menu-control" type="checkbox"/>
+<input class="hidden toggle" id="toc-control" type="checkbox"/>
+<main class="container flex">
+<aside class="book-menu">
+<div class="book-menu-content">
+<nav>
+<h2 class="book-brand">
+<a class="flex align-center" href="/"><span>噗通 🍀</span>
+</a>
+</h2>
+<div class="book-search">
+<input aria-label="Search" data-hotkeys="s/" id="book-search-input" maxlength="64" placeholder="Search" type="text"/>
+<div class="book-search-spinner hidden"></div>
+<ul id="book-search-results"></ul>
+</div>
+<ul>
+<li class="book-section-flat">
+<span>--学习笔记--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-0f70934a6e5284fbc93928c61dfe9c83" type="checkbox"/>
+<label class="flex justify-between" for="section-0f70934a6e5284fbc93928c61dfe9c83">
+<a class="" role="button">Java</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/java/arraylist-%E6%89%A9%E5%AE%B9%E8%A7%84%E5%88%99/">Array List 扩容规则</a>
+</li>
+<li>
+<a class="" href="/notes/java/hashmap-%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">Hash Map 相关学习总结</a>
+</li>
+<li>
+<a class="" href="/notes/java/java-%E5%8F%8D%E5%B0%84/">Java 反射</a>
+</li>
+</ul>
+</li>
+<li>
+<input checked="" class="toggle" id="section-4364152b7ab5995d509c0b7b811005c4" type="checkbox"/>
+<label class="flex justify-between" for="section-4364152b7ab5995d509c0b7b811005c4">
+<a class="" role="button">JVM</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/jvm/%E4%BB%80%E4%B9%88%E6%98%AF-jvm/">什么是 Jvm</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/">程序计数器</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/">虚拟机栈</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88-/">本地方法栈</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%A0%86/">堆</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E6%96%B9%E6%B3%95%E5%8C%BA/">方法区</a>
+</li>
+<li>
+<a class="active" href="/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/">直接内存</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">垃圾回收</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/">垃圾回收器</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-b7444509cb631180897a34f028407c2c" type="checkbox"/>
+<label class="flex justify-between" for="section-b7444509cb631180897a34f028407c2c">
+<a class="" role="button">设计模式</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE%E9%BB%91%E9%A9%AC/">Uml 图（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E9%BB%91%E9%A9%AC/">设计原则（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/">创建型模式（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/">结构型模式（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/">行为型模式（黑马）</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-61661238f18c0095524962a5d1d6e676" type="checkbox"/>
+<label class="flex justify-between" for="section-61661238f18c0095524962a5d1d6e676">
+<a class="" role="button">Spring</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/spring/beanfactory%E4%B8%8Eapplicationcontext/">Bean Factory与 Application Context</a>
+</li>
+<li>
+<a class="" href="/notes/spring/nacos-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/">Nacos 配置中心</a>
+</li>
+<li>
+<a class="" href="/notes/spring/open-feign-%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B/">Open Feign 远程调用示例</a>
+</li>
+<li>
+<a class="" href="/notes/spring/springboot-%E6%95%B4%E5%90%88-mybatis-plus/">Spring Boot 整合 My Batis Plus</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-58f730a0b22fcdc7a886db614d77f88c" type="checkbox"/>
+<label class="flex justify-between" for="section-58f730a0b22fcdc7a886db614d77f88c">
+<a class="" role="button">代码随想录刷题</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/leetcode/day001-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/">Day001 第一章数组</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day002-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/">Day002 第一章数组</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day003-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/">Day003 第二章链表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day004-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/">Day004 第二章链表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day006-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/">Day006 第三章哈希表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day007-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/">Day007 第三章哈希表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day008-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/">Day008 第四章字符串</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day009-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/">Day009 第四章字符串</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day010-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day010 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day011-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day011 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day013-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day013 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day014-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day014 第六章二叉树</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day015-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day015 第六章二叉树</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day017-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day017 第六章二叉树</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-4f95435d3a74007e2c985ea455bbb6e6" type="checkbox"/>
+<label class="flex justify-between" for="section-4f95435d3a74007e2c985ea455bbb6e6">
+<a class="" role="button">MyBatisPlus</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">MP快速入门</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E4%B8%80%E8%88%AC%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C/">一般查询操作</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">分页查询</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/">逻辑删除</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/">条件查询</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%B0%81%E8%A3%85service%E4%BD%BF%E7%94%A8/">封装service使用</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-e2ca0d138d67d9d3ae55da25ac044829" type="checkbox"/>
+<label class="flex justify-between" for="section-e2ca0d138d67d9d3ae55da25ac044829">
+<a class="" role="button">Redis</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/redis/nosql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E4%BB%8B/">No Sql数据库简介</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-key/">Redis Key</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-string/">Redis String</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-list/">Redis List</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-set/">Redis Set</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-hash/">Redis Hash</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-zset/">Redis Zset</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/">Redis 发布与订阅</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-jedis/">Redis Jedis</a>
+</li>
+<li>
+<a class="" href="/notes/redis/springboot-%E6%95%B4%E5%90%88-redis/">Spring Boot 整合 Redis</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81%E6%9C%BA%E5%88%B6/">Redis 事务和锁机制</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-39abd0d44427d4a54e694a2b3f22d967" type="checkbox"/>
+<label class="flex justify-between" for="section-39abd0d44427d4a54e694a2b3f22d967">
+<a class="" role="button">TensorFlow</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%80/">Tensor Flow 笔记（一）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%8C/">Tensor Flow 笔记（二）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%89/">Tensor Flow 笔记（三）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E5%9B%9B/">Tensor Flow 笔记（四）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%94/">Tensor Flow 笔记（五）</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-a42f4efe12b0d964f8de7588b38cb659" type="checkbox"/>
+<label class="flex justify-between" for="section-a42f4efe12b0d964f8de7588b38cb659">
+<a class="" role="button">Java八股</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/%E5%B9%B6%E5%8F%91/">Concurrence</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/mybatis/">MyBatis</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/mysql/">MySQL</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-3907b2cf55ed520ad784e24525c8baa4" type="checkbox"/>
+<label class="flex justify-between" for="section-3907b2cf55ed520ad784e24525c8baa4">
+<a class="" role="button">Swift</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/swift/swiftui-%E5%B8%B8%E7%94%A8%E8%A7%86%E5%9B%BE-views/">Swift Ui 常用视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E4%BF%A1%E6%81%AF%E8%A7%86%E5%9B%BE-views/">Swift Ui 信息视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E5%B1%82%E7%BA%A7%E8%A7%86%E5%9B%BE-views/">Swift Ui 层级视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E6%8E%A7%E5%88%B6%E8%A7%86%E5%9B%BE-views/">Swift Ui 控制视图 Views</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="book-section-flat">
+<span>--解决方案--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-f1d4602254471b9d0da445dd468cd456" type="checkbox"/>
+<label class="flex justify-between" for="section-f1d4602254471b9d0da445dd468cd456">
+<a class="" role="button">环境配置</a>
+</label>
+<ul>
+<li>
+<a class="" href="/solution/environment/apple-m%E7%B3%BB%E5%88%97%E8%8A%AF%E7%89%87%E5%AE%89%E8%A3%85-pyqt/">Apple M系列芯片安装 Pyqt</a>
+</li>
+<li>
+<a class="" href="/solution/environment/docker-%E5%AE%89%E8%A3%85-redis-/">Docker 安装 Redis</a>
+</li>
+<li>
+<a class="" href="/solution/environment/hugo-%E4%B8%BB%E9%A2%98-hugo-book-%E4%B8%AD%E8%8B%B1%E6%96%87%E6%90%9C%E7%B4%A2%E9%85%8D%E7%BD%AE/">Hugo 主题 Hugo Book 中英文搜索配置</a>
+</li>
+<li>
+<a class="" href="/solution/environment/iterm2-oh-my-zsh-%E9%85%8D%E7%BD%AE/">I Term2 Oh My Zsh 配置</a>
+</li>
+<li>
+<a class="" href="/solution/environment/m1-%E8%8A%AF%E7%89%87-docker-%E5%AE%89%E8%A3%85-mysql5.7-/">M1 芯片 Docker 安装 Mysql5.7</a>
+</li>
+<li>
+<a class="" href="/solution/environment/mac-idea-%E5%BF%AB%E6%8D%B7%E9%94%AE%E4%BD%8D/">MAC Idea 快捷键位</a>
+</li>
+<li>
+<a class="" href="/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">内网穿透</a>
+</li>
+<li>
+<a class="" href="/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E7%9A%84%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE/">内网穿透的自启动设置</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-5a76a664ba4855b79d3c1bc77e5b08b1" type="checkbox"/>
+<label class="flex justify-between" for="section-5a76a664ba4855b79d3c1bc77e5b08b1">
+<a class="" role="button">杂乱问题</a>
+</label>
+<ul>
+<li>
+<a class="" href="/solution/problems/brew-%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Brew 一些常用命令</a>
+</li>
+<li>
+<a class="" href="/solution/problems/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Docker 常用命令</a>
+</li>
+<li>
+<a class="" href="/solution/problems/git-github-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">Git Git Hub 相关命令整理</a>
+</li>
+<li>
+<a class="" href="/solution/problems/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%89%AB%E7%9B%B2/">面试题扫盲</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="book-section-flat">
+<span>--其他记录--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-9ef4d2063ddc9af7785b193647f22260" type="checkbox"/>
+<label class="flex justify-between" for="section-9ef4d2063ddc9af7785b193647f22260">
+<a class="" role="button">我和阿刁</a>
+</label>
+<ul>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%812022%E5%B9%B4%E7%9A%84%E7%94%9F%E6%97%A5%E7%9A%84%E5%B0%8F%E8%AE%BA%E6%96%87/">关于阿刁2022年的生日的小论文</a>
+</li>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">关于阿刁的2021年度总结</a>
+</li>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842022%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">关于阿刁的2022年度总结</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+</div>
+</aside>
+<div class="book-page">
+<header class="book-header">
+<div class="flex align-center justify-between">
+<label for="menu-control">
+<img alt="Menu" class="book-icon" src="/svg/menu.svg"/>
+</label>
+<strong>直接内存</strong>
+<label for="toc-control">
+<img alt="Table of Contents" class="book-icon" src="/svg/toc.svg"/>
+</label>
+</div>
+<aside class="hidden clearfix">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#直接内存">直接内存</a>
+<ul>
+<li>
+<ul>
+<li><a href="#直接内存既然不受-jvm-虚拟机管理和垃圾回收那么它会不会被正确回收底层又是如何实现的">直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？</a></li>
+<li><a href="#分配和回收原理">分配和回收原理</a></li>
+<li><a href="#jvm-调优相关问题">JVM 调优相关问题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</aside>
+</header>
+<article class="markdown"><h2 id="直接内存">
+  直接内存
+  <a class="anchor" href="#%e7%9b%b4%e6%8e%a5%e5%86%85%e5%ad%98">#</a>
+</h2>
+<p>不属于 Java 虚拟机内存，是操作系统内存。</p>
+<ul>
+<li>常见于 NIO 操作时， 用于缓冲内存</li>
+<li>分配回收成本比较高，但读写性能高</li>
+<li>不受 JVM 内存回收管理</li>
+</ul>
+<h4 id="直接内存既然不受-jvm-虚拟机管理和垃圾回收那么它会不会被正确回收底层又是如何实现的">
+  直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？
+  <a class="anchor" href="#%e7%9b%b4%e6%8e%a5%e5%86%85%e5%ad%98%e6%97%a2%e7%84%b6%e4%b8%8d%e5%8f%97-jvm-%e8%99%9a%e6%8b%9f%e6%9c%ba%e7%ae%a1%e7%90%86%e5%92%8c%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e9%82%a3%e4%b9%88%e5%ae%83%e4%bc%9a%e4%b8%8d%e4%bc%9a%e8%a2%ab%e6%ad%a3%e7%a1%ae%e5%9b%9e%e6%94%b6%e5%ba%95%e5%b1%82%e5%8f%88%e6%98%af%e5%a6%82%e4%bd%95%e5%ae%9e%e7%8e%b0%e7%9a%84">#</a>
+</h4>
+<p>直接内存是通过主动调用 <code>Unsafe</code> 的 <code>freeMenory</code> 方法来释放内存的。</p>
+<h4 id="分配和回收原理">
+  分配和回收原理
+  <a class="anchor" href="#%e5%88%86%e9%85%8d%e5%92%8c%e5%9b%9e%e6%94%b6%e5%8e%9f%e7%90%86">#</a>
+</h4>
+<ul>
+<li>使用了 <code>Unsafe</code> 对象完成直接内存的分配回收，并且回收需要主动调用它的 <code>freeMemory </code>方法</li>
+<li><code>ByteBuffer</code> 的实现类内部，使用了 <code>Cleaner</code> （虚引用）来监测 <code>ByteBuffer</code> 对象，一旦 <code>ByteBuffer</code> 对象被垃圾回收，那么就会由 <code>ReferenceHandler</code> 线程通过 <code>Cleaner</code> 的 <code>clean</code> 方法调用 <code>freeMemory</code> 来释放直接內存</li>
+</ul>
+<h4 id="jvm-调优相关问题">
+  JVM 调优相关问题
+  <a class="anchor" href="#jvm-%e8%b0%83%e4%bc%98%e7%9b%b8%e5%85%b3%e9%97%ae%e9%a2%98">#</a>
+</h4>
+<p>JVM 调优时一般会增加参数 <code>-XX: +DisableExplicitGC</code> 来禁用显式的垃圾回收，即 <code>System.gc()</code> ，但这<strong>主动调用</strong>触发的是 <code>Full GC</code> ，比较影响性能，因为不仅回收新生代，也会回收老年代，会使程序暂停时间比较长。所以为了防止一些程序员不小心在程序中写的 <code>System.gc()</code>，所以就加上 <code>-XX: +DisableExplicitGC</code> 。但这就会影响直接内存了，如果加上 <code>-XX: +DisableExplicitGC</code> 的话，直接内存就只有等到真正的垃圾回收的时候才会被清理，这就造成直接内存占用较大，长时间得不到释放。</p>
+<p><strong>解决方案</strong>：</p>
+<p>直接内存的回收可以不用 Java 的垃圾回收，可以用 <code>Unsafe</code> 的 <code>freeMenory</code> 方法来释放内存。示例如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Main</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> _1Gb <span style="color:#f92672">=</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        Unsafe unsafe <span style="color:#f92672">=</span> Unsafe<span style="color:#f92672">.</span><span style="color:#a6e22e">getUnsafe</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//分配内存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">long</span> base <span style="color:#f92672">=</span> unsafe<span style="color:#f92672">.</span><span style="color:#a6e22e">allocateMemory</span><span style="color:#f92672">(</span>_1Gb<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        unsafe<span style="color:#f92672">.</span><span style="color:#a6e22e">setMemory</span><span style="color:#f92672">(</span>base<span style="color:#f92672">,</span> _1Gb<span style="color:#f92672">,</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">)</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">in</span><span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//释放内存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        unsafe<span style="color:#f92672">.</span><span style="color:#a6e22e">freeMemory</span><span style="color:#f92672">(</span>base<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">in</span><span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div></article>
+<footer class="book-footer">
+<div class="flex flex-wrap justify-between">
+</div>
+<script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+</footer>
+<div class="book-comments">
+</div>
+<label class="hidden book-menu-overlay" for="menu-control"></label>
+</div>
+<aside class="book-toc">
+<div class="book-toc-content">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#直接内存">直接内存</a>
+<ul>
+<li>
+<ul>
+<li><a href="#直接内存既然不受-jvm-虚拟机管理和垃圾回收那么它会不会被正确回收底层又是如何实现的">直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？</a></li>
+<li><a href="#分配和回收原理">分配和回收原理</a></li>
+<li><a href="#jvm-调优相关问题">JVM 调优相关问题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</aside>
+</main>
+</body>
+</html>

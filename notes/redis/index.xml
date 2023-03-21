@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Redis on 噗通 🍀</title>
+    <link>https://pp-tt.github.io.git/notes/redis/</link>
+    <description>Recent content in Redis on 噗通 🍀</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://pp-tt.github.io.git/notes/redis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/redis/nosql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E4%BB%8B/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/redis/nosql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E4%BB%8B/</guid>
+      <description>NoSQL数据库简介 # NoSQL概述 # NoSQL 不同于 MySql，不依赖业务逻辑方式存储，以简单的 key-value 方式存储，增加了数据库的扩展能力。
+NoSQL 适用场景 # 对高并发数据的读写 海量数据的读写 对数据的高扩展性 NoSQL不适用场景 # 需要事务支持 基于 sql 的结构化查询存储，处理复杂的关系 用不着sql的和用了sql也不行的情况就考虑用 NoSQL Memcached 与 Redis 的不同 # Memcached支持单一数据类型，而Redis支持多种数据类型 Memcached不支持持久化，但是Redis可以支持 Memcached采用多线程+锁，Redis使用的是单线程+多路IO复用 多路IO复用 # IO 多路复用是一种同步IO模型，实现一个线程可以监视多个文件句柄； 一旦某个文件句柄就绪，就能够通知应用程序进行相应的读写操作； 没有文件句柄就绪就会阻塞应用程序，交出CPU。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/redis/redis-key/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/redis/redis-key/</guid>
+      <description>Redis Key # keys *：查看当前库的所有 key
+exists key：判断某个 key 是否存在
+type key：查看 key 是什么类型
+del key：即时删除指定 key
+unlink key ：仅仅从 keyspace 元数据中删除，真正操作后续异步执行
+expire key 10：为给定的 key 设置过期时间
+ttl key：查看还有多少秒过期，-1 表示永不过期，-2表示已过期
+select：命令切换数据库
+dbsize：查看当前数据库的 key 的数量
+flushdb：清空当前库
+flushall：通杀全部库</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/redis/redis-string/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/redis/redis-string/</guid>
+      <description>String # 二进制安全，可以包含任何数据，如图片、序列化对象等。
+常用命令 # set &amp;lt;key&amp;gt;&amp;lt;value&amp;gt;：添加键值对
+get &amp;lt;key&amp;gt;：查询对应键值
+append &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：将给定的 追加到原值的末尾
+strlen &amp;lt;len&amp;gt;：获得值的长度
+sentnx &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：只有key不存在时，设置 key 值
+incr &amp;lt;key&amp;gt;：将 key 中储存的数字增1（原子操作）
+decr &amp;lt;key&amp;gt;：将 key 中储存的数字减1
+incrby / decrby &amp;lt;key&amp;gt; &amp;lt;步长&amp;gt;：将key中数字按照自定义步长增减
+原子操作：不会被线程调度机制打乱的操作，这种线程一旦开始，就会一直运行到结束，中间不会跳到其他线程。
+mset &amp;lt;key1&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;key2&amp;gt; &amp;lt;value2&amp;gt;：设置多个键值
+mget &amp;lt;key1&amp;gt; &amp;lt;key2&amp;gt; &amp;lt;key3&amp;gt;：同时获取多个 value
+msetnx &amp;lt;key1&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;key2&amp;gt; &amp;lt;value2&amp;gt;：同时设置多个键值，前提 key 不存在
+getrange &amp;lt;key&amp;gt; &amp;lt;起始位置&amp;gt; &amp;lt;结束位置(包括)&amp;gt;：获得值的范围，类似 java 中的 substring
+setrange &amp;lt;key&amp;gt; &amp;lt;起始位置&amp;gt; &amp;lt;value&amp;gt;：用 value 覆盖从起始位置开始的字符串
+setex &amp;lt;key&amp;gt; &amp;lt;过期时间&amp;gt; &amp;lt;value&amp;gt;：设置键值的同时，设置过期时间，单位秒
+getset &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：以旧换新，设置新值的同时获得旧值</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/redis/redis-list/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/redis/redis-list/</guid>
+      <description>Redis List # 是简单的字符串列表，按照插入顺序排序，底层是双向链表，对两端操作性能高，索引下标操作中间性能会比较差。
+常用命令 # lpush/rpush &amp;lt;key&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;value2&amp;gt; &amp;lt;value3&amp;gt;：从左边或值右边插入值
+lpop/rpop &amp;lt;key&amp;gt;：吐值
+rpoplpush &amp;lt;key1&amp;gt; &amp;lt;key2&amp;gt;：从列表右边吐出一个值，插到 列表左边
+lrange &amp;lt;key&amp;gt; &amp;lt;start&amp;gt; &amp;lt;stop&amp;gt;：按照索引下标获得元素（从左到右），0~-1取所有值
+lindex &amp;lt;key&amp;gt; &amp;lt;index&amp;gt;：按照索引下标获得元素（从左到右）
+llen &amp;lt;key&amp;gt;：获得列表长度
+linsert &amp;lt;key&amp;gt; after/before &amp;lt;value&amp;gt; &amp;lt;newvalue&amp;gt; 在 的前/后面插入 lrem &amp;lt;key&amp;gt; &amp;lt;n&amp;gt; &amp;lt;value&amp;gt;：从左边删除 n 个 value（从左到右）
+lset &amp;lt;key&amp;gt; &amp;lt;index&amp;gt; &amp;lt;value&amp;gt;：将列表 key 下标为 index 的值替换成 value
+List 数据结构 # List的数据结构是 quickList，但不安全是，当数据元素比较少的时候，元素都是在连续内存空间存储，这时候的结构是 zipList，即压缩列表。当元素比较多的时候，会产生多个 zipList，然后将多个 zipList 以链表的形式存储。如下图：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/redis/redis-set/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/redis/redis-set/</guid>
+      <description>Redis Set # 常用命令 # sadd &amp;lt;key&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;value2&amp;gt;：将一个或多个 member 元素加入到集合 key 中，已经存在的 member 元素将被忽略
+smembers &amp;lt;key&amp;gt;：取出集合的所有值
+sismember &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：判断 key 中是否有 value，有1无0
+scard &amp;lt;key&amp;gt;：返回该集合中元素的个数
+srem &amp;lt;key&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;value2&amp;gt; &amp;lt;value3&amp;gt;：删除集合中的指定元素
+spop &amp;lt;key&amp;gt;：随机从集合中吐出一个值
+srandmember &amp;lt;key&amp;gt; &amp;lt;n&amp;gt;：随机从集合中取出 n 个值，不会从集合中删除
+smove &amp;lt;source&amp;gt; &amp;lt;destination&amp;gt; &amp;lt;value&amp;gt;：集合中的某个值移动到另一个集合
+sinter &amp;lt;key1&amp;gt; &amp;lt;key2&amp;gt;：返回两个集合的交集元素
+sunion &amp;lt;key1&amp;gt; &amp;lt;key2&amp;gt;：返回两个集合的并集元素
+sdiff &amp;lt;key1&amp;gt; &amp;lt;key2&amp;gt;：返回两个集合的差集元素
+数据结构 # Set 数据结构是 dict 字典，字典是用哈希表实现的。
+Java 中 HashSet 的内部实现使用的是 HashMap，但是所有的 value 都指向同一个对象。Redis 的 set 结构同样如此，内部也是用 hash 结构，所有的 value 都指向同一个内部值。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/redis/redis-hash/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/redis/redis-hash/</guid>
+      <description>Hash 哈希 # 常用命令 # hset &amp;lt;key&amp;gt; &amp;lt;field&amp;gt; &amp;lt;value&amp;gt;：给 集合中的 赋值
+hget &amp;lt;key1&amp;gt; &amp;lt;field&amp;gt; &amp;lt;value&amp;gt;：从 key1 中取出 value
+hmet &amp;lt;key1&amp;gt; &amp;lt;field1&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;field2&amp;gt; &amp;lt;value2&amp;gt;：批量设置 hash 的值
+hexists &amp;lt;key1&amp;gt; &amp;lt;field&amp;gt;：判断 key1 中是否有 field 存在
+hkeys &amp;lt;key&amp;gt;：列出 hash 集合中的所有 field
+hvals &amp;lt;key&amp;gt;：列出 hash 集合中的所有 value
+hincrby &amp;lt;key&amp;gt; &amp;lt;field&amp;gt; &amp;lt;increment&amp;gt;：为 field 上的值加上 increment
+hsetnx &amp;lt;key&amp;gt; &amp;lt;field&amp;gt; &amp;lt;value&amp;gt;：同 hset，前提 field 不存在才能成功
+数据结构 # Hash 类型对应的数据结构是两种：ziplist（压缩列表），hashtable（哈希表）。当 field-value 长度较短且个数较少时，使用 ziplist，否则使用 hashtable。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/redis/redis-zset/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/redis/redis-zset/</guid>
+      <description>Redis Zset 有序集合（sorted set） # 常用命令 # zadd &amp;lt;key&amp;gt; &amp;lt;score1&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;score2&amp;gt; &amp;lt;value2&amp;gt;： 将一个或者多个 value 和 score 加入到 key 中
+zrange &amp;lt;key&amp;gt; &amp;lt;start&amp;gt; &amp;lt;stop&amp;gt; [withscores]：返回下标在 和 之间的元素，加 withscores 则返回 score
+zrangebyscore &amp;lt;key&amp;gt; &amp;lt;min&amp;gt; &amp;lt;max&amp;gt; [withscores] [limit offset count]：返回 score 在 和 之间的
+zrevrangebyscore &amp;lt;key&amp;gt; &amp;lt;max&amp;gt; &amp;lt;min&amp;gt; [withscores] [limit offset count]：逆序返回 score 在 和 之间的
+zincrby &amp;lt;key&amp;gt; &amp;lt;increment&amp;gt; &amp;lt;value&amp;gt;：为元素的 score 加上 增量
+zrem &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：删除该集合下指定值的元素
+zcount &amp;lt;key&amp;gt; &amp;lt;min&amp;gt; &amp;lt;max&amp;gt;：统计该集合分数区间内的元素个数
+zrank &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：返回该值在集合中的排名，从 0 开始</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/redis/redis-%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/redis/redis-%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/</guid>
+      <description> 发布与订阅 # 发布订阅命令行实现 # 打开两个终端，一个作为发布者，一个作为订阅者
+订阅者终端订阅 # 订阅者终端订阅 subscribe channel1 发布者客户端给 channel1 发布消息 # 给 channel1 发布消息，其中返回的 1 是订阅者数量 publish channel1 hello 订阅方收到消息 </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/redis/redis-jedis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/redis/redis-jedis/</guid>
+      <description>Redis Jedis # 连接测试 # 连接前需要去配置文件中修改两个参数，并需要确定 Redis 所在主机防火墙是否关闭。如果直接本机连接，则无需修改这些参数。
+配置文件修改 # mac 中配置文件地址 （brew 安装）：
+vi /opt/homebrew/etc/redis.conf 注释该条命令，否则绑定本机，只有本机能够连接：
+# 原始 bind 127.0.0.1 # 修改后 # bind 127.0.0.1 将 protected-mode 参数值设置为 no
+# 原始 protected-mode yes # 修改后 protected-mode no 检查防火墙是否关闭 # 检查防火墙状态 systemctl status firewalld 关闭防火墙 systemctl stop firewalld 代码测试连接 # public void testConnect() { Jedis jedis = new Jedis(&amp;#34;127.0.0.1&amp;#34;, 6379); String value = jedis.ping(); // 测试连接是否成功 System.out.println( value ); } 模拟验证码发送 # 需求： # 输入手机号，发送随机生成的 6 位数字码，2 分钟有效。 输入验证码，点击验证，返回成功或失败。 每个手机号每天只能输入三次。 public class VerifyCode { public static void main(String[] args) { verifyCode(&amp;#34;17729989359&amp;#34;); checkCode(&amp;#34;17729989359&amp;#34;, &amp;#34;872775&amp;#34;); } // 输入验证码，点击验证，返回成功或失败 public static void checkCode(String phone, String code) { // 连接 redis Jedis jedis = new Jedis(&amp;#34;127.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/redis/springboot-%E6%95%B4%E5%90%88-redis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/redis/springboot-%E6%95%B4%E5%90%88-redis/</guid>
+      <description>SpringBoot 整合 Redis # 在 SpringBoot2.x 之后，原来使用的 jedis 被替换成了 lettuce。
+jedis 和 leetuce 的区别
+jedis：采用的直连，多个线程操作的话是不安全的，如果想要避免不安全，那就使用 jedis pool 连接池，这更像 BIO lettuce：采用 netty， 实例可以在多个线程中共享，不存在线程不安全的情况！可以减少线程数据了，更像 Nio 模式 创建 SpringBoot 项目 # New Project # 配置 Redis 连接相关信息 # 在 application.yml 中配置 Redis 相关的连接信息，具体如下：
+spring: redis: host: 127.0.0.1 port: 6379 lettuce: pool: max-active: 8 #最大连接 max-idle: 8 #最大空闲连接 min-idle: 0 #最小空闲连接 max-wait: 100ms #连接等待时间 检查 Maven 依赖 # 当 redis 进行 Jackson 序列化时需要 Jackson 依赖。连接池的具体作用谷歌如下：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/redis/redis-%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/redis/redis-%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81%E6%9C%BA%E5%88%B6/</guid>
+      <description>Redis 事务和锁机制 # Redis事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。
+Redis事务的主要作用就是串联多个命令防止别的命令插队。
+multi、exec、discard # 从输入 multi 命令开始，输入的命令都会依次进入命令队列中，但不会执行，直到输入 exec 后，Redis会将之前的命令队列中的命令依次执行。组队的过程中可以通过 discard 来放弃组队。
+案例 # 组队成功，提交成功
+组队阶段报错，提交失败
+组队成功，提交有成功有失败情况
+事务的错误处理 # 组队中某个命令出现了报告错误，执行时整个的所有队列都会被取消。
+如果执行阶段某个命令报出了错误，则只有报错的命令不会被执行，而其他的命令都会执行，不会回滚。</description>
+    </item>
+    
+  </channel>
+</rss>

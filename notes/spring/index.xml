@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Spring on 噗通 🍀</title>
+    <link>https://pp-tt.github.io.git/notes/spring/</link>
+    <description>Recent content in Spring on 噗通 🍀</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://pp-tt.github.io.git/notes/spring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/spring/beanfactory%E4%B8%8Eapplicationcontext/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/spring/beanfactory%E4%B8%8Eapplicationcontext/</guid>
+      <description>BeanFactory 与 ApplicationContext # BeanFactory # 什么是 BeanFactory # BeanFactory 是 ApplicationContext 的父接口，它是 Spring 的核心容器，主要的 Spring 实现都组合了它的功能。
+BeanFactory 能做什么 # 类的方法如下图，表面上只有 getBean()，实际上控制反转、依赖注入、Bean 的生命周期等各种功能都由它的实现类来实现。
+ApplicationContext # 如下图，ApplicationContext 的扩展功能主要体现在它的四个父接口上。
+MessageSource：处理国际化资源，如程序支持多种语言、翻译
+ResourcePatternResolver：根据通配符去匹配资源
+file：磁盘路径下找资源
+classpsth：类路径下找资源
+classpsth*：类和jar包下找资源
+ApplicationEventPublisher：用来发布事件对象，通常可以作为事件解藕
+EnvironmentCapable：处理环境信息，如yaml、yml等
+总结 # BeanFactory 与 ApplicationContext 之间并不仅仅是简单的接口继承关系，ApplicationContext 组合并扩展了 BeanFactory 的功能。除此之外，通过 ApplicationEventPublisher 学到一种解藕技术。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/spring/nacos-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/spring/nacos-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</guid>
+      <description>1. Nacos 作为配置中心步骤 # 1.1 引入依赖 # &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-cloud-starter-bootstrap&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 1.2 创建一个 bootstrap.properties # spring.cloud.nacos.config.server-addr=127.0.0.1:8848 # nacos 服务地址 spring.application.name=gulimall-coupon # 应用名 1.3 添加配置中心数据集 # 给配置中心添加一个数据集（Data Id），默认是应用名.properties
+1.4 动态获取配置 # @RefreshScope：动态获取并刷新配置
+@Value(&amp;quot;${配置项名}&amp;quot;)：获取到配置
+如果配置中心和当前应用配置文件中都设置了相同的项，优先使用配置中心的配置。
+@RefreshScope	// 动态获取并刷新配置 @RestController @RequestMapping(&amp;#34;coupon/coupon&amp;#34;) public class CouponController { @Autowired private CouponService couponService; @Value(&amp;#34;${coupon.user.name}&amp;#34;) // 获取到配置 private String username; @Value(&amp;#34;${coupon.user.age}&amp;#34;) private Integer age; ... } 2. 详细了解 # 2.1 命名空间 # 用于进行配置隔离，不用命名空间下，可以存在相同的 Group 或 Data ID 的配置。Namespace 的常用场景之一是不同环境的配置区分隔离，例如开发环境和生产环境的资源隔离等。默认配置空间是 public。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/spring/open-feign-%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/spring/open-feign-%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B/</guid>
+      <description>官方文档有个特别简单的快速入门示例： 官方示例，这里我就我的项目总结一般使用步骤。
+导入依赖 # &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-cloud-starter-openfeign&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; 声明接口，并使用 # 注意使用注解@FeignClient(&amp;quot;gulimall-coupon&amp;quot;) # @FeignClient(&amp;#34;gulimall-coupon&amp;#34;) // 要调用的模块名 public interface CouponFeignService { @RequestMapping(&amp;#34;coupon/coupon/member/list&amp;#34;) // 这里是 controller 中方法的引用，但是值要换成全路径 public R memberCoupon(); } contrller 如下：
+@RestController @RequestMapping(&amp;#34;member/member&amp;#34;) public class MemberController { // 被调用的方法 @RequestMapping(&amp;#34;/coupons&amp;#34;) public R test() { return R.ok().put(&amp;#34;coupons&amp;#34;, couponFeignService.memberCoupon().get(&amp;#34;coupon&amp;#34;)); } } 调用接口 # @RestController @RequestMapping(&amp;#34;member/member&amp;#34;) public class MemberController { @Autowired CouponFeignService couponFeignService; @RequestMapping(&amp;#34;/coupons&amp;#34;) public R test() { return R.ok().put(&amp;#34;coupons&amp;#34;, couponFeignService.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/spring/springboot-%E6%95%B4%E5%90%88-mybatis-plus/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/spring/springboot-%E6%95%B4%E5%90%88-mybatis-plus/</guid>
+      <description> 导入依赖 # &amp;lt;!-- mybatis-plus 依赖 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.baomidou&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mybatis-plus-boot-starter&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.2.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- 数据库驱动 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;8.0.28&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 配置 # 配置注解数据源 # @MapperScan(&amp;#34;XXXX/XXXXX/XXXX/dao&amp;#34;) @SpringBootApplication public class XXXXXApplication { public static void main(String[] args) { SpringApplication.run(XXXXXApplication.class, args); } } 配置 yml 文件 # # mysql 连接 spring: datasource: driver-class-name: com.mysql.jdbc.Driver url: jdbc:mysql://localhost:3306/gulimall_wms username: root password: root # mybatis-plus 配置 mybatis-plus: mapper-locations: classpath:/mapper/**/*.xml	# xml 映射文件 global-config: db-config: id-type: auto # 主键自增 </description>
+    </item>
+    
+  </channel>
+</rss>
