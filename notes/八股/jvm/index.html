@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="内存区域 # 运行时数据区域 # Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成若干个不同的数据区域。
+线程私有的：
+程序计数器 虚拟机栈 本地方法栈 线程共享的：
+堆 方法区 直接内存 (非运行时数据区的一部分) 程序计数器 # 程序计数器是一块较小的内存空间，可以看作是当前线程所执行的字节码的行号指示器。程序计数器是唯一一个不会出现 OutOfMemoryError 的内存区域，它的生命周期随着线程的创建而创建，随着线程的结束而死亡。
+Java 虚拟机栈 # 与程序计数器一样，Java 虚拟机栈（后文简称栈）也是线程私有的，它的生命周期和线程相同，随着线程的创建而创建，随着线程的死亡而死亡。
+本地方法栈 # 和虚拟机栈所发挥的作用非常相似，区别是： 虚拟机栈为虚拟机执行 Java 方法 （也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务。
+堆 # Java 虚拟机所管理的内存中最大的一块，Java 堆是所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例以及数组都在这里分配内存。
+方法区 # 方法区属于是 JVM 运行时数据区域的一块逻辑区域，是各个线程共享的内存区域。
+方法区和永久代以及元空间是什么关系呢？ # 方法区和永久代以及元空间的关系很像 Java 中接口和类的关系，类实现了接口，这里的类就可以看作是永久代和元空间，接口可以看作是方法区，也就是说永久代以及元空间是 HotSpot 虚拟机对虚拟机规范中方法区的两种实现方式。并且，永久代是 JDK 1.8 之前的方法区实现，JDK 1.8 及以后方法区的实现变成了元空间。
+为什么要将永久代 (PermGen) 替换为元空间 (MetaSpace) 呢? # 整个永久代有一个 JVM 本身设置的固定大小上限，无法进行调整，而元空间使用的是本地内存，受本机可用内存的限制，虽然元空间仍旧可能溢出，但是比原来出现的几率会更小。 元空间里面存放的是类的元数据，这样加载多少类的元数据就不由 MaxPermSize 控制了, 而由系统的实际可用空间来控制，这样能加载的类就更多了。 方法区常用参数有哪些？ # JDK 1." name="description"/>
+<meta content="#FFFFFF" name="theme-color"/>
+<meta content="light dark" name="color-scheme"/><meta content="" property="og:title"/>
+<meta content="内存区域 # 运行时数据区域 # Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成若干个不同的数据区域。
+线程私有的：
+程序计数器 虚拟机栈 本地方法栈 线程共享的：
+堆 方法区 直接内存 (非运行时数据区的一部分) 程序计数器 # 程序计数器是一块较小的内存空间，可以看作是当前线程所执行的字节码的行号指示器。程序计数器是唯一一个不会出现 OutOfMemoryError 的内存区域，它的生命周期随着线程的创建而创建，随着线程的结束而死亡。
+Java 虚拟机栈 # 与程序计数器一样，Java 虚拟机栈（后文简称栈）也是线程私有的，它的生命周期和线程相同，随着线程的创建而创建，随着线程的死亡而死亡。
+本地方法栈 # 和虚拟机栈所发挥的作用非常相似，区别是： 虚拟机栈为虚拟机执行 Java 方法 （也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务。
+堆 # Java 虚拟机所管理的内存中最大的一块，Java 堆是所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例以及数组都在这里分配内存。
+方法区 # 方法区属于是 JVM 运行时数据区域的一块逻辑区域，是各个线程共享的内存区域。
+方法区和永久代以及元空间是什么关系呢？ # 方法区和永久代以及元空间的关系很像 Java 中接口和类的关系，类实现了接口，这里的类就可以看作是永久代和元空间，接口可以看作是方法区，也就是说永久代以及元空间是 HotSpot 虚拟机对虚拟机规范中方法区的两种实现方式。并且，永久代是 JDK 1.8 之前的方法区实现，JDK 1.8 及以后方法区的实现变成了元空间。
+为什么要将永久代 (PermGen) 替换为元空间 (MetaSpace) 呢? # 整个永久代有一个 JVM 本身设置的固定大小上限，无法进行调整，而元空间使用的是本地内存，受本机可用内存的限制，虽然元空间仍旧可能溢出，但是比原来出现的几率会更小。 元空间里面存放的是类的元数据，这样加载多少类的元数据就不由 MaxPermSize 控制了, 而由系统的实际可用空间来控制，这样能加载的类就更多了。 方法区常用参数有哪些？ # JDK 1." property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/jvm/" property="og:url"/><meta content="notes" property="article:section"/>
+<title>Jvm | 噗通 🍀</title>
+<link href="/manifest.json" rel="manifest"/>
+<link href="/favicon.png" rel="icon" type="image/x-icon"/>
+<link crossorigin="anonymous" href="/book.min.a82d7e77ceb134d151c4d7e381eeb30623fbd5a524d58c584d8716ecec0205bd.css" integrity="sha256-qC1+d86xNNFRxNfjge6zBiP71aUk1YxYTYcW7OwCBb0=" rel="stylesheet"/>
+<script defer="" src="/flexsearch.min.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-3vuMjTULYUOPBzRK7mtJx3jRGjPrfusoH1UQ190Uuq4=" src="/zh.search.min.defb8c8d350b61438f07344aee6b49c778d11a33eb7eeb281f5510d7dd14baae.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+</head>
+<body dir="ltr">
+<input class="hidden toggle" id="menu-control" type="checkbox"/>
+<input class="hidden toggle" id="toc-control" type="checkbox"/>
+<main class="container flex">
+<aside class="book-menu">
+<div class="book-menu-content">
+<nav>
+<h2 class="book-brand">
+<a class="flex align-center" href="/"><span>噗通 🍀</span>
+</a>
+</h2>
+<div class="book-search">
+<input aria-label="Search" data-hotkeys="s/" id="book-search-input" maxlength="64" placeholder="Search" type="text"/>
+<div class="book-search-spinner hidden"></div>
+<ul id="book-search-results"></ul>
+</div>
+<ul>
+<li class="book-section-flat">
+<span>--学习笔记--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-0f70934a6e5284fbc93928c61dfe9c83" type="checkbox"/>
+<label class="flex justify-between" for="section-0f70934a6e5284fbc93928c61dfe9c83">
+<a class="" role="button">Java</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/java/arraylist-%E6%89%A9%E5%AE%B9%E8%A7%84%E5%88%99/">Array List 扩容规则</a>
+</li>
+<li>
+<a class="" href="/notes/java/hashmap-%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">Hash Map 相关学习总结</a>
+</li>
+<li>
+<a class="" href="/notes/java/java-%E5%8F%8D%E5%B0%84/">Java 反射</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-4364152b7ab5995d509c0b7b811005c4" type="checkbox"/>
+<label class="flex justify-between" for="section-4364152b7ab5995d509c0b7b811005c4">
+<a class="" role="button">JVM</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/jvm/%E4%BB%80%E4%B9%88%E6%98%AF-jvm/">什么是 Jvm</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/">程序计数器</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/">虚拟机栈</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88-/">本地方法栈</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%A0%86/">堆</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E6%96%B9%E6%B3%95%E5%8C%BA/">方法区</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/">直接内存</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">垃圾回收</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/">垃圾回收器</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-b7444509cb631180897a34f028407c2c" type="checkbox"/>
+<label class="flex justify-between" for="section-b7444509cb631180897a34f028407c2c">
+<a class="" role="button">设计模式</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE%E9%BB%91%E9%A9%AC/">Uml 图（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E9%BB%91%E9%A9%AC/">设计原则（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/">创建型模式（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/">结构型模式（黑马）</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/">行为型模式（黑马）</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-61661238f18c0095524962a5d1d6e676" type="checkbox"/>
+<label class="flex justify-between" for="section-61661238f18c0095524962a5d1d6e676">
+<a class="" role="button">Spring</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/spring/beanfactory%E4%B8%8Eapplicationcontext/">Bean Factory与 Application Context</a>
+</li>
+<li>
+<a class="" href="/notes/spring/nacos-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/">Nacos 配置中心</a>
+</li>
+<li>
+<a class="" href="/notes/spring/open-feign-%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B/">Open Feign 远程调用示例</a>
+</li>
+<li>
+<a class="" href="/notes/spring/springboot-%E6%95%B4%E5%90%88-mybatis-plus/">Spring Boot 整合 My Batis Plus</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-58f730a0b22fcdc7a886db614d77f88c" type="checkbox"/>
+<label class="flex justify-between" for="section-58f730a0b22fcdc7a886db614d77f88c">
+<a class="" role="button">代码随想录刷题</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/leetcode/day001-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/">Day001 第一章数组</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day002-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/">Day002 第一章数组</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day003-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/">Day003 第二章链表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day004-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/">Day004 第二章链表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day006-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/">Day006 第三章哈希表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day007-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/">Day007 第三章哈希表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day008-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/">Day008 第四章字符串</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day009-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/">Day009 第四章字符串</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day010-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day010 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day011-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day011 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day013-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day013 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day014-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day014 第六章二叉树</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day015-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day015 第六章二叉树</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day017-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day017 第六章二叉树</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-4f95435d3a74007e2c985ea455bbb6e6" type="checkbox"/>
+<label class="flex justify-between" for="section-4f95435d3a74007e2c985ea455bbb6e6">
+<a class="" role="button">MyBatisPlus</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">MP快速入门</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E4%B8%80%E8%88%AC%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C/">一般查询操作</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">分页查询</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/">逻辑删除</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/">条件查询</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%B0%81%E8%A3%85service%E4%BD%BF%E7%94%A8/">封装service使用</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-e2ca0d138d67d9d3ae55da25ac044829" type="checkbox"/>
+<label class="flex justify-between" for="section-e2ca0d138d67d9d3ae55da25ac044829">
+<a class="" role="button">Redis</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/redis/nosql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E4%BB%8B/">No Sql数据库简介</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-key/">Redis Key</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-string/">Redis String</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-list/">Redis List</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-set/">Redis Set</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-hash/">Redis Hash</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-zset/">Redis Zset</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/">Redis 发布与订阅</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-jedis/">Redis Jedis</a>
+</li>
+<li>
+<a class="" href="/notes/redis/springboot-%E6%95%B4%E5%90%88-redis/">Spring Boot 整合 Redis</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81%E6%9C%BA%E5%88%B6/">Redis 事务和锁机制</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-39abd0d44427d4a54e694a2b3f22d967" type="checkbox"/>
+<label class="flex justify-between" for="section-39abd0d44427d4a54e694a2b3f22d967">
+<a class="" role="button">TensorFlow</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%80/">Tensor Flow 笔记（一）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%8C/">Tensor Flow 笔记（二）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%89/">Tensor Flow 笔记（三）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E5%9B%9B/">Tensor Flow 笔记（四）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%94/">Tensor Flow 笔记（五）</a>
+</li>
+</ul>
+</li>
+<li>
+<input checked="" class="toggle" id="section-a42f4efe12b0d964f8de7588b38cb659" type="checkbox"/>
+<label class="flex justify-between" for="section-a42f4efe12b0d964f8de7588b38cb659">
+<a class="" role="button">Java八股</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/%E5%B9%B6%E5%8F%91/">Concurrence</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/mybatis/">MyBatis</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/mysql/">MySQL</a>
+</li>
+<li>
+<a class="active" href="/notes/%E5%85%AB%E8%82%A1/jvm/">Jvm</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/redis/">Redis</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-3907b2cf55ed520ad784e24525c8baa4" type="checkbox"/>
+<label class="flex justify-between" for="section-3907b2cf55ed520ad784e24525c8baa4">
+<a class="" role="button">Swift</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/swift/swiftui-%E5%B8%B8%E7%94%A8%E8%A7%86%E5%9B%BE-views/">Swift Ui 常用视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E4%BF%A1%E6%81%AF%E8%A7%86%E5%9B%BE-views/">Swift Ui 信息视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E5%B1%82%E7%BA%A7%E8%A7%86%E5%9B%BE-views/">Swift Ui 层级视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E6%8E%A7%E5%88%B6%E8%A7%86%E5%9B%BE-views/">Swift Ui 控制视图 Views</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="book-section-flat">
+<span>--解决方案--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-f1d4602254471b9d0da445dd468cd456" type="checkbox"/>
+<label class="flex justify-between" for="section-f1d4602254471b9d0da445dd468cd456">
+<a class="" role="button">环境配置</a>
+</label>
+<ul>
+<li>
+<a class="" href="/solution/environment/apple-m%E7%B3%BB%E5%88%97%E8%8A%AF%E7%89%87%E5%AE%89%E8%A3%85-pyqt/">Apple M系列芯片安装 Pyqt</a>
+</li>
+<li>
+<a class="" href="/solution/environment/docker-%E5%AE%89%E8%A3%85-redis-/">Docker 安装 Redis</a>
+</li>
+<li>
+<a class="" href="/solution/environment/hugo-%E4%B8%BB%E9%A2%98-hugo-book-%E4%B8%AD%E8%8B%B1%E6%96%87%E6%90%9C%E7%B4%A2%E9%85%8D%E7%BD%AE/">Hugo 主题 Hugo Book 中英文搜索配置</a>
+</li>
+<li>
+<a class="" href="/solution/environment/iterm2-oh-my-zsh-%E9%85%8D%E7%BD%AE/">I Term2 Oh My Zsh 配置</a>
+</li>
+<li>
+<a class="" href="/solution/environment/m1-%E8%8A%AF%E7%89%87-docker-%E5%AE%89%E8%A3%85-mysql5.7-/">M1 芯片 Docker 安装 Mysql5.7</a>
+</li>
+<li>
+<a class="" href="/solution/environment/mac-idea-%E5%BF%AB%E6%8D%B7%E9%94%AE%E4%BD%8D/">MAC Idea 快捷键位</a>
+</li>
+<li>
+<a class="" href="/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">内网穿透</a>
+</li>
+<li>
+<a class="" href="/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E7%9A%84%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE/">内网穿透的自启动设置</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-5a76a664ba4855b79d3c1bc77e5b08b1" type="checkbox"/>
+<label class="flex justify-between" for="section-5a76a664ba4855b79d3c1bc77e5b08b1">
+<a class="" role="button">杂乱问题</a>
+</label>
+<ul>
+<li>
+<a class="" href="/solution/problems/brew-%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Brew 一些常用命令</a>
+</li>
+<li>
+<a class="" href="/solution/problems/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Docker 常用命令</a>
+</li>
+<li>
+<a class="" href="/solution/problems/git-github-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">Git Git Hub 相关命令整理</a>
+</li>
+<li>
+<a class="" href="/solution/problems/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%89%AB%E7%9B%B2/">面试题扫盲</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="book-section-flat">
+<span>--其他记录--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-9ef4d2063ddc9af7785b193647f22260" type="checkbox"/>
+<label class="flex justify-between" for="section-9ef4d2063ddc9af7785b193647f22260">
+<a class="" role="button">我和阿刁</a>
+</label>
+<ul>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%812022%E5%B9%B4%E7%9A%84%E7%94%9F%E6%97%A5%E7%9A%84%E5%B0%8F%E8%AE%BA%E6%96%87/">关于阿刁2022年的生日的小论文</a>
+</li>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">关于阿刁的2021年度总结</a>
+</li>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842022%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">关于阿刁的2022年度总结</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+</div>
+</aside>
+<div class="book-page">
+<header class="book-header">
+<div class="flex align-center justify-between">
+<label for="menu-control">
+<img alt="Menu" class="book-icon" src="/svg/menu.svg"/>
+</label>
+<strong>Jvm</strong>
+<label for="toc-control">
+<img alt="Table of Contents" class="book-icon" src="/svg/toc.svg"/>
+</label>
+</div>
+<aside class="hidden clearfix">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#内存区域">内存区域</a>
+<ul>
+<li><a href="#运行时数据区域">运行时数据区域</a></li>
+<li><a href="#程序计数器">程序计数器</a></li>
+<li><a href="#java-虚拟机栈">Java 虚拟机栈</a></li>
+<li><a href="#本地方法栈">本地方法栈</a></li>
+<li><a href="#堆">堆</a></li>
+<li><a href="#方法区">方法区</a></li>
+<li><a href="#方法区和永久代以及元空间是什么关系呢">方法区和永久代以及元空间是什么关系呢？</a></li>
+<li><a href="#为什么要将永久代-permgen-替换为元空间-metaspace-呢">为什么要将永久代 (PermGen) 替换为元空间 (MetaSpace) 呢?</a></li>
+<li><a href="#方法区常用参数有哪些">方法区常用参数有哪些？</a></li>
+<li><a href="#运行时常量池">运行时常量池</a></li>
+<li><a href="#字符串常量池">字符串常量池</a></li>
+<li><a href="#jdk-17-为什么要将字符串常量池移动到堆中">JDK 1.7 为什么要将字符串常量池移动到堆中？</a></li>
+<li><a href="#直接内存">直接内存</a></li>
+<li><a href="#对象的创建">对象的创建</a>
+<ul>
+<li><a href="#step1类加载检查">Step1:类加载检查</a></li>
+<li><a href="#step2分配内存">Step2:分配内存</a></li>
+<li><a href="#step3初始化零值">Step3:初始化零值</a></li>
+<li><a href="#step4设置对象头">Step4:设置对象头</a></li>
+<li><a href="#step5执行-init-方法">Step5:执行 init 方法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#jvm-垃圾回收详解">JVM 垃圾回收详解</a>
+<ul>
+<li><a href="#堆空间的基本结构">堆空间的基本结构</a></li>
+</ul>
+</li>
+<li><a href="#内存分配和回收原则">内存分配和回收原则</a>
+<ul>
+<li><a href="#对象优先在-eden-区分配">对象优先在 Eden 区分配</a></li>
+<li><a href="#大对象直接进入老年代">大对象直接进入老年代</a></li>
+<li><a href="#长期存活的对象将进入老年代">长期存活的对象将进入老年代</a></li>
+<li><a href="#gc-分类">GC 分类</a></li>
+<li><a href="#空间分配担保">空间分配担保</a></li>
+</ul>
+</li>
+<li><a href="#死亡对象判断方法">死亡对象判断方法</a>
+<ul>
+<li><a href="#引用计数法">引用计数法</a></li>
+<li><a href="#可达性分析算法">可达性分析算法</a></li>
+<li><a href="#引用类型总结">引用类型总结</a></li>
+<li><a href="#如何判断一个常量是废弃常量">如何判断一个常量是废弃常量？</a></li>
+<li><a href="#如何判断一个类是无用的类">如何判断一个类是无用的类</a></li>
+<li><a href="#垃圾回收算法">垃圾回收算法</a>
+<ul>
+<li><a href="#标记清除">标记清除</a></li>
+<li><a href="#标记整理">标记整理</a></li>
+<li><a href="#标记复制">标记复制</a></li>
+<li><a href="#分代回收">分代回收</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#垃圾收集器">垃圾收集器</a>
+<ul>
+<li><a href="#serial-收集器">Serial 收集器</a></li>
+<li><a href="#parnew-收集器">ParNew 收集器</a></li>
+<li><a href="#parallel-scavenge-收集器">Parallel Scavenge 收集器</a></li>
+<li><a href="#serial-old-收集器">Serial Old 收集器</a></li>
+<li><a href="#parallel-old-收集器">Parallel Old 收集器</a></li>
+<li><a href="#cms-收集器">CMS 收集器</a></li>
+<li><a href="#g1-收集器">G1 收集器</a></li>
+<li><a href="#zgc-收集器">ZGC 收集器</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</aside>
+</header>
+<article class="markdown"><h2 id="内存区域">
+  内存区域
+  <a class="anchor" href="#%e5%86%85%e5%ad%98%e5%8c%ba%e5%9f%9f">#</a>
+</h2>
+<h3 id="运行时数据区域">
+  运行时数据区域
+  <a class="anchor" href="#%e8%bf%90%e8%a1%8c%e6%97%b6%e6%95%b0%e6%8d%ae%e5%8c%ba%e5%9f%9f">#</a>
+</h3>
+<p>Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成若干个不同的数据区域。</p>
+<p><strong>线程私有的：</strong></p>
+<ul>
+<li>程序计数器</li>
+<li>虚拟机栈</li>
+<li>本地方法栈</li>
+</ul>
+<p><strong>线程共享的：</strong></p>
+<ul>
+<li>堆</li>
+<li>方法区</li>
+<li>直接内存 (非运行时数据区的一部分)</li>
+</ul>
+<h3 id="程序计数器">
+  程序计数器
+  <a class="anchor" href="#%e7%a8%8b%e5%ba%8f%e8%ae%a1%e6%95%b0%e5%99%a8">#</a>
+</h3>
+<p>程序计数器是一块较小的内存空间，可以看作是当前线程所执行的字节码的行号指示器。程序计数器是唯一一个不会出现 <code>OutOfMemoryError</code> 的内存区域，它的生命周期随着线程的创建而创建，随着线程的结束而死亡。</p>
+<h3 id="java-虚拟机栈">
+  Java 虚拟机栈
+  <a class="anchor" href="#java-%e8%99%9a%e6%8b%9f%e6%9c%ba%e6%a0%88">#</a>
+</h3>
+<p>与程序计数器一样，Java 虚拟机栈（后文简称栈）也是线程私有的，它的生命周期和线程相同，随着线程的创建而创建，随着线程的死亡而死亡。</p>
+<h3 id="本地方法栈">
+  本地方法栈
+  <a class="anchor" href="#%e6%9c%ac%e5%9c%b0%e6%96%b9%e6%b3%95%e6%a0%88">#</a>
+</h3>
+<p>和虚拟机栈所发挥的作用非常相似，区别是： <strong>虚拟机栈为虚拟机执行 Java 方法 （也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务。</strong></p>
+<h3 id="堆">
+  堆
+  <a class="anchor" href="#%e5%a0%86">#</a>
+</h3>
+<p>Java 虚拟机所管理的内存中最大的一块，Java 堆是所有线程共享的一块内存区域，在虚拟机启动时创建。<strong>此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例以及数组都在这里分配内存。</strong></p>
+<h3 id="方法区">
+  方法区
+  <a class="anchor" href="#%e6%96%b9%e6%b3%95%e5%8c%ba">#</a>
+</h3>
+<p>方法区属于是 JVM 运行时数据区域的一块逻辑区域，是各个线程共享的内存区域。</p>
+<h3 id="方法区和永久代以及元空间是什么关系呢">
+  方法区和永久代以及元空间是什么关系呢？
+  <a class="anchor" href="#%e6%96%b9%e6%b3%95%e5%8c%ba%e5%92%8c%e6%b0%b8%e4%b9%85%e4%bb%a3%e4%bb%a5%e5%8f%8a%e5%85%83%e7%a9%ba%e9%97%b4%e6%98%af%e4%bb%80%e4%b9%88%e5%85%b3%e7%b3%bb%e5%91%a2">#</a>
+</h3>
+<p>方法区和永久代以及元空间的关系很像 Java 中接口和类的关系，类实现了接口，这里的类就可以看作是永久代和元空间，接口可以看作是方法区，也就是说永久代以及元空间是 HotSpot 虚拟机对虚拟机规范中方法区的两种实现方式。并且，永久代是 JDK 1.8 之前的方法区实现，JDK 1.8 及以后方法区的实现变成了元空间。</p>
+<h3 id="为什么要将永久代-permgen-替换为元空间-metaspace-呢">
+  为什么要将永久代 (PermGen) 替换为元空间 (MetaSpace) 呢?
+  <a class="anchor" href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%b0%86%e6%b0%b8%e4%b9%85%e4%bb%a3-permgen-%e6%9b%bf%e6%8d%a2%e4%b8%ba%e5%85%83%e7%a9%ba%e9%97%b4-metaspace-%e5%91%a2">#</a>
+</h3>
+<ul>
+<li>整个永久代有一个 JVM 本身设置的固定大小上限，无法进行调整，而元空间使用的是本地内存，受本机可用内存的限制，虽然元空间仍旧可能溢出，但是比原来出现的几率会更小。</li>
+<li>元空间里面存放的是类的元数据，这样加载多少类的元数据就不由 MaxPermSize 控制了, 而由系统的实际可用空间来控制，这样能加载的类就更多了。</li>
+</ul>
+<h3 id="方法区常用参数有哪些">
+  方法区常用参数有哪些？
+  <a class="anchor" href="#%e6%96%b9%e6%b3%95%e5%8c%ba%e5%b8%b8%e7%94%a8%e5%8f%82%e6%95%b0%e6%9c%89%e5%93%aa%e4%ba%9b">#</a>
+</h3>
+<p>JDK 1.8 的时候，方法区（HotSpot 的永久代）被彻底移除了（JDK1.7 就已经开始了），取而代之是元空间，元空间使用的是本地内存。下面是一些常用参数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">-</span>XX<span style="color:#f92672">:</span>MetaspaceSize<span style="color:#f92672">=</span>N <span style="color:#75715e">//设置 Metaspace 的初始（和最小大小）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#f92672">-</span>XX<span style="color:#f92672">:</span>MaxMetaspaceSize<span style="color:#f92672">=</span>N <span style="color:#75715e">//设置 Metaspace 的最大大小
+</span></span></span></code></pre></div><p>与永久代很大的不同就是，如果不指定大小的话，随着更多类的创建，虚拟机会耗尽所有可用的系统内存。</p>
+<h3 id="运行时常量池">
+  运行时常量池
+  <a class="anchor" href="#%e8%bf%90%e8%a1%8c%e6%97%b6%e5%b8%b8%e9%87%8f%e6%b1%a0">#</a>
+</h3>
+<p>Class 文件中除了有类的版本、字段、方法、接口等描述信息外，还有用于存放编译期生成的各种字面量（Literal）和符号引用（Symbolic Reference）的 <strong>常量池表(Constant Pool Table)</strong> 。</p>
+<p>字面量是源代码中的固定值的表示法，即通过字面我们就能知道其值的含义。字面量包括整数、浮点数和字符串字面量。常见的符号引用包括类符号引用、字段符号引用、方法符号引用、接口方法符号。</p>
+<h3 id="字符串常量池">
+  字符串常量池
+  <a class="anchor" href="#%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%b8%b8%e9%87%8f%e6%b1%a0">#</a>
+</h3>
+<p><strong>字符串常量池</strong> 是 JVM 为了提升性能和减少内存消耗针对字符串（String 类）专门开辟的一块区域，主要目的是为了避免字符串的重复创建。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 在堆中创建字符串对象”ab“
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 将字符串对象”ab“的引用保存在字符串常量池中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>String aa <span style="color:#f92672">=</span> <span style="color:#e6db74">"ab"</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 直接返回字符串常量池中字符串对象”ab“的引用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>String bb <span style="color:#f92672">=</span> <span style="color:#e6db74">"ab"</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>aa<span style="color:#f92672">==</span>bb<span style="color:#f92672">);</span><span style="color:#75715e">// true
+</span></span></span></code></pre></div><p>HotSpot 虚拟机中字符串常量池的实现是 <code>src/hotspot/share/classfile/stringTable.cpp</code> ,<code>StringTable</code> 本质上就是一个<code>HashSet&lt;String&gt;</code> ,容量为 <code>StringTableSize</code>（可以通过 <code>-XX:StringTableSize</code> 参数来设置）。</p>
+<h3 id="jdk-17-为什么要将字符串常量池移动到堆中">
+  JDK 1.7 为什么要将字符串常量池移动到堆中？
+  <a class="anchor" href="#jdk-17-%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%b0%86%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%b8%b8%e9%87%8f%e6%b1%a0%e7%a7%bb%e5%8a%a8%e5%88%b0%e5%a0%86%e4%b8%ad">#</a>
+</h3>
+<p>主要是因为永久代（方法区实现）的 GC 回收效率太低，只有在整堆收集 (Full GC)的时候才会被执行 GC。Java 程序中通常会有大量的被创建的字符串等待回收，将字符串常量池放到堆中，能够更高效及时地回收字符串内存。</p>
+<h3 id="直接内存">
+  直接内存
+  <a class="anchor" href="#%e7%9b%b4%e6%8e%a5%e5%86%85%e5%ad%98">#</a>
+</h3>
+<p>直接内存是一种特殊的内存缓冲区，并不在 Java 堆或方法区中分配的，而是通过 JNI 的方式在本地内存上分配的。直接内存并不是虚拟机运行时数据区的一部分，也不是虚拟机规范中定义的内存区域，但是这部分内存也被频繁地使用。而且也可能导致 <code>OutOfMemoryError</code> 错误出现。</p>
+<h3 id="对象的创建">
+  对象的创建
+  <a class="anchor" href="#%e5%af%b9%e8%b1%a1%e7%9a%84%e5%88%9b%e5%bb%ba">#</a>
+</h3>
+<h4 id="step1类加载检查">
+  Step1:类加载检查
+  <a class="anchor" href="#step1%e7%b1%bb%e5%8a%a0%e8%bd%bd%e6%a3%80%e6%9f%a5">#</a>
+</h4>
+<p>虚拟机遇到一条 new 指令时，首先将去检查这个指令的参数是否能在常量池中定位到这个类的符号引用，并且检查这个符号引用代表的类是否已被加载过、解析和初始化过。如果没有，那必须先执行相应的类加载过程。</p>
+<h4 id="step2分配内存">
+  Step2:分配内存
+  <a class="anchor" href="#step2%e5%88%86%e9%85%8d%e5%86%85%e5%ad%98">#</a>
+</h4>
+<p>在<strong>类加载检查</strong>通过后，接下来虚拟机将为新生对象<strong>分配内存</strong>。对象所需的内存大小在类加载完成后便可确定，为对象分配空间的任务等同于把一块确定大小的内存从 Java 堆中划分出来。<strong>分配方式</strong>有 <strong>“指针碰撞”</strong> 和 <strong>“空闲列表”</strong> 两种，<strong>选择哪种分配方式由 Java 堆是否规整决定，而 Java 堆是否规整又由所采用的垃圾收集器是否带有压缩整理功能决定</strong>。</p>
+<p><strong>内存分配的两种方式</strong> （补充内容，需要掌握）：</p>
+<ul>
+<li>
+<p>指针碰撞 ：</p>
+<ul>
+<li>适用场合 ：堆内存规整（即没有内存碎片）的情况下。</li>
+<li>原理 ：用过的内存全部整合到一边，没有用过的内存放在另一边，中间有一个分界指针，只需要向着没用过的内存方向将该指针移动对象内存大小位置即可。</li>
+<li>使用该分配方式的 GC 收集器：Serial, ParNew</li>
+</ul>
+</li>
+<li>
+<p>空闲列表 ：</p>
+<ul>
+<li>适用场合 ： 堆内存不规整的情况下。</li>
+<li>原理 ：虚拟机会维护一个列表，该列表中会记录哪些内存块是可用的，在分配的时候，找一块儿足够大的内存块儿来划分给对象实例，最后更新列表记录。</li>
+<li>使用该分配方式的 GC 收集器：CMS</li>
+</ul>
+</li>
+</ul>
+<p>选择以上两种方式中的哪一种，取决于 Java 堆内存是否规整。而 Java 堆内存是否规整，取决于 GC 收集器的算法是"标记-清除"，还是"标记-整理"（也称作"标记-压缩"），值得注意的是，复制算法内存也是规整的。</p>
+<h4 id="step3初始化零值">
+  Step3:初始化零值
+  <a class="anchor" href="#step3%e5%88%9d%e5%a7%8b%e5%8c%96%e9%9b%b6%e5%80%bc">#</a>
+</h4>
+<p>内存分配完成后，虚拟机需要将分配到的内存空间都初始化为零值（不包括对象头），这一步操作保证了对象的实例字段在 Java 代码中可以不赋初始值就直接使用，程序能访问到这些字段的数据类型所对应的零值。</p>
+<h4 id="step4设置对象头">
+  Step4:设置对象头
+  <a class="anchor" href="#step4%e8%ae%be%e7%bd%ae%e5%af%b9%e8%b1%a1%e5%a4%b4">#</a>
+</h4>
+<p>初始化零值完成之后，<strong>虚拟机要对对象进行必要的设置</strong>，例如这个对象是哪个类的实例、如何才能找到类的元数据信息、对象的哈希码、对象的 GC 分代年龄等信息。 <strong>这些信息存放在对象头中。</strong> 另外，根据虚拟机当前运行状态的不同，如是否启用偏向锁等，对象头会有不同的设置方式。</p>
+<h4 id="step5执行-init-方法">
+  Step5:执行 init 方法
+  <a class="anchor" href="#step5%e6%89%a7%e8%a1%8c-init-%e6%96%b9%e6%b3%95">#</a>
+</h4>
+<p>在上面工作都完成之后，从虚拟机的视角来看，一个新的对象已经产生了，但从 Java 程序的视角来看，对象创建才刚开始，<code>&lt;init&gt;</code> 方法还没有执行，所有的字段都还为零。所以一般来说，执行 new 指令之后会接着执行 <code>&lt;init&gt;</code> 方法，把对象按照程序员的意愿进行初始化，这样一个真正可用的对象才算完全产生出来。</p>
+<h2 id="jvm-垃圾回收详解">
+  JVM 垃圾回收详解
+  <a class="anchor" href="#jvm-%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e8%af%a6%e8%a7%a3">#</a>
+</h2>
+<h3 id="堆空间的基本结构">
+  堆空间的基本结构
+  <a class="anchor" href="#%e5%a0%86%e7%a9%ba%e9%97%b4%e7%9a%84%e5%9f%ba%e6%9c%ac%e7%bb%93%e6%9e%84">#</a>
+</h3>
+<p>在 JDK 7 版本及 JDK 7 版本之前，堆内存被通常分为下面三部分：</p>
+<ol>
+<li>新生代内存(Young Generation)</li>
+<li>老生代(Old Generation)</li>
+<li>永久代(Permanent Generation)</li>
+</ol>
+<p>下图所示的 Eden 区、两个 Survivor 区 S0 和 S1 都属于新生代，中间一层属于老年代，最下面一层属于永久代。</p>
+<img alt="image-20230322093248464" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202303220932536.png" style="zoom: 33%;"/>
+<p><strong>JDK 8 版本之后 PermGen(永久) 已被 Metaspace(元空间) 取代，元空间使用的是直接内存</strong> 。</p>
+<h2 id="内存分配和回收原则">
+  内存分配和回收原则
+  <a class="anchor" href="#%e5%86%85%e5%ad%98%e5%88%86%e9%85%8d%e5%92%8c%e5%9b%9e%e6%94%b6%e5%8e%9f%e5%88%99">#</a>
+</h2>
+<h3 id="对象优先在-eden-区分配">
+  对象优先在 Eden 区分配
+  <a class="anchor" href="#%e5%af%b9%e8%b1%a1%e4%bc%98%e5%85%88%e5%9c%a8-eden-%e5%8c%ba%e5%88%86%e9%85%8d">#</a>
+</h3>
+<p>大多数情况下，对象在新生代中 Eden 区分配。当 Eden 区没有足够空间进行分配时，虚拟机将发起一次 Minor GC。</p>
+<h3 id="大对象直接进入老年代">
+  大对象直接进入老年代
+  <a class="anchor" href="#%e5%a4%a7%e5%af%b9%e8%b1%a1%e7%9b%b4%e6%8e%a5%e8%bf%9b%e5%85%a5%e8%80%81%e5%b9%b4%e4%bb%a3">#</a>
+</h3>
+<p>大对象就是需要大量连续内存空间的对象（比如：字符串、数组）。</p>
+<p>大对象直接进入老年代主要是为了避免为大对象分配内存时由于分配担保机制带来的复制而降低效率。</p>
+<h3 id="长期存活的对象将进入老年代">
+  长期存活的对象将进入老年代
+  <a class="anchor" href="#%e9%95%bf%e6%9c%9f%e5%ad%98%e6%b4%bb%e7%9a%84%e5%af%b9%e8%b1%a1%e5%b0%86%e8%bf%9b%e5%85%a5%e8%80%81%e5%b9%b4%e4%bb%a3">#</a>
+</h3>
+<p>既然虚拟机采用了分代收集的思想来管理内存，那么内存回收时就必须能识别哪些对象应放在新生代，哪些对象应放在老年代中。为了做到这一点，虚拟机给每个对象一个对象年龄（Age）计数器。</p>
+<p>大部分情况，对象都会首先在 Eden 区域分配。如果对象在 Eden 出生并经过第一次 Minor GC 后仍然能够存活，并且能被 Survivor 容纳的话，将被移动到 Survivor 空间（s0 或者 s1）中，并将对象年龄设为 1(Eden 区-&gt;Survivor 区后对象的初始年龄变为 1)。</p>
+<p>对象在 Survivor 中每熬过一次 MinorGC,年龄就增加 1 岁，当它的年龄增加到一定程度（默认为 15 岁），就会被晋升到老年代中。对象晋升到老年代的年龄阈值，可以通过参数 <code>-XX:MaxTenuringThreshold</code> 来设置。</p>
+<h3 id="gc-分类">
+  GC 分类
+  <a class="anchor" href="#gc-%e5%88%86%e7%b1%bb">#</a>
+</h3>
+<p>针对 HotSpot VM 的实现，它里面的 GC 其实准确分类只有两大种：</p>
+<ul>
+<li>部分收集 (Partial GC)：
+<ul>
+<li>新生代收集（Minor GC / Young GC）：只对新生代进行垃圾收集；</li>
+<li>老年代收集（Major GC / Old GC）：只对老年代进行垃圾收集。需要注意的是 Major GC 在有的语境中也用于指代整堆收集；</li>
+<li>混合收集（Mixed GC）：对整个新生代和部分老年代进行垃圾收集。</li>
+</ul>
+</li>
+<li>整堆收集 (Full GC)：收集整个 Java 堆和方法区。</li>
+</ul>
+<h3 id="空间分配担保">
+  空间分配担保
+  <a class="anchor" href="#%e7%a9%ba%e9%97%b4%e5%88%86%e9%85%8d%e6%8b%85%e4%bf%9d">#</a>
+</h3>
+<p>空间分配担保是为了确保在 Minor GC 之前老年代本身还有容纳新生代所有对象的剩余空间。</p>
+<p>《深入理解 Java 虚拟机》第三章对于空间分配担保的描述如下：</p>
+<blockquote>
+<p>JDK 6 Update 24 之前，在发生 Minor GC 之前，虚拟机必须先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，那这一次 Minor GC 可以确保是安全的。如果不成立，则虚拟机会先查看 <code>-XX:HandlePromotionFailure</code> 参数的设置值是否允许担保失败(Handle Promotion Failure);如果允许，那会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次 Minor GC，尽管这次 Minor GC 是有风险的;如果小于，或者 <code>-XX: HandlePromotionFailure</code> 设置不允许冒险，那这时就要改为进行一次 Full GC。</p>
+<p>JDK 6 Update 24 之后的规则变为只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小，就会进行 Minor GC，否则将进行 Full GC。</p>
+</blockquote>
+<h2 id="死亡对象判断方法">
+  死亡对象判断方法
+  <a class="anchor" href="#%e6%ad%bb%e4%ba%a1%e5%af%b9%e8%b1%a1%e5%88%a4%e6%96%ad%e6%96%b9%e6%b3%95">#</a>
+</h2>
+<h3 id="引用计数法">
+  引用计数法
+  <a class="anchor" href="#%e5%bc%95%e7%94%a8%e8%ae%a1%e6%95%b0%e6%b3%95">#</a>
+</h3>
+<p>给对象中添加一个引用计数器：</p>
+<ul>
+<li>每当有一个地方引用它，计数器就加 1；</li>
+<li>当引用失效，计数器就减 1；</li>
+<li>任何时候计数器为 0 的对象就是不可能再被使用的。</li>
+</ul>
+<p>这个方法实现简单，效率高，但是目前主流的虚拟机中并没有选择这个算法来管理内存，其最主要的原因是它很难解决对象之间相互循环引用的问题。</p>
+<h3 id="可达性分析算法">
+  可达性分析算法
+  <a class="anchor" href="#%e5%8f%af%e8%be%be%e6%80%a7%e5%88%86%e6%9e%90%e7%ae%97%e6%b3%95">#</a>
+</h3>
+<p>这个算法的基本思想就是通过一系列的称为 <strong>“GC Roots”</strong> 的对象作为起点，从这些节点开始向下搜索，节点所走过的路径称为引用链，当一个对象到 GC Roots 没有任何引用链相连的话，则证明此对象是不可用的，需要被回收。</p>
+<h3 id="引用类型总结">
+  引用类型总结
+  <a class="anchor" href="#%e5%bc%95%e7%94%a8%e7%b1%bb%e5%9e%8b%e6%80%bb%e7%bb%93">#</a>
+</h3>
+<p><strong>1．强引用（StrongReference）</strong></p>
+<p>以前我们使用的大部分引用实际上都是强引用，这是使用最普遍的引用。如果一个对象具有强引用，那就类似于<strong>必不可少的生活用品</strong>，垃圾回收器绝不会回收它。当内存空间不足，Java 虚拟机宁愿抛出 OutOfMemoryError 错误，使程序异常终止，也不会靠随意回收具有强引用的对象来解决内存不足问题。</p>
+<p><strong>2．软引用（SoftReference）</strong></p>
+<p>如果一个对象只具有软引用，那就类似于<strong>可有可无的生活用品</strong>。如果内存空间足够，垃圾回收器就不会回收它，如果内存空间不足了，就会回收这些对象的内存。只要垃圾回收器没有回收它，该对象就可以被程序使用。软引用可用来实现内存敏感的高速缓存。</p>
+<p>软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被垃圾回收，JAVA 虚拟机就会把这个软引用加入到与之关联的引用队列中。</p>
+<p><strong>3．弱引用（WeakReference）</strong></p>
+<p>如果一个对象只具有弱引用，那就类似于<strong>可有可无的生活用品</strong>。弱引用与软引用的区别在于：只具有弱引用的对象拥有更短暂的生命周期。在垃圾回收器线程扫描它所管辖的内存区域的过程中，一旦发现了只具有弱引用的对象，不管当前内存空间足够与否，都会回收它的内存。</p>
+<p>弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被垃圾回收，Java 虚拟机就会把这个弱引用加入到与之关联的引用队列中。</p>
+<p><strong>4．虚引用（PhantomReference）</strong></p>
+<p>“虚引用"顾名思义，就是形同虚设，与其他几种引用都不同，虚引用并不会决定对象的生命周期。如果一个对象仅持有虚引用，那么它就和没有任何引用一样，在任何时候都可能被垃圾回收。</p>
+<p><strong>虚引用主要用来跟踪对象被垃圾回收的活动</strong>。</p>
+<p><strong>虚引用与软引用和弱引用的一个区别在于：</strong> 虚引用必须和引用队列（ReferenceQueue）联合使用。当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会在回收对象的内存之前，把这个虚引用加入到与之关联的引用队列中。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。程序如果发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。</p>
+<h3 id="如何判断一个常量是废弃常量">
+  如何判断一个常量是废弃常量？
+  <a class="anchor" href="#%e5%a6%82%e4%bd%95%e5%88%a4%e6%96%ad%e4%b8%80%e4%b8%aa%e5%b8%b8%e9%87%8f%e6%98%af%e5%ba%9f%e5%bc%83%e5%b8%b8%e9%87%8f">#</a>
+</h3>
+<p>假如在字符串常量池中存在字符串 “abc”，如果当前没有任何 String 对象引用该字符串常量的话，就说明常量 “abc” 就是废弃常量，如果这时发生内存回收的话而且有必要的话，“abc” 就会被系统清理出常量池了。</p>
+<h3 id="如何判断一个类是无用的类">
+  如何判断一个类是无用的类
+  <a class="anchor" href="#%e5%a6%82%e4%bd%95%e5%88%a4%e6%96%ad%e4%b8%80%e4%b8%aa%e7%b1%bb%e6%98%af%e6%97%a0%e7%94%a8%e7%9a%84%e7%b1%bb">#</a>
+</h3>
+<p>判定一个常量是否是“废弃常量”比较简单，而要判定一个类是否是“无用的类”的条件则相对苛刻许多。类需要同时满足下面 3 个条件才能算是 <strong>“无用的类”</strong> ：</p>
+<ul>
+<li>该类所有的实例都已经被回收，也就是 Java 堆中不存在该类的任何实例。</li>
+<li>加载该类的 <code>ClassLoader</code> 已经被回收。</li>
+<li>该类对应的 <code>java.lang.Class</code> 对象没有在任何地方被引用，无法在任何地方通过反射访问该类的方法。</li>
+</ul>
+<h3 id="垃圾回收算法">
+  垃圾回收算法
+  <a class="anchor" href="#%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e7%ae%97%e6%b3%95">#</a>
+</h3>
+<h4 id="标记清除">
+  标记清除
+  <a class="anchor" href="#%e6%a0%87%e8%ae%b0%e6%b8%85%e9%99%a4">#</a>
+</h4>
+<p>优点：速度快</p>
+<p>缺点：容易产生较多的内存碎片</p>
+<p>
+<img alt="image-20221023155033354" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202210231550407.png"/></p>
+<h4 id="标记整理">
+  标记整理
+  <a class="anchor" href="#%e6%a0%87%e8%ae%b0%e6%95%b4%e7%90%86">#</a>
+</h4>
+<p>缺点：效率较低</p>
+<p>优点：避免了内存碎片</p>
+<p>
+<img alt="image-20221023155236533" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202210231552284.png"/></p>
+<h4 id="标记复制">
+  标记复制
+  <a class="anchor" href="#%e6%a0%87%e8%ae%b0%e5%a4%8d%e5%88%b6">#</a>
+</h4>
+<p>缺点：占用双倍内存空间</p>
+<p>优点：不会产生内存碎片</p>
+<p><img alt="image-20221023155504224" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202210231555830.png" style="zoom:33%;"/> <img alt="image-20221023155540796" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202210231555271.png" style="zoom:33%;"/> <img alt="image-20221023155625013" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202210231556431.png" style="zoom:33%;"/></p>
+<h4 id="分代回收">
+  分代回收
+  <a class="anchor" href="#%e5%88%86%e4%bb%a3%e5%9b%9e%e6%94%b6">#</a>
+</h4>
+<p>当前虚拟机的垃圾收集都采用分代收集算法，这种算法没有什么新的思想，只是根据对象存活周期的不同将内存分为几块。一般将 java 堆分为新生代和老年代，这样我们就可以根据各个年代的特点选择合适的垃圾收集算法。</p>
+<h2 id="垃圾收集器">
+  垃圾收集器
+  <a class="anchor" href="#%e5%9e%83%e5%9c%be%e6%94%b6%e9%9b%86%e5%99%a8">#</a>
+</h2>
+<p><strong>如果说收集算法是内存回收的方法论，那么垃圾收集器就是内存回收的具体实现。</strong></p>
+<p>虽然我们对各个收集器进行比较，但并非要挑选出一个最好的收集器。因为直到现在为止还没有最好的垃圾收集器出现，更加没有万能的垃圾收集器，<strong>我们能做的就是根据具体应用场景选择适合自己的垃圾收集器</strong>。</p>
+<h3 id="serial-收集器">
+  Serial 收集器
+  <a class="anchor" href="#serial-%e6%94%b6%e9%9b%86%e5%99%a8">#</a>
+</h3>
+<p>Serial（串行）收集器是最基本、历史最悠久的垃圾收集器了。大家看名字就知道这个收集器是一个单线程收集器了。它的 <strong>“单线程”</strong> 的意义不仅仅意味着它只会使用一条垃圾收集线程去完成垃圾收集工作，更重要的是它在进行垃圾收集工作的时候必须暂停其他所有的工作线程（ <strong>“Stop The World”</strong> ），直到它收集结束。</p>
+<p><strong>新生代采用标记-复制算法，老年代采用标记-整理算法。</strong></p>
+<img alt="image-20230322114351976" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202303221143013.png" style="zoom:33%;"/>
+<h3 id="parnew-收集器">
+  ParNew 收集器
+  <a class="anchor" href="#parnew-%e6%94%b6%e9%9b%86%e5%99%a8">#</a>
+</h3>
+<p>ParNew 收集器其实就是 Serial 收集器的多线程版本，除了使用多线程进行垃圾收集外，其余行为（控制参数、收集算法、回收策略等等）和 Serial 收集器完全一样。</p>
+<p><strong>新生代采用标记-复制算法，老年代采用标记-整理算法。</strong></p>
+<img alt="image-20230322114510210" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202303221145239.png" style="zoom:33%;"/>
+<h3 id="parallel-scavenge-收集器">
+  Parallel Scavenge 收集器
+  <a class="anchor" href="#parallel-scavenge-%e6%94%b6%e9%9b%86%e5%99%a8">#</a>
+</h3>
+<p>Parallel Scavenge 收集器也是使用标记-复制算法的多线程收集器，它看上去几乎和 ParNew 都一样。 <strong>那么它有什么特别之处呢？</strong></p>
+<p><strong>Parallel Scavenge 收集器关注点是吞吐量（高效率的利用 CPU）。CMS 等垃圾收集器的关注点更多的是用户线程的停顿时间（提高用户体验）。所谓吞吐量就是 CPU 中用于运行用户代码的时间与 CPU 总消耗时间的比值。</strong> Parallel Scavenge 收集器提供了很多参数供用户找到最合适的停顿时间或最大吞吐量，如果对于收集器运作不太了解，手工优化存在困难的时候，使用 Parallel Scavenge 收集器配合自适应调节策略，把内存管理优化交给虚拟机去完成也是一个不错的选择。</p>
+<p>新生代采用标记-复制算法，老年代采用标记-整理算法。</p>
+<img alt="image-20230322114757973" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202303221147002.png" style="zoom:33%;"/>
+<h3 id="serial-old-收集器">
+  Serial Old 收集器
+  <a class="anchor" href="#serial-old-%e6%94%b6%e9%9b%86%e5%99%a8">#</a>
+</h3>
+<p><strong>Serial 收集器的老年代版本</strong>，它同样是一个单线程收集器。它主要有两大用途：一种用途是在 JDK1.5 以及以前的版本中与 Parallel Scavenge 收集器搭配使用，另一种用途是作为 CMS 收集器的后备方案。</p>
+<h3 id="parallel-old-收集器">
+  Parallel Old 收集器
+  <a class="anchor" href="#parallel-old-%e6%94%b6%e9%9b%86%e5%99%a8">#</a>
+</h3>
+<p><strong>Parallel Scavenge 收集器的老年代版本</strong>。使用多线程和“标记-整理”算法。在注重吞吐量以及 CPU 资源的场合，都可以优先考虑 Parallel Scavenge 收集器和 Parallel Old 收集器。</p>
+<h3 id="cms-收集器">
+  CMS 收集器
+  <a class="anchor" href="#cms-%e6%94%b6%e9%9b%86%e5%99%a8">#</a>
+</h3>
+<p><strong>CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器。它非常符合在注重用户体验的应用上使用。</strong></p>
+<p><strong>CMS（Concurrent Mark Sweep）收集器是 HotSpot 虚拟机第一款真正意义上的并发收集器，它第一次实现了让垃圾收集线程与用户线程（基本上）同时工作。</strong></p>
+<h3 id="g1-收集器">
+  G1 收集器
+  <a class="anchor" href="#g1-%e6%94%b6%e9%9b%86%e5%99%a8">#</a>
+</h3>
+<p><strong>G1 (Garbage-First) 是一款面向服务器的垃圾收集器,主要针对配备多颗处理器及大容量内存的机器. 以极高概率满足 GC 停顿时间要求的同时,还具备高吞吐量性能特征.</strong></p>
+<h3 id="zgc-收集器">
+  ZGC 收集器
+  <a class="anchor" href="#zgc-%e6%94%b6%e9%9b%86%e5%99%a8">#</a>
+</h3>
+<p>与 CMS 中的 ParNew 和 G1 类似，ZGC 也采用标记-复制算法，不过 ZGC 对该算法做了重大改进。</p>
+<p>在 ZGC 中出现 Stop The World 的情况会更少！</p>
+</article>
+<footer class="book-footer">
+<div class="flex flex-wrap justify-between">
+</div>
+<script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+</footer>
+<div class="book-comments">
+</div>
+<label class="hidden book-menu-overlay" for="menu-control"></label>
+</div>
+<aside class="book-toc">
+<div class="book-toc-content">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#内存区域">内存区域</a>
+<ul>
+<li><a href="#运行时数据区域">运行时数据区域</a></li>
+<li><a href="#程序计数器">程序计数器</a></li>
+<li><a href="#java-虚拟机栈">Java 虚拟机栈</a></li>
+<li><a href="#本地方法栈">本地方法栈</a></li>
+<li><a href="#堆">堆</a></li>
+<li><a href="#方法区">方法区</a></li>
+<li><a href="#方法区和永久代以及元空间是什么关系呢">方法区和永久代以及元空间是什么关系呢？</a></li>
+<li><a href="#为什么要将永久代-permgen-替换为元空间-metaspace-呢">为什么要将永久代 (PermGen) 替换为元空间 (MetaSpace) 呢?</a></li>
+<li><a href="#方法区常用参数有哪些">方法区常用参数有哪些？</a></li>
+<li><a href="#运行时常量池">运行时常量池</a></li>
+<li><a href="#字符串常量池">字符串常量池</a></li>
+<li><a href="#jdk-17-为什么要将字符串常量池移动到堆中">JDK 1.7 为什么要将字符串常量池移动到堆中？</a></li>
+<li><a href="#直接内存">直接内存</a></li>
+<li><a href="#对象的创建">对象的创建</a>
+<ul>
+<li><a href="#step1类加载检查">Step1:类加载检查</a></li>
+<li><a href="#step2分配内存">Step2:分配内存</a></li>
+<li><a href="#step3初始化零值">Step3:初始化零值</a></li>
+<li><a href="#step4设置对象头">Step4:设置对象头</a></li>
+<li><a href="#step5执行-init-方法">Step5:执行 init 方法</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#jvm-垃圾回收详解">JVM 垃圾回收详解</a>
+<ul>
+<li><a href="#堆空间的基本结构">堆空间的基本结构</a></li>
+</ul>
+</li>
+<li><a href="#内存分配和回收原则">内存分配和回收原则</a>
+<ul>
+<li><a href="#对象优先在-eden-区分配">对象优先在 Eden 区分配</a></li>
+<li><a href="#大对象直接进入老年代">大对象直接进入老年代</a></li>
+<li><a href="#长期存活的对象将进入老年代">长期存活的对象将进入老年代</a></li>
+<li><a href="#gc-分类">GC 分类</a></li>
+<li><a href="#空间分配担保">空间分配担保</a></li>
+</ul>
+</li>
+<li><a href="#死亡对象判断方法">死亡对象判断方法</a>
+<ul>
+<li><a href="#引用计数法">引用计数法</a></li>
+<li><a href="#可达性分析算法">可达性分析算法</a></li>
+<li><a href="#引用类型总结">引用类型总结</a></li>
+<li><a href="#如何判断一个常量是废弃常量">如何判断一个常量是废弃常量？</a></li>
+<li><a href="#如何判断一个类是无用的类">如何判断一个类是无用的类</a></li>
+<li><a href="#垃圾回收算法">垃圾回收算法</a>
+<ul>
+<li><a href="#标记清除">标记清除</a></li>
+<li><a href="#标记整理">标记整理</a></li>
+<li><a href="#标记复制">标记复制</a></li>
+<li><a href="#分代回收">分代回收</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#垃圾收集器">垃圾收集器</a>
+<ul>
+<li><a href="#serial-收集器">Serial 收集器</a></li>
+<li><a href="#parnew-收集器">ParNew 收集器</a></li>
+<li><a href="#parallel-scavenge-收集器">Parallel Scavenge 收集器</a></li>
+<li><a href="#serial-old-收集器">Serial Old 收集器</a></li>
+<li><a href="#parallel-old-收集器">Parallel Old 收集器</a></li>
+<li><a href="#cms-收集器">CMS 收集器</a></li>
+<li><a href="#g1-收集器">G1 收集器</a></li>
+<li><a href="#zgc-收集器">ZGC 收集器</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</aside>
+</main>
+</body>
+</html>

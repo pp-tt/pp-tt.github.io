@@ -16,7 +16,7 @@ public static ListNode swapPairs(ListNode head) { ListNode dummy = new ListNode(
 <link href="/favicon.png" rel="icon" type="image/x-icon"/>
 <link crossorigin="anonymous" href="/book.min.a82d7e77ceb134d151c4d7e381eeb30623fbd5a524d58c584d8716ecec0205bd.css" integrity="sha256-qC1+d86xNNFRxNfjge6zBiP71aUk1YxYTYcW7OwCBb0=" rel="stylesheet"/>
 <script defer="" src="/flexsearch.min.js"></script>
-<script crossorigin="anonymous" defer="" integrity="sha256-XY7DjhDejv/avLrQkXky2cyibsaQiqK8lhvec8YDNjA=" src="/zh.search.min.5d8ec38e10de8effdabcbad0917932d9cca26ec6908aa2bc961bde73c6033630.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-3vuMjTULYUOPBzRK7mtJx3jRGjPrfusoH1UQ190Uuq4=" src="/zh.search.min.defb8c8d350b61438f07344aee6b49c778d11a33eb7eeb281f5510d7dd14baae.js"></script>
 <script crossorigin="anonymous" defer="" integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js"></script>
 <!--
 Made with Book Theme
@@ -293,6 +293,12 @@ https://github.com/alex-shpak/hugo-book
 <li>
 <a class="" href="/notes/%E5%85%AB%E8%82%A1/mysql/">MySQL</a>
 </li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/jvm/">Jvm</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/redis/">Redis</a>
+</li>
 </ul>
 </li>
 <li>
@@ -473,7 +479,7 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <p>这题还可以用递归，但是我没搞明白递归，递归回头要看一下。开始没画图，没做出来，指针题一定要画图，指针题一定要画图，指针题一定要画图！后来画图给整出来啦，第一题呀不是很难。代码如下：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> ListNode <span style="color:#a6e22e">swapPairs</span><span style="color:#f92672">(</span>ListNode head<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        ListNode dummy <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> head<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        ListNode dummy <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span>1<span style="color:#f92672">,</span> head<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>        ListNode p <span style="color:#f92672">=</span> dummy<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>p<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> p<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            ListNode q <span style="color:#f92672">=</span> p<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">;</span>
@@ -490,11 +496,11 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <p>没写出来，卡哥的方法很妙，用快慢指针，快慢指针中间间隔 <code>n+1</code> 位数，这样，快指针到链表最后，慢指针刚刚好到了要删除的数的前一位，具体写的代码如下：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> ListNode <span style="color:#a6e22e">removeNthFromEnd</span><span style="color:#f92672">(</span>ListNode head<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> n<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        ListNode dummpy <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> head<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        ListNode dummpy <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span>1<span style="color:#f92672">,</span> head<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>        ListNode p <span style="color:#f92672">=</span> dummpy<span style="color:#f92672">;</span> <span style="color:#75715e">// 快指针
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ListNode q <span style="color:#f92672">=</span> dummpy<span style="color:#f92672">;</span> <span style="color:#75715e">// 慢指针
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>n<span style="color:#f92672">--</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>n<span style="color:#f92672">--</span> <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            p <span style="color:#f92672">=</span> p<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
@@ -512,9 +518,9 @@ https://github.com/alex-shpak/hugo-book
 </h3>
 <p>这题当时考研时候，在王道书上面写过类似的记得，但是具体忘记了。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> ListNode <span style="color:#a6e22e">getIntersectionNode</span><span style="color:#f92672">(</span>ListNode headA<span style="color:#f92672">,</span> ListNode headB<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> sizeA <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">,</span> sizeB <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>        ListNode pa <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> headA<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        ListNode pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> headB<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> sizeA <span style="color:#f92672">=</span> 0<span style="color:#f92672">,</span> sizeB <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>        ListNode pa <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span>1<span style="color:#f92672">,</span> headA<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>        ListNode pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span>1<span style="color:#f92672">,</span> headB<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>pa<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            pa <span style="color:#f92672">=</span> pa<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">;</span>
@@ -530,15 +536,15 @@ https://github.com/alex-shpak/hugo-book
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> tempSize <span style="color:#f92672">=</span> sizeA<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>            sizeA <span style="color:#f92672">=</span> sizeB<span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>            sizeB <span style="color:#f92672">=</span> tempSize<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>            pa <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> headB<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>            pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> headA<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            pa <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span>1<span style="color:#f92672">,</span> headB<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span>1<span style="color:#f92672">,</span> headA<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>   <span style="color:#75715e">//  要注意的地方，当时卡了一会儿
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            pa <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> headA<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>            pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">,</span> headB<span style="color:#f92672">);</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            pa <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span>1<span style="color:#f92672">,</span> headA<span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>            pb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode<span style="color:#f92672">(-</span>1<span style="color:#f92672">,</span> headB<span style="color:#f92672">);</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span>  n <span style="color:#f92672">=</span> sizeA <span style="color:#f92672">-</span> sizeB <span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>n<span style="color:#f92672">--</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>n<span style="color:#f92672">--</span> <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>            pa <span style="color:#f92672">=</span> pa<span style="color:#f92672">.</span><span style="color:#a6e22e">next</span><span style="color:#f92672">;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>

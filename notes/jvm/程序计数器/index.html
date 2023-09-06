@@ -18,7 +18,7 @@
 <link href="/favicon.png" rel="icon" type="image/x-icon"/>
 <link crossorigin="anonymous" href="/book.min.a82d7e77ceb134d151c4d7e381eeb30623fbd5a524d58c584d8716ecec0205bd.css" integrity="sha256-qC1+d86xNNFRxNfjge6zBiP71aUk1YxYTYcW7OwCBb0=" rel="stylesheet"/>
 <script defer="" src="/flexsearch.min.js"></script>
-<script crossorigin="anonymous" defer="" integrity="sha256-XY7DjhDejv/avLrQkXky2cyibsaQiqK8lhvec8YDNjA=" src="/zh.search.min.5d8ec38e10de8effdabcbad0917932d9cca26ec6908aa2bc961bde73c6033630.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-3vuMjTULYUOPBzRK7mtJx3jRGjPrfusoH1UQ190Uuq4=" src="/zh.search.min.defb8c8d350b61438f07344aee6b49c778d11a33eb7eeb281f5510d7dd14baae.js"></script>
 <script crossorigin="anonymous" defer="" integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js"></script>
 <!--
 Made with Book Theme
@@ -295,6 +295,12 @@ https://github.com/alex-shpak/hugo-book
 <li>
 <a class="" href="/notes/%E5%85%AB%E8%82%A1/mysql/">MySQL</a>
 </li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/jvm/">Jvm</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/redis/">Redis</a>
+</li>
 </ul>
 </li>
 <li>
@@ -446,26 +452,26 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#%e7%a8%8b%e5%ba%8f%e8%ae%a1%e6%95%b0%e5%99%a8%e6%89%a7%e8%a1%8c%e6%b5%81%e7%a8%8b">#</a>
 </h3>
 <p>二进制字节码 ➡️ 解释器（中间解释器还需要去程序计数器取下一条指令的执行地址） ➡️ 机器码 ➡️ CPU。二进制字节码和 Java 源代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-java" data-lang="java"><span style="display:flex;"><span> 			<span style="color:#960050;background-color:#1e0010">二进制字节码</span>    																		java <span style="color:#960050;background-color:#1e0010">源代码</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">（每一条是</span>jvm<span style="color:#960050;background-color:#1e0010">指令）</span>
-</span></span><span style="display:flex;"><span> <span style="color:#ae81ff">0</span><span style="color:#f92672">:</span> getstatic     <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">20</span>                                 <span style="color:#75715e">// PrintStream out = System.out;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#ae81ff">3</span><span style="color:#f92672">:</span> astore_1																					<span style="color:#75715e">// --
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#ae81ff">4</span><span style="color:#f92672">:</span> aload_1																						<span style="color:#75715e">// out.println(1);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#ae81ff">5</span><span style="color:#f92672">:</span> iconst_1																					<span style="color:#75715e">// --
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#ae81ff">6</span><span style="color:#f92672">:</span> invokevirtual <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">26</span>																	<span style="color:#75715e">// --
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#ae81ff">9</span><span style="color:#f92672">:</span> aload_1																						<span style="color:#75715e">// out.println(2);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">10</span><span style="color:#f92672">:</span> iconst_2																					<span style="color:#75715e">// --
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">11</span><span style="color:#f92672">:</span> invokevirtual <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">26</span>																	<span style="color:#75715e">// --									
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">14</span><span style="color:#f92672">:</span> aload_1																						<span style="color:#75715e">// out.println(3);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">15</span><span style="color:#f92672">:</span> iconst_3																					<span style="color:#75715e">// --
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">16</span><span style="color:#f92672">:</span> invokevirtual <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">26</span>																	<span style="color:#75715e">// --
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">19</span><span style="color:#f92672">:</span> aload_1																						<span style="color:#75715e">// out.println(4);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">20</span><span style="color:#f92672">:</span> iconst_4																					<span style="color:#75715e">// --
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">21</span><span style="color:#f92672">:</span> invokevirtual <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">26</span>																	<span style="color:#75715e">// --
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">24</span><span style="color:#f92672">:</span> aload_1																						<span style="color:#75715e">// out.println(5);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">25</span><span style="color:#f92672">:</span> iconst_5																					<span style="color:#75715e">// --
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">26</span><span style="color:#f92672">:</span> invokevirtual <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">26</span>																	<span style="color:#75715e">// --
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#ae81ff">29</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">return</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-java" data-lang="java"><span style="display:flex;"><span> 			二进制字节码    																		java 源代码
+</span></span><span style="display:flex;"><span>   <span style="color:#960050;background-color:#1e0010">（</span>每一条是jvm指令<span style="color:#960050;background-color:#1e0010">）</span>
+</span></span><span style="display:flex;"><span> 0<span style="color:#f92672">:</span> getstatic     <span style="color:#960050;background-color:#1e0010">#</span>20                                 <span style="color:#75715e">// PrintStream out = System.out;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 3<span style="color:#f92672">:</span> astore_1																					<span style="color:#75715e">// --
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 4<span style="color:#f92672">:</span> aload_1																						<span style="color:#75715e">// out.println(1);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 5<span style="color:#f92672">:</span> iconst_1																					<span style="color:#75715e">// --
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 6<span style="color:#f92672">:</span> invokevirtual <span style="color:#960050;background-color:#1e0010">#</span>26																	<span style="color:#75715e">// --
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 9<span style="color:#f92672">:</span> aload_1																						<span style="color:#75715e">// out.println(2);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>10: iconst_2																					<span style="color:#75715e">// --
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>11: invokevirtual <span style="color:#960050;background-color:#1e0010">#</span>26																	<span style="color:#75715e">// --									
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>14: aload_1																						<span style="color:#75715e">// out.println(3);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>15: iconst_3																					<span style="color:#75715e">// --
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>16: invokevirtual <span style="color:#960050;background-color:#1e0010">#</span>26																	<span style="color:#75715e">// --
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>19: aload_1																						<span style="color:#75715e">// out.println(4);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>20: iconst_4																					<span style="color:#75715e">// --
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>21: invokevirtual <span style="color:#960050;background-color:#1e0010">#</span>26																	<span style="color:#75715e">// --
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>24: aload_1																						<span style="color:#75715e">// out.println(5);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>25: iconst_5																					<span style="color:#75715e">// --
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>26: invokevirtual <span style="color:#960050;background-color:#1e0010">#</span>26																	<span style="color:#75715e">// --
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>29: <span style="color:#66d9ef">return</span>
 </span></span></code></pre></div><h3 id="程序计数器特点">
   程序计数器特点
   <a class="anchor" href="#%e7%a8%8b%e5%ba%8f%e8%ae%a1%e6%95%b0%e5%99%a8%e7%89%b9%e7%82%b9">#</a>
