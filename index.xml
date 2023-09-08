@@ -823,13 +823,6 @@ NavigationView { VStack { VStack(spacing: 30) { NavigationLink(destination: Some
 </item>
 <item>
 <title/>
-<link>https://pp-tt.github.io.git/notes/untitled/</link>
-<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-<guid>https://pp-tt.github.io.git/notes/untitled/</guid>
-<description/>
-</item>
-<item>
-<title/>
 <link>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/jvm/</link>
 <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 <guid>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/jvm/</guid>
@@ -858,6 +851,19 @@ Memcached 是分布式缓存最开始兴起的那会，比较常用的。后来�
 这样有什么好处呢？ 那就是保证用户下一次再访问这些数据的时候就可以直接从缓存中获取了。操作缓存就是直接操作内存，所以速度相当快。
 高并发
 一般像 MySQL 这类的数据库的 QPS 大概都在 1w 左右（4 核 8g） ，但是使用 Redis 缓存之后很容易达到 10w+，甚至最高能达到 30w+（就单机 Redis 的情况，Redis 集群的话会更高）。</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/c/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/c/</guid>
+<description>C 语言中 ## 和 # 的区别 # ## 操作符 # ## 操作符（Token Pasting Operator）：在宏定义中，**## 可以将两个标识符（tokens）粘合在一起，形成一个新的标识符。**例如，如果有以下宏定义：
+#define CONCAT(a, b) a##b 那么，当你调用 CONCAT 宏并传递两个参数时，它会将这两个参数的内容合并成一个新的标识符：
+CONCAT(foo, bar); // 最终的标识符为 &amp;#34;foobar&amp;#34; # 操作符 # # 操作符（Stringizing Operator）：在宏定义中，# 可以将宏参数转化为字符串常量。例如，如果有以下宏定义：
+#define STRINGIFY(x) #x 那么，当你调用 STRINGIFY 宏并传递一个参数时，它会将参数转换为字符串常量：
+printf(&amp;#34;%s\n&amp;#34;, STRINGIFY(Hello)); // 输出 &amp;#34;Hello&amp;#34; # 操作符的作用是将参数的内容用双引号包裹起来，将其转化为字符串。
+实验 # 实验如下：
+#include &amp;lt;stdio.h&amp;gt; #define GENSTR(x) #x #define CONCAT(a, b) a##b int main() { // ## 实验 int foobar = 5; printf(&amp;#34;%d\n&amp;#34;, CONCAT(foo, bar)); // # 实验 printf(&amp;#34;%s\n&amp;#34;, GENSTR(String)); return(0); } 输出结果：</description>
 </item>
 <item>
 <title/>
