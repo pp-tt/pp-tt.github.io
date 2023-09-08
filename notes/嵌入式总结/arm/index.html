@@ -3,21 +3,17 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="直接内存 # 不属于 Java 虚拟机内存，是操作系统内存。
-常见于 NIO 操作时， 用于缓冲内存 分配回收成本比较高，但读写性能高 不受 JVM 内存回收管理 直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？ # 直接内存是通过主动调用 Unsafe 的 freeMenory 方法来释放内存的。
-分配和回收原理 # 使用了 Unsafe 对象完成直接内存的分配回收，并且回收需要主动调用它的 freeMemory 方法 ByteBuffer 的实现类内部，使用了 Cleaner （虚引用）来监测 ByteBuffer 对象，一旦 ByteBuffer 对象被垃圾回收，那么就会由 ReferenceHandler 线程通过 Cleaner 的 clean 方法调用 freeMemory 来释放直接內存 JVM 调优相关问题 # JVM 调优时一般会增加参数 -XX: +DisableExplicitGC 来禁用显式的垃圾回收，即 System.gc() ，但这主动调用触发的是 Full GC ，比较影响性能，因为不仅回收新生代，也会回收老年代，会使程序暂停时间比较长。所以为了防止一些程序员不小心在程序中写的 System.gc()，所以就加上 -XX: +DisableExplicitGC 。但这就会影响直接内存了，如果加上 -XX: +DisableExplicitGC 的话，直接内存就只有等到真正的垃圾回收的时候才会被清理，这就造成直接内存占用较大，长时间得不到释放。
-解决方案：
-直接内存的回收可以不用 Java 的垃圾回收，可以用 Unsafe 的 freeMenory 方法来释放内存。示例如下：" name="description"/>
+<meta content="什么是异步传输和同步传输? # 异步传输:是一种典型的基于字节的输入输出，数据按每次一个字节进行传输，其传输速度低。 同步传输:需要外界的时钟信号进行通信，是把数据字节组合起来一起发送，这种组合称之为帧，其传 输速度比异步传输快。
+哈佛结构和冯诺依曼结构？ # 哈佛结构（Harvard Architecture）和冯诺依曼结构（Von Neumann Architecture）是计算机体系结构的两种主要类型，它们在计算机内部的数据和指令处理方式上有重要的区别。
+冯诺依曼结构（Von Neumann Architecture） # 特点：冯诺依曼结构是一种单存储器结构，其中计算机的程序指令和数据都存储在同一个内存中，共享相同的总线。这意味着程序和数据使用相同的通信通道传输到CPU。 工作方式：在冯诺依曼结构中，CPU 从内存中取指令，执行指令，然后将结果存回内存。这种结构是顺序执行的，即一次只执行一个指令。 优点：冯诺依曼结构简单且易于理解，适用于通用计算机和大多数应用。 缺点：由于指令和数据共享同一总线，可能会导致内存瓶颈，限制了计算机性能的提升。此外，它通常不适用于并行计算。 哈佛结构（Harvard Architecture） # 特点：哈佛结构是一种双存储器结构，其中程序指令存储在一个内存单元中，而数据存储在另一个内存单元中。这两个内存单元使用不同的总线。 工作方式：在哈佛结构中，CPU 可以同时从程序存储器中取指令和从数据存储器中获取数据，这使得指令和数据的访问可以并行进行，提高了性能。 优点：哈佛结构具有更高的性能潜力，因为它允许指令和数据并行传输，这对于嵌入式系统和一些特定应用非常有用。 缺点：哈佛结构通常较复杂，因为需要管理两个不同的内存单元和总线。此外，它可能不适用于所有类型的计算机应用。 总之，哈佛结构和冯诺依曼结构是两种不同的计算机体系结构，它们在指令和数据存储以及数据传输方式上有不同的设计和优劣势。选择哪种结构取决于计算机的用途和性能需求。通常，通用计算机采用冯诺依曼结构，而嵌入式系统和某些特定应用采用哈佛结构或改进的哈佛结构。" name="description"/>
 <meta content="#FFFFFF" name="theme-color"/>
 <meta content="light dark" name="color-scheme"/><meta content="" property="og:title"/>
-<meta content="直接内存 # 不属于 Java 虚拟机内存，是操作系统内存。
-常见于 NIO 操作时， 用于缓冲内存 分配回收成本比较高，但读写性能高 不受 JVM 内存回收管理 直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？ # 直接内存是通过主动调用 Unsafe 的 freeMenory 方法来释放内存的。
-分配和回收原理 # 使用了 Unsafe 对象完成直接内存的分配回收，并且回收需要主动调用它的 freeMemory 方法 ByteBuffer 的实现类内部，使用了 Cleaner （虚引用）来监测 ByteBuffer 对象，一旦 ByteBuffer 对象被垃圾回收，那么就会由 ReferenceHandler 线程通过 Cleaner 的 clean 方法调用 freeMemory 来释放直接內存 JVM 调优相关问题 # JVM 调优时一般会增加参数 -XX: +DisableExplicitGC 来禁用显式的垃圾回收，即 System.gc() ，但这主动调用触发的是 Full GC ，比较影响性能，因为不仅回收新生代，也会回收老年代，会使程序暂停时间比较长。所以为了防止一些程序员不小心在程序中写的 System.gc()，所以就加上 -XX: +DisableExplicitGC 。但这就会影响直接内存了，如果加上 -XX: +DisableExplicitGC 的话，直接内存就只有等到真正的垃圾回收的时候才会被清理，这就造成直接内存占用较大，长时间得不到释放。
-解决方案：
-直接内存的回收可以不用 Java 的垃圾回收，可以用 Unsafe 的 freeMenory 方法来释放内存。示例如下：" property="og:description"/>
+<meta content="什么是异步传输和同步传输? # 异步传输:是一种典型的基于字节的输入输出，数据按每次一个字节进行传输，其传输速度低。 同步传输:需要外界的时钟信号进行通信，是把数据字节组合起来一起发送，这种组合称之为帧，其传 输速度比异步传输快。
+哈佛结构和冯诺依曼结构？ # 哈佛结构（Harvard Architecture）和冯诺依曼结构（Von Neumann Architecture）是计算机体系结构的两种主要类型，它们在计算机内部的数据和指令处理方式上有重要的区别。
+冯诺依曼结构（Von Neumann Architecture） # 特点：冯诺依曼结构是一种单存储器结构，其中计算机的程序指令和数据都存储在同一个内存中，共享相同的总线。这意味着程序和数据使用相同的通信通道传输到CPU。 工作方式：在冯诺依曼结构中，CPU 从内存中取指令，执行指令，然后将结果存回内存。这种结构是顺序执行的，即一次只执行一个指令。 优点：冯诺依曼结构简单且易于理解，适用于通用计算机和大多数应用。 缺点：由于指令和数据共享同一总线，可能会导致内存瓶颈，限制了计算机性能的提升。此外，它通常不适用于并行计算。 哈佛结构（Harvard Architecture） # 特点：哈佛结构是一种双存储器结构，其中程序指令存储在一个内存单元中，而数据存储在另一个内存单元中。这两个内存单元使用不同的总线。 工作方式：在哈佛结构中，CPU 可以同时从程序存储器中取指令和从数据存储器中获取数据，这使得指令和数据的访问可以并行进行，提高了性能。 优点：哈佛结构具有更高的性能潜力，因为它允许指令和数据并行传输，这对于嵌入式系统和一些特定应用非常有用。 缺点：哈佛结构通常较复杂，因为需要管理两个不同的内存单元和总线。此外，它可能不适用于所有类型的计算机应用。 总之，哈佛结构和冯诺依曼结构是两种不同的计算机体系结构，它们在指令和数据存储以及数据传输方式上有不同的设计和优劣势。选择哪种结构取决于计算机的用途和性能需求。通常，通用计算机采用冯诺依曼结构，而嵌入式系统和某些特定应用采用哈佛结构或改进的哈佛结构。" property="og:description"/>
 <meta content="article" property="og:type"/>
-<meta content="https://pp-tt.github.io.git/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/" property="og:url"/><meta content="notes" property="article:section"/>
-<title>直接内存 | 噗通 🍀</title>
+<meta content="https://pp-tt.github.io.git/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/arm/" property="og:url"/><meta content="notes" property="article:section"/>
+<title>Arm | 噗通 🍀</title>
 <link href="/manifest.json" rel="manifest"/>
 <link href="/favicon.png" rel="icon" type="image/x-icon"/>
 <link crossorigin="anonymous" href="/book.min.a82d7e77ceb134d151c4d7e381eeb30623fbd5a524d58c584d8716ecec0205bd.css" integrity="sha256-qC1+d86xNNFRxNfjge6zBiP71aUk1YxYTYcW7OwCBb0=" rel="stylesheet"/>
@@ -67,7 +63,7 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 <li>
-<input checked="" class="toggle" id="section-4364152b7ab5995d509c0b7b811005c4" type="checkbox"/>
+<input class="toggle" id="section-4364152b7ab5995d509c0b7b811005c4" type="checkbox"/>
 <label class="flex justify-between" for="section-4364152b7ab5995d509c0b7b811005c4">
 <a class="" role="button">JVM</a>
 </label>
@@ -91,7 +87,7 @@ https://github.com/alex-shpak/hugo-book
 <a class="" href="/notes/jvm/%E6%96%B9%E6%B3%95%E5%8C%BA/">方法区</a>
 </li>
 <li>
-<a class="active" href="/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/">直接内存</a>
+<a class="" href="/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/">直接内存</a>
 </li>
 <li>
 <a class="" href="/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">垃圾回收</a>
@@ -285,7 +281,7 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 <li>
-<input class="toggle" id="section-ea55243c547fa272027885b73a74852e" type="checkbox"/>
+<input checked="" class="toggle" id="section-ea55243c547fa272027885b73a74852e" type="checkbox"/>
 <label class="flex justify-between" for="section-ea55243c547fa272027885b73a74852e">
 <a class="" role="button">嵌入式重点总结</a>
 </label>
@@ -294,7 +290,7 @@ https://github.com/alex-shpak/hugo-book
 <a class="" href="/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/c/">C</a>
 </li>
 <li>
-<a class="" href="/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/arm/">Arm</a>
+<a class="active" href="/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/arm/">Arm</a>
 </li>
 </ul>
 </li>
@@ -433,7 +429,7 @@ https://github.com/alex-shpak/hugo-book
 <label for="menu-control">
 <img alt="Menu" class="book-icon" src="/svg/menu.svg"/>
 </label>
-<strong>直接内存</strong>
+<strong>Arm</strong>
 <label for="toc-control">
 <img alt="Table of Contents" class="book-icon" src="/svg/toc.svg"/>
 </label>
@@ -443,15 +439,11 @@ https://github.com/alex-shpak/hugo-book
 <ul>
 <li>
 <ul>
-<li><a href="#直接内存">直接内存</a>
+<li><a href="#什么是异步传输和同步传输">什么是异步传输和同步传输?</a></li>
+<li><a href="#哈佛结构和冯诺依曼结构">哈佛结构和冯诺依曼结构？</a>
 <ul>
-<li>
-<ul>
-<li><a href="#直接内存既然不受-jvm-虚拟机管理和垃圾回收那么它会不会被正确回收底层又是如何实现的">直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？</a></li>
-<li><a href="#分配和回收原理">分配和回收原理</a></li>
-<li><a href="#jvm-调优相关问题">JVM 调优相关问题</a></li>
-</ul>
-</li>
+<li><a href="#冯诺依曼结构von-neumann-architecture">冯诺依曼结构（Von Neumann Architecture）</a></li>
+<li><a href="#哈佛结构harvard-architecture">哈佛结构（Harvard Architecture）</a></li>
 </ul>
 </li>
 </ul>
@@ -460,50 +452,40 @@ https://github.com/alex-shpak/hugo-book
 </nav>
 </aside>
 </header>
-<article class="markdown"><h2 id="直接内存">
-  直接内存
-  <a class="anchor" href="#%e7%9b%b4%e6%8e%a5%e5%86%85%e5%ad%98">#</a>
+<article class="markdown"><h2 id="什么是异步传输和同步传输">
+  什么是异步传输和同步传输?
+  <a class="anchor" href="#%e4%bb%80%e4%b9%88%e6%98%af%e5%bc%82%e6%ad%a5%e4%bc%a0%e8%be%93%e5%92%8c%e5%90%8c%e6%ad%a5%e4%bc%a0%e8%be%93">#</a>
 </h2>
-<p>不属于 Java 虚拟机内存，是操作系统内存。</p>
-<ul>
-<li>常见于 NIO 操作时， 用于缓冲内存</li>
-<li>分配回收成本比较高，但读写性能高</li>
-<li>不受 JVM 内存回收管理</li>
-</ul>
-<h4 id="直接内存既然不受-jvm-虚拟机管理和垃圾回收那么它会不会被正确回收底层又是如何实现的">
-  直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？
-  <a class="anchor" href="#%e7%9b%b4%e6%8e%a5%e5%86%85%e5%ad%98%e6%97%a2%e7%84%b6%e4%b8%8d%e5%8f%97-jvm-%e8%99%9a%e6%8b%9f%e6%9c%ba%e7%ae%a1%e7%90%86%e5%92%8c%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e9%82%a3%e4%b9%88%e5%ae%83%e4%bc%9a%e4%b8%8d%e4%bc%9a%e8%a2%ab%e6%ad%a3%e7%a1%ae%e5%9b%9e%e6%94%b6%e5%ba%95%e5%b1%82%e5%8f%88%e6%98%af%e5%a6%82%e4%bd%95%e5%ae%9e%e7%8e%b0%e7%9a%84">#</a>
-</h4>
-<p>直接内存是通过主动调用 <code>Unsafe</code> 的 <code>freeMenory</code> 方法来释放内存的。</p>
-<h4 id="分配和回收原理">
-  分配和回收原理
-  <a class="anchor" href="#%e5%88%86%e9%85%8d%e5%92%8c%e5%9b%9e%e6%94%b6%e5%8e%9f%e7%90%86">#</a>
-</h4>
-<ul>
-<li>使用了 <code>Unsafe</code> 对象完成直接内存的分配回收，并且回收需要主动调用它的 <code>freeMemory </code>方法</li>
-<li><code>ByteBuffer</code> 的实现类内部，使用了 <code>Cleaner</code> （虚引用）来监测 <code>ByteBuffer</code> 对象，一旦 <code>ByteBuffer</code> 对象被垃圾回收，那么就会由 <code>ReferenceHandler</code> 线程通过 <code>Cleaner</code> 的 <code>clean</code> 方法调用 <code>freeMemory</code> 来释放直接內存</li>
-</ul>
-<h4 id="jvm-调优相关问题">
-  JVM 调优相关问题
-  <a class="anchor" href="#jvm-%e8%b0%83%e4%bc%98%e7%9b%b8%e5%85%b3%e9%97%ae%e9%a2%98">#</a>
-</h4>
-<p>JVM 调优时一般会增加参数 <code>-XX: +DisableExplicitGC</code> 来禁用显式的垃圾回收，即 <code>System.gc()</code> ，但这<strong>主动调用</strong>触发的是 <code>Full GC</code> ，比较影响性能，因为不仅回收新生代，也会回收老年代，会使程序暂停时间比较长。所以为了防止一些程序员不小心在程序中写的 <code>System.gc()</code>，所以就加上 <code>-XX: +DisableExplicitGC</code> 。但这就会影响直接内存了，如果加上 <code>-XX: +DisableExplicitGC</code> 的话，直接内存就只有等到真正的垃圾回收的时候才会被清理，这就造成直接内存占用较大，长时间得不到释放。</p>
-<p><strong>解决方案</strong>：</p>
-<p>直接内存的回收可以不用 Java 的垃圾回收，可以用 <code>Unsafe</code> 的 <code>freeMenory</code> 方法来释放内存。示例如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;" tabindex="0"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Main</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> _1Gb <span style="color:#f92672">=</span> 1024 <span style="color:#f92672">*</span> 1024 <span style="color:#f92672">*</span> 1024<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        Unsafe unsafe <span style="color:#f92672">=</span> Unsafe<span style="color:#f92672">.</span><span style="color:#a6e22e">getUnsafe</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//分配内存
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">long</span> base <span style="color:#f92672">=</span> unsafe<span style="color:#f92672">.</span><span style="color:#a6e22e">allocateMemory</span><span style="color:#f92672">(</span>_1Gb<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        unsafe<span style="color:#f92672">.</span><span style="color:#a6e22e">setMemory</span><span style="color:#f92672">(</span>base<span style="color:#f92672">,</span> _1Gb<span style="color:#f92672">,</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">byte</span><span style="color:#f92672">)</span> 0<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">in</span><span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//释放内存
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        unsafe<span style="color:#f92672">.</span><span style="color:#a6e22e">freeMemory</span><span style="color:#f92672">(</span>base<span style="color:#f92672">);</span>
-</span></span><span style="display:flex;"><span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">in</span><span style="color:#f92672">.</span><span style="color:#a6e22e">read</span><span style="color:#f92672">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span></code></pre></div></article>
+<p>异步传输:是一种典型的基于字节的输入输出，数据按每次一个字节进行传输，其传输速度低。
+同步传输:需要外界的时钟信号进行通信，是把数据字节组合起来一起发送，这种组合称之为帧，其传
+输速度比异步传输快。</p>
+<h2 id="哈佛结构和冯诺依曼结构">
+  哈佛结构和冯诺依曼结构？
+  <a class="anchor" href="#%e5%93%88%e4%bd%9b%e7%bb%93%e6%9e%84%e5%92%8c%e5%86%af%e8%af%ba%e4%be%9d%e6%9b%bc%e7%bb%93%e6%9e%84">#</a>
+</h2>
+<p>哈佛结构（Harvard Architecture）和冯诺依曼结构（Von Neumann Architecture）是计算机体系结构的两种主要类型，它们在计算机内部的数据和指令处理方式上有重要的区别。</p>
+<h3 id="冯诺依曼结构von-neumann-architecture">
+  冯诺依曼结构（Von Neumann Architecture）
+  <a class="anchor" href="#%e5%86%af%e8%af%ba%e4%be%9d%e6%9b%bc%e7%bb%93%e6%9e%84von-neumann-architecture">#</a>
+</h3>
+<ol>
+<li><strong>特点</strong>：冯诺依曼结构是一种单存储器结构，其中计算机的程序指令和数据都存储在同一个内存中，共享相同的总线。这意味着程序和数据使用相同的通信通道传输到CPU。</li>
+<li><strong>工作方式</strong>：在冯诺依曼结构中，CPU 从内存中取指令，执行指令，然后将结果存回内存。这种结构是顺序执行的，即一次只执行一个指令。</li>
+<li><strong>优点</strong>：冯诺依曼结构简单且易于理解，适用于通用计算机和大多数应用。</li>
+<li><strong>缺点</strong>：由于指令和数据共享同一总线，可能会导致内存瓶颈，限制了计算机性能的提升。此外，它通常不适用于并行计算。</li>
+</ol>
+<h3 id="哈佛结构harvard-architecture">
+  哈佛结构（Harvard Architecture）
+  <a class="anchor" href="#%e5%93%88%e4%bd%9b%e7%bb%93%e6%9e%84harvard-architecture">#</a>
+</h3>
+<ol>
+<li><strong>特点</strong>：哈佛结构是一种双存储器结构，其中程序指令存储在一个内存单元中，而数据存储在另一个内存单元中。这两个内存单元使用不同的总线。</li>
+<li><strong>工作方式</strong>：在哈佛结构中，CPU 可以同时从程序存储器中取指令和从数据存储器中获取数据，这使得指令和数据的访问可以并行进行，提高了性能。</li>
+<li><strong>优点</strong>：哈佛结构具有更高的性能潜力，因为它允许指令和数据并行传输，这对于嵌入式系统和一些特定应用非常有用。</li>
+<li><strong>缺点</strong>：哈佛结构通常较复杂，因为需要管理两个不同的内存单元和总线。此外，它可能不适用于所有类型的计算机应用。</li>
+</ol>
+<p>总之，哈佛结构和冯诺依曼结构是两种不同的计算机体系结构，它们在指令和数据存储以及数据传输方式上有不同的设计和优劣势。选择哪种结构取决于计算机的用途和性能需求。通常，<strong>通用计算机采用冯诺依曼结构</strong>，而<strong>嵌入式系统和某些特定应用采用哈佛结构或改进的哈佛结构</strong>。</p>
+</article>
 <footer class="book-footer">
 <div class="flex flex-wrap justify-between">
 </div>
@@ -519,15 +501,11 @@ https://github.com/alex-shpak/hugo-book
 <ul>
 <li>
 <ul>
-<li><a href="#直接内存">直接内存</a>
+<li><a href="#什么是异步传输和同步传输">什么是异步传输和同步传输?</a></li>
+<li><a href="#哈佛结构和冯诺依曼结构">哈佛结构和冯诺依曼结构？</a>
 <ul>
-<li>
-<ul>
-<li><a href="#直接内存既然不受-jvm-虚拟机管理和垃圾回收那么它会不会被正确回收底层又是如何实现的">直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？</a></li>
-<li><a href="#分配和回收原理">分配和回收原理</a></li>
-<li><a href="#jvm-调优相关问题">JVM 调优相关问题</a></li>
-</ul>
-</li>
+<li><a href="#冯诺依曼结构von-neumann-architecture">冯诺依曼结构（Von Neumann Architecture）</a></li>
+<li><a href="#哈佛结构harvard-architecture">哈佛结构（Harvard Architecture）</a></li>
 </ul>
 </li>
 </ul>
