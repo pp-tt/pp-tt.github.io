@@ -7,20 +7,5 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Mon, 10 Mar 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://pp-tt.github.io.git/notes/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title></title>
-      <link>https://pp-tt.github.io.git/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/c/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://pp-tt.github.io.git/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/c/</guid>
-      <description>C 语言中 ## 和 # 的区别 # ## 操作符 # ## 操作符（Token Pasting Operator）：在宏定义中，**## 可以将两个标识符（tokens）粘合在一起，形成一个新的标识符。**例如，如果有以下宏定义：
-#define CONCAT(a, b) a##b 那么，当你调用 CONCAT 宏并传递两个参数时，它会将这两个参数的内容合并成一个新的标识符：
-CONCAT(foo, bar); // 最终的标识符为 &amp;#34;foobar&amp;#34; # 操作符 # # 操作符（Stringizing Operator）：在宏定义中，# 可以将宏参数转化为字符串常量。例如，如果有以下宏定义：
-#define STRINGIFY(x) #x 那么，当你调用 STRINGIFY 宏并传递一个参数时，它会将参数转换为字符串常量：
-printf(&amp;#34;%s\n&amp;#34;, STRINGIFY(Hello)); // 输出 &amp;#34;Hello&amp;#34; # 操作符的作用是将参数的内容用双引号包裹起来，将其转化为字符串。
-实验 # 实验如下：
-#include &amp;lt;stdio.h&amp;gt; #define GENSTR(x) #x #define CONCAT(a, b) a##b int main() { // ## 实验 int foobar = 5; printf(&amp;#34;%d\n&amp;#34;, CONCAT(foo, bar)); // # 实验 printf(&amp;#34;%s\n&amp;#34;, GENSTR(String)); return(0); } 输出结果：</description>
-    </item>
-    
   </channel>
 </rss>
