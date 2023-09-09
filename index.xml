@@ -67,9 +67,9 @@ printf(&amp;#34;%s\n&amp;#34;, STRINGIFY(Hello)); // 输出 &amp;#34;Hello&amp;#
 </item>
 <item>
 <title/>
-<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE%E9%BB%91%E9%A9%AC/</link>
+<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE/</link>
 <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE%E9%BB%91%E9%A9%AC/</guid>
+<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE/</guid>
 <description>UML图 # 统一建模语言（Unified Modeling Language，UML）是用来设计软件的可视化建模语言。它的特点是简单、统一、图形化、能表达软件设计中的动态与静态信息。
 UML 从目标系统的不同角度出发，定义了用例图、类图、对象图、状态图、活动图、时序图、协作图、构件图、部署图等 9 种图。
 1 类图概述 # 类图(Class diagram)是显示了模型的静态结构，特别是模型中存在的类、类的内部结构以及它们与其他类的关系等。类图不显示暂时性的信息。类图是面向对象建模的主要组成部分。
@@ -155,9 +155,9 @@ flushall：通杀全部库</description>
 </item>
 <item>
 <title/>
-<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E9%BB%91%E9%A9%AC/</link>
+<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/</link>
 <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E9%BB%91%E9%A9%AC/</guid>
+<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/</guid>
 <description>设计原则 # 在软件开发中，为了提高软件系统的可维护性和可复用性，增加软件的可扩展性和灵活性，程序员要尽量根据6条原则来开发程序，从而提高软件开发效率、节约软件开发成本和维护成本。
 1 开闭原则 # 对扩展开放，对修改关闭。在程序需要进行拓展的时候，不能去修改原有的代码，实现一个热插拔的效果。简言之，是为了使程序的扩展性好，易于维护和升级。
 想要达到这样的效果，我们需要使用接口和抽象类。
@@ -249,9 +249,9 @@ getset &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：以旧换新，设置新值�
 </item>
 <item>
 <title/>
-<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</link>
+<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/</link>
 <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</guid>
+<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
 <description>创建型模式 # 创建型模式的主要关注点是“怎样创建对象？”，它的主要特点是“将对象的创建与使用分离”。
 这样可以降低系统的耦合度，并且使用者不需要关注对象的创建细节。
 1 单例设计模式 # 1.1 概述 # 单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。
@@ -318,9 +318,9 @@ List 数据结构 # List的数据结构是 quickList，但不安全是，当数�
 </item>
 <item>
 <title/>
-<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</link>
+<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/</link>
 <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</guid>
+<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
 <description>结构型模式 # 1 代理模式 # 1.1 概述 # 由于某些原因需要给某对象提供一个代理以控制对该对象的访问。这时，访问对象不适合或者不能直接引用目标对象，代理对象作为访问对象和目标对象之间的中介。
 Java中的代理按照代理类生成时机不同又分为静态代理和动态代理。静态代理代理类在编译期就生成，而动态代理代理类则是在Java运行时动态生成。动态代理又有JDK代理和CGLib代理两种。
 1.2 结构 # 代理（Proxy）模式分为三种角色：
@@ -380,9 +380,9 @@ tf.keras.layers.Conv2D( filters = ,	# 卷积核个数 kernel_size = ,	# 卷积�
 </item>
 <item>
 <title/>
-<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</link>
+<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/</link>
 <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F%E9%BB%91%E9%A9%AC/</guid>
+<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
 <description>行为型模式 # 行为型模式用于描述程序在运行时复杂的流程控制，即描述多个类或对象之间怎样相互协作共同完成单个对象都无法单独完成的任务，它涉及算法与对象间职责的分配。
 行为型模式分为类行为模式和对象行为模式，前者采用继承机制来在类间分派行为，后者采用组合或聚合在对象间分配行为。由于组合关系或聚合关系比继承关系耦合度低，满足“合成复用原则”，所以对象行为模式比类行为模式具有更大的灵活性。
 1 模板方法模式 # 1.1 概述 # 在面向对象程序设计过程中，程序员常常会遇到这种情况：设计一个系统时知道了算法所需的关键步骤，而且确定了这些步骤的执行顺序，但某些步骤的具体实现还未知，或者说某些步骤的实现与具体的环境相关。
@@ -602,6 +602,23 @@ multi、exec、discard # 从输入 multi 命令开始，输入的命令都会依
   &lt;a class="anchor" href="#%e5%85%b3%e4%ba%8e%e9%98%bf%e5%88%81%e7%9a%842022%e5%b9%b4%e5%ba%a6%e6%80%bb%e7%bb%93"&gt;#&lt;/a&gt;
 &lt;/h1&gt;
 &lt;img src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202301222111978.JPG" alt="beauty_1662823072446" style="zoom: 25%;" /&gt;</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/bms/bms-%E7%AE%80%E4%BB%8B/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/bms/bms-%E7%AE%80%E4%BB%8B/</guid>
+<description>BMS 相关概念 # 什么是 BMS # BMS（Battery Management System）电池管理系统，由硬件和软件共同组成，主要实现以下功能：
+管理多节锂电池组成的电池包 实现电池充放电管理，如防过充、防亏电 信息监控，如续航里程、剩余电量等 锂电池分类 # 主要分为两类，三元锂和磷酸铁锂，它们在特性和电参数上有差异，所以BMS也会有相应的差异。哪怕同是三元锂电池，也不能直接套用，还是需要进行调参的。
+BMS 需要解决的问题 # 充放电保护，如过充、过放、过温保护等。 充放电信息监控，如剩余电量、里程计算等。 电池状态监控，如剩余电量SOC、电池健康度SOH等。 充放电均衡，如充或放电时、主动或被动均衡。 与充电桩对接。如充电协议、快充标准等。 锂电池需要考虑的特性：
+充放电曲线，如图1
+单节电池的电特性参数值
+电池个体差异，同一规格电池彼此静态参数有误差，动态参数也有误差
+不同电池个体老化速度不同步
+动力电池和非动力电池的区别，主要区别在于放电电流区别，即多长时间能把这么多电放出来，动力电池一般可以放的电流更大，一般电钻、电机等可以用动力电池。
+充放电曲线：
+常见电池充放电保护相关参数：
+/***************************** 电池保护相关参数 ***********************************/ // 三元锂电池(Ternary lithium battery)默认参数 #define TLB_OV_PROTECT	4.20	// 单体过压保护电压 #define TLB_OV_RELIEVE	4.18	// 单体过压恢复电压 #define TLB_UV_PROTECT	3.10	// 单体欠压保护电压 #define TLB_UV_RELIEVE	3.15	// 单体欠压恢复电压 #define TLB_SHUTDOWN_VOLTAGE	3.08	// 自动关机电压 #define TLB_BALANCE_VOLTAGE	3.30	// 均衡起始电压 // 磷酸铁锂电池(lithium iron phosphate battery)默认参数 #define LIPB_OV_PROTECT	3.</description>
 </item>
 <item>
 <title/>
