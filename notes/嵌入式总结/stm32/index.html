@@ -36,7 +36,7 @@ STM32中断 # STM32中断优先级非常多，几乎所有的模块都能申请�
 <link href="/favicon.png" rel="icon" type="image/x-icon"/>
 <link crossorigin="anonymous" href="/book.min.a82d7e77ceb134d151c4d7e381eeb30623fbd5a524d58c584d8716ecec0205bd.css" integrity="sha256-qC1+d86xNNFRxNfjge6zBiP71aUk1YxYTYcW7OwCBb0=" rel="stylesheet"/>
 <script defer="" src="/flexsearch.min.js"></script>
-<script crossorigin="anonymous" defer="" integrity="sha256-nw8N6I2OvsU9hLjl4/Yg9dWCRNiTxySzXknGhKrOstM=" src="/zh.search.min.9f0f0de88d8ebec53d84b8e5e3f620f5d58244d893c724b35e49c684aaceb2d3.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-LbOmrURqV1o7OJ6yKdg3ucQFbg1BQfj4YGZCfEBpdHA=" src="/zh.search.min.2db3a6ad446a575a3b389eb229d837b9c4056e0d4141f8f86066427c40697470.js"></script>
 <script crossorigin="anonymous" defer="" integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js"></script>
 <!--
 Made with Book Theme
@@ -129,9 +129,6 @@ https://github.com/alex-shpak/hugo-book
 <ul>
 <li>
 <a class="" href="/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/c/">C</a>
-</li>
-<li>
-<a class="" href="/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/arm/">Arm</a>
 </li>
 <li>
 <a class="active" href="/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/stm32/">Stm32</a>
@@ -498,6 +495,29 @@ https://github.com/alex-shpak/hugo-book
 <li><a href="#定时器类型">定时器类型</a>
 <ul>
 <li><a href="#基本定时器">基本定时器</a></li>
+<li><a href="#通用定时器">通用定时器</a></li>
+<li><a href="#高级定时器">高级定时器</a></li>
+</ul>
+</li>
+<li><a href="#输出比较和pwm">输出比较和PWM</a>
+<ul>
+<li><a href="#ocoutput-compare输出比较">OC(Output Compare)输出比较</a></li>
+<li><a href="#pwm">PWM</a></li>
+<li><a href="#输出比较通道通用">输出比较通道（通用）</a></li>
+<li><a href="#舵机">舵机</a></li>
+<li><a href="#电机">电机</a></li>
+</ul>
+</li>
+<li><a href="#icinput-capture输入捕获">IC(Input Capture)输入捕获</a>
+<ul>
+<li><a href="#频率测量">频率测量</a></li>
+<li><a href="#输入捕获通道">输入捕获通道</a></li>
+<li><a href="#主从触发模式">主从触发模式</a></li>
+</ul>
+</li>
+<li><a href="#编码器接口">编码器接口</a>
+<ul>
+<li><a href="#如何判断正反转">如何判断正反转</a></li>
 </ul>
 </li>
 </ul>
@@ -644,14 +664,286 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#%e5%9f%ba%e6%9c%ac%e5%ae%9a%e6%97%b6%e5%99%a8">#</a>
 </h4>
 <p><strong>框图</strong> ：</p>
+<img alt="image-20230909222107590" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230909222107590.png" style="zoom: 33%;"/>
 <ul>
-<li>如下图，使用的是内部时钟，基本定时器不能连接外部时钟</li>
+<li>如图，使用的是内部时钟，基本定时器不能连接外部时钟，连接的为内部时钟。</li>
 <li>预分频器值（PSC）值和实际分频系数相差1。若PSC为 1 时，输出为 $$ 72M/2=36MHz $$ ；若PSC为 2 时，输出为 $$ 72M/3=24MHz $$ 。PSC 是 16 位的，故最大可以写65535，即 65536 分频系数。<strong>预分频器就是对输入的基准频率提前进行一个分频操作。</strong></li>
 <li>计数器也是16位，可以对分频后的记数时钟进行记数，计数时钟每来一个上升沿，计数器的值就+1，可以计数最大为65535。计数器会不断运行，计数到目标值时产生中断，这时就完成定时任务了。</li>
-<li>自动重装寄存器即存储目标值的寄存器，也是16位，当计数器值自增到等于自动重装值时，也就是计时时间到了，这时候会产生一个中断信号</li>
+<li>自动重装寄存器即存储目标值的寄存器，也是16位，当计数器值自增到等于自动重装值时，也就是计时时间到了，这时候会产生一个中断信号。</li>
+<li>主从触发模式是STM32定时器的特色，能让内部硬件在不受程序控制下实现自动运行，掌握主从触发模式，某些情景可以极大的减轻 CPU 的负担。（举例：使用DAC的时候可能会用其输出一段波形，所以需要每隔一段时间触发一次DAC，让它输出下一个电压点；正常思路的话是设置一个定时器产生中断，每隔一段时间在中断程序中调用代码手动触发一次DAC，然后DAC输出，但是这样会让程序处于频繁中断状态，会影响主程序和其他程序运行。定时器设计了主模式，可以把定时器的更新事件映射到TRGO，然后TRGO直接接到DAC触发转换引脚上，然后TRGO就会直接去触发DAC了，这样定时器就不需要再通过中断来触发DAC转换了。整个过程不需要软件参与，实现硬件自动化，这就是主模式的作用。）</li>
 </ul>
-<img alt="image-20230909222107590" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230909222107590.png" style="zoom: 33%;"/>
+<h4 id="通用定时器">
+  通用定时器
+  <a class="anchor" href="#%e9%80%9a%e7%94%a8%e5%ae%9a%e6%97%b6%e5%99%a8">#</a>
+</h4>
+<p><strong>框图：</strong></p>
+<p>
+<img alt="image-20230910111513454" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910111513454.png"/></p>
+<ul>
+<li>
+<p>16位向上、向下、向上/向下自动装载计数器，支持向上、向下、中央对齐模式</p>
+</li>
+<li>
+<p>外部时钟模式2：TIMx_ETR » ETR » 极性选择、边沿检测和预分频器、ETRP、输入滤波 » ETRF » 时基单元</p>
+</li>
+<li>
+<p>除外部ETR可以提供时钟外，TRGI也可以提供时钟，从名字上看主要用作触发输入使用，可以触发定时器的从模式，同时TRGI也可以当作外部时钟使用，这里说明下 TRGI 当作外部时钟的输入使用，即外部时钟模式1。</p>
+</li>
+<li>
+<p>TRGI 输入信号，即外部时钟模式1的输入：</p>
+<ul>
+<li>
+<p>ETR 引脚信号</p>
+</li>
+<li>
+<p>ITR 信号（来自其他定时器），由其他 TRGO 到 ITR，ITR0～ITR3分别来自其他4个定时器的 TRGO 输出。一般可以用作定时器级联</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">从定时器</th>
+<th style="text-align:center">ITR0 (TS = 000)</th>
+<th style="text-align:center">ITR1 (TS = 001)</th>
+<th style="text-align:center">ITR2 (TS = 010)</th>
+<th style="text-align:center">ITR3 (TS = 011)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">TIM2</td>
+<td style="text-align:center">TIM1</td>
+<td style="text-align:center">TIM8</td>
+<td style="text-align:center">TIM3</td>
+<td style="text-align:center">TIM4</td>
+</tr>
+<tr>
+<td style="text-align:center">TIM3</td>
+<td style="text-align:center">TIM1</td>
+<td style="text-align:center">TIM2</td>
+<td style="text-align:center">TIM5</td>
+<td style="text-align:center">TIM4</td>
+</tr>
+<tr>
+<td style="text-align:center">TIM4</td>
+<td style="text-align:center">TIM1</td>
+<td style="text-align:center">TIM2</td>
+<td style="text-align:center">TIM3</td>
+<td style="text-align:center">TIM8</td>
+</tr>
+<tr>
+<td style="text-align:center">TIM5</td>
+<td style="text-align:center">TIM2</td>
+<td style="text-align:center">TIM3</td>
+<td style="text-align:center">TIM4</td>
+<td style="text-align:center">TIM8</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>TI1F_ED，连接的为输入捕获的 CH1，后缀 ED 为边沿的意思</p>
+</li>
+<li>
+<p>TI1FP1</p>
+</li>
+<li>
+<p>TI2FP2</p>
+</li>
+</ul>
+</li>
+<li>
+<p>下右：输出比较电路，4个通道（CH1～CH4），可以输出 PWM 波形驱动电机</p>
+</li>
+<li>
+<p>下左：输入捕获电路，4个通道（CH1～CH4），可以用于测输入方波频率等</p>
+</li>
+<li>
+<p>下中：捕获比较寄存器，是输入捕获和输出比较电路公用的寄存器，因为输入捕获和输出比较也不能同时使用</p>
+</li>
+</ul>
+<p><strong>定时中断基本结构图</strong>：</p>
+<p>
+<img alt="" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910120241729.png"/></p>
 <p>CNT 为定时器中计数器的值，可以使用时钟计时，也可以使用时钟统计电平翻转次数。</p>
+<h4 id="高级定时器">
+  高级定时器
+  <a class="anchor" href="#%e9%ab%98%e7%ba%a7%e5%ae%9a%e6%97%b6%e5%99%a8">#</a>
+</h4>
+<p>略</p>
+<h3 id="输出比较和pwm">
+  输出比较和PWM
+  <a class="anchor" href="#%e8%be%93%e5%87%ba%e6%af%94%e8%be%83%e5%92%8cpwm">#</a>
+</h3>
+<h4 id="ocoutput-compare输出比较">
+  OC(Output Compare)输出比较
+  <a class="anchor" href="#ocoutput-compare%e8%be%93%e5%87%ba%e6%af%94%e8%be%83">#</a>
+</h4>
+<ul>
+<li>输出比较可以通过比较 CNT 与 CCR 寄存器值的关系来对输出电平进行置1、置0或翻转的操作，用于输出一定频率和占空比的PWM波形。</li>
+<li>每个高级定时器和通用定时器都拥有 4 个输出比较通道。</li>
+<li>高级定时器额外拥有死区生成和互补输出的功能。</li>
+</ul>
+<h4 id="pwm">
+  PWM
+  <a class="anchor" href="#pwm">#</a>
+</h4>
+<ul>
+<li>PWM （Pulse Width Modulation）脉冲宽度调制。</li>
+<li>在具有惯性的系统中通过对一些列脉冲宽度进行调制，来等效地获得所需要的模拟参量，常用于电机控速、LED亮度控制等领域。</li>
+<li>PWM参数：
+<ul>
+<li><strong>频率：</strong>$$ \frac{1}{T_s}$$ ，$$T_s$$ 为高低电平变换周期的时间。</li>
+<li><strong>占空比</strong>：$$ \frac{T_{ON}}{T_s} $$ ，$$T_{ON}$$ 为高低电平变换周期的时间，占空比 100%，则直接是高电平；占空比 0% 直接是低电平；<strong>占空比决定了 PWM 等效出来的模拟电压的大小</strong>，占空比越大，等效出来的模拟电压越趋近于高电平；占空比越小，等效出来的模拟电压越趋近于低电平。</li>
+<li>**分辨率：**占空比变化步距，<strong>表现在占空比变化的精细程度</strong>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="输出比较通道通用">
+  输出比较通道（通用）
+  <a class="anchor" href="#%e8%be%93%e5%87%ba%e6%af%94%e8%be%83%e9%80%9a%e9%81%93%e9%80%9a%e7%94%a8">#</a>
+</h4>
+<p>
+<img alt="&lt;strong&gt;image-20230910150018898&lt;/strong&gt;" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910150018898.png"/></p>
+<ul>
+<li>输出模式控制器根据 CNT 和 CCR1 的值来确定输出 oc1ref 的高低电平，OC1M[2:0]可以配置输出模式控制器模式</li>
+<li>ETRF 是定时器的一个小功能，不用了解</li>
+<li>oc1ref可以映射到主模式控制器，单主要还是走下面的电路</li>
+<li>CC1P  极性选择，值为0，信号往上走；值为1则极性反转</li>
+<li>OC1 极 CH1 通道引脚，在引脚定义表里可以知道具体是哪个 GPIO 口</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>冻结</td>
+<td>CNT=CCR时，REF保持为原状态，使用该模式时输出暂停，高低电平位置为暂停时候的状态不变</td>
+</tr>
+<tr>
+<td>匹配时置有效电平</td>
+<td>CNT=CCR时，REF置有效电平，可通俗理解为高电平</td>
+</tr>
+<tr>
+<td>匹配时置无效电平</td>
+<td>CNT=CCR时，REF置无效电平，可通俗理解为低电平</td>
+</tr>
+<tr>
+<td>匹配时电平翻转</td>
+<td>CNT=CCR时，REF电平翻转，可以输出频率可调，占空比始终为 50% 的 PWM 波形</td>
+</tr>
+<tr>
+<td>强制为无效电平</td>
+<td>CNT与CCR无效，REF强制为无效电平</td>
+</tr>
+<tr>
+<td>强制为有效电平</td>
+<td>CNT与CCR无效，REF强制为有效电平</td>
+</tr>
+<tr>
+<td>PWM模式1</td>
+<td>可以输出频率和占空比都可调的PWM波形。向上计数：CNT&lt;CCR时，REF置有效电平，CNT≥CCR时，REF置无效电平；向下计数：CNT&gt;CCR时，REF置无效电平，CNT≤CCR时，REF置有效电平</td>
+</tr>
+<tr>
+<td>PWM模式2</td>
+<td>可以输出频率和占空比都可调的PWM波形。向上计数：CNT&lt;CCR时，REF置无效电平，CNT≥CCR时，REF置有效电平；向下计数：CNT&gt;CCR时，REF置有效电平，CNT≤CCR时，REF置无效电平</td>
+</tr>
+</tbody>
+</table>
+<p>
+<img alt="image-20230910165244827" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910165244827.png"/></p>
+<p>PWM 频率： $$ Freq = \frac{CK_PSC}{(PSC+1)\cdot{(ARR+1)}} $$</p>
+<p>PWM 占空比：$$ Duty=\frac{CCR}{ARR+1} $$</p>
+<p>PWM 分辨率：$$ Reso = \frac{1}{ARR+1} $$</p>
+<p>例子：要求输出频率为 1KHz，分辨率为 1%，占空比可任意调节的 PWM 波形。</p>
+<h4 id="舵机">
+  舵机
+  <a class="anchor" href="#%e8%88%b5%e6%9c%ba">#</a>
+</h4>
+<ul>
+<li>根据 PWM 信号占空比来控制输出角度的装置</li>
+<li>输入 PWM 信号要求，周期为 20 ms，高电平宽度为 0.5 ms ～ 2.5 ms</li>
+<li>Sg90 舵机
+<ul>
+<li>三根输入线：两个电源线，一根信号线</li>
+<li>PWM 根据通过信号线控制舵机</li>
+<li>输入脉冲信号宽度对应角度：(0.5ms, -90)、(1ms, -45)、(1.5ms, -0)、(2ms, 45)、(2.5ms, 90)</li>
+</ul>
+</li>
+</ul>
+<h4 id="电机">
+  电机
+  <a class="anchor" href="#%e7%94%b5%e6%9c%ba">#</a>
+</h4>
+<ul>
+<li>直流电机将电能转为机械能，有两个电极，当电极正接时电极正转，反接时电机反转</li>
+<li>电机属于大功率电器，GPIO 口无法直接驱动，需要配合电机驱动电路来操作</li>
+<li>TB6612 双路 H 桥型直流电机驱动芯片，可以驱动两个电机并且控制其转速方向</li>
+</ul>
+<h3 id="icinput-capture输入捕获">
+  IC(Input Capture)输入捕获
+  <a class="anchor" href="#icinput-capture%e8%be%93%e5%85%a5%e6%8d%95%e8%8e%b7">#</a>
+</h3>
+<ul>
+<li>输入捕获模式下，当通道输入引脚出现指定电平跳变时，当前 CNT 的值将被锁存在 CCR 中，可用于测量 PWM 波形的频率、占空比、脉冲间隔、电平持续时间等参数。</li>
+<li>每个高级定时器和通用定时器都拥有4个输入捕获通道</li>
+<li>可配置为 PWMI 模式，同时测量频率和占空比</li>
+<li>可配合主从从发模式，实现硬件全自动测量</li>
+</ul>
+<h4 id="频率测量">
+  频率测量
+  <a class="anchor" href="#%e9%a2%91%e7%8e%87%e6%b5%8b%e9%87%8f">#</a>
+</h4>
+<p>
+<img alt="image-20230910175727869" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910175727869.png"/></p>
+<ul>
+<li>
+<p>测频法：在闸门时间 T 内，对上升沿计次，得到 N， 则频率 $$ f_x = \frac{N}{T} $$，适合测量高频信号。</p>
+</li>
+<li>
+<p>测周法：两个上升沿内，以标准频率 $$f_c$$计次，得到 N，则频率 $$ f_x = \frac{f_c}{N} $$，使用一个已知的标准频率$$f_c$$的计次时钟来驱动计数器，适合测量低频信号。</p>
+</li>
+<li>
+<p>中界频率：测频法和测周法误差相等的频率点 $$f_m=\sqrt{\frac{f_c}{T}}$$，用这个来判断什么时候使用测频法，什么时候使用测周法。当待测频率小于$$f_m$$，使用测周法，大于时使用测频法。</p>
+</li>
+</ul>
+<h4 id="输入捕获通道">
+  输入捕获通道
+  <a class="anchor" href="#%e8%be%93%e5%85%a5%e6%8d%95%e8%8e%b7%e9%80%9a%e9%81%93">#</a>
+</h4>
+<p>
+<img alt="image-20230910181754761" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910181754761.png"/></p>
+<ul>
+<li>$$f_{DTS}$$ 是滤波器采样时钟来源，TI1 为滤波器输入，TI1F 为滤波后的信号</li>
+<li>ICF 可以控制滤波器参数，以采样频率对输入信号进行采样，当连续 N 个值都为高电平，输出才为高电平，连续N个值都为低电平，输出才为低电平。如果信号出现高频抖动导致连续采样的 N 个值不全都一样那输出就不会变化，这样就可以达到滤波的效果。采样频率越低，采样个数N越大，滤波效果越好。</li>
+<li>CC1P极性选择</li>
+<li>ICPS配置分频器</li>
+<li>CC1E使能输出或失能</li>
+</ul>
+<h4 id="主从触发模式">
+  主从触发模式
+  <a class="anchor" href="#%e4%b8%bb%e4%bb%8e%e8%a7%a6%e5%8f%91%e6%a8%a1%e5%bc%8f">#</a>
+</h4>
+<p>暂略</p>
+<h3 id="编码器接口">
+  编码器接口
+  <a class="anchor" href="#%e7%bc%96%e7%a0%81%e5%99%a8%e6%8e%a5%e5%8f%a3">#</a>
+</h3>
+<ul>
+<li>编码器接口可以接收增量（正交）编码器的信号，根据编码器旋转产生的蒸饺信号脉冲，自动控制CNT自增或自减，从而指示编码器的位置、旋转方向和旋转速度</li>
+<li>每个高级定时器和通用定时器都拥有1个编码器接口</li>
+<li>两个输入引脚借用了输入捕获通道1和通道2</li>
+<li>不会使用时钟和时基单元初始化设置的计数方向，此时计数时钟和计数方向都处于编码器接口托管的状态</li>
+</ul>
+<h4 id="如何判断正反转">
+  如何判断正反转
+  <a class="anchor" href="#%e5%a6%82%e4%bd%95%e5%88%a4%e6%96%ad%e6%ad%a3%e5%8f%8d%e8%bd%ac">#</a>
+</h4>
+<p>首先把 A 相和 B 相的所有边沿作为计数器的计数时钟，出现边沿信号时，就计数自增或自减，增或减的操作由另一相的状态来确定，当出现某个边沿时，判断另一相高低电平。具体如下图：</p>
+<p>
+<img alt="image-20230910183632034" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910183632034.png"/></p>
 </article>
 <footer class="book-footer">
 <div class="flex flex-wrap justify-between">
@@ -695,6 +987,29 @@ https://github.com/alex-shpak/hugo-book
 <li><a href="#定时器类型">定时器类型</a>
 <ul>
 <li><a href="#基本定时器">基本定时器</a></li>
+<li><a href="#通用定时器">通用定时器</a></li>
+<li><a href="#高级定时器">高级定时器</a></li>
+</ul>
+</li>
+<li><a href="#输出比较和pwm">输出比较和PWM</a>
+<ul>
+<li><a href="#ocoutput-compare输出比较">OC(Output Compare)输出比较</a></li>
+<li><a href="#pwm">PWM</a></li>
+<li><a href="#输出比较通道通用">输出比较通道（通用）</a></li>
+<li><a href="#舵机">舵机</a></li>
+<li><a href="#电机">电机</a></li>
+</ul>
+</li>
+<li><a href="#icinput-capture输入捕获">IC(Input Capture)输入捕获</a>
+<ul>
+<li><a href="#频率测量">频率测量</a></li>
+<li><a href="#输入捕获通道">输入捕获通道</a></li>
+<li><a href="#主从触发模式">主从触发模式</a></li>
+</ul>
+</li>
+<li><a href="#编码器接口">编码器接口</a>
+<ul>
+<li><a href="#如何判断正反转">如何判断正反转</a></li>
 </ul>
 </li>
 </ul>
