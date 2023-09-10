@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>环境配置 on 噗通 🍀</title>
+    <link>https://pp-tt.github.io.git/solution/environment/</link>
+    <description>Recent content in 环境配置 on 噗通 🍀</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language><atom:link href="https://pp-tt.github.io.git/solution/environment/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/solution/environment/apple-m%E7%B3%BB%E5%88%97%E8%8A%AF%E7%89%87%E5%AE%89%E8%A3%85-pyqt/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/solution/environment/apple-m%E7%B3%BB%E5%88%97%E8%8A%AF%E7%89%87%E5%AE%89%E8%A3%85-pyqt/</guid>
+      <description> Apple-M系列芯片安装-Pyqt # 前提：安装好 Homebrew。
+终端命令如下（含详细注释）：
+brew install pyqt5 # 安装 pyqt5，建议挂梯子 output: # 以下为部分输出结果可做参考 ... ==&amp;gt; Pouring node--17.4.0.arm64_monterey.bottle.tar.gz 🍺 /opt/homebrew/Cellar/node/17.4.0: 1,984 files, 44.5MB ==&amp;gt; Running `brew cleanup node`... Removing: /opt/homebrew/Cellar/node/17.2.0... (2,018 files, 44.4MB) Removing: /opt/homebrew/Cellar/node/17.3.1... (1,976 files, 44.4MB) Removing: /Users/xu/Library/Caches/Homebrew/node--17.3.1... (12MB) ==&amp;gt; Checking for dependents of upgraded formulae... ==&amp;gt; No broken dependents found! # 添加环境变量 echo &amp;#39;export PATH=&amp;#34;/opt/homebrew/Cellar/qt@5/5.15.2_1/bin:$PATH&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.zshrc echo &amp;#39;export PATH=&amp;#34;/opt/homebrew/Cellar/pyqt@5/5.15.6/bin:$PATH&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.zshrc 将 /opt/homebrew/Cellar/pyqt@5/5.15.6/lib/python3.9/site-packages 里内容全部拷贝至 /Users/你的用户名/miniforge3/lib/python3.9/site-packages 文件夹下。 </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/solution/environment/docker-%E5%AE%89%E8%A3%85-redis-/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/solution/environment/docker-%E5%AE%89%E8%A3%85-redis-/</guid>
+      <description> 下载镜像文件 # docker pull redis 创建实例并启动 # 为防止挂载文件时将 redis.conf 当成目录处理，所以要提前创建好该文件，命令如下：
+mkdir -p /Users/xu/Documents/DockerConfig/redis/conf touch /Users/xu/Documents/DockerConfig/redis/conf/redis.conf 创建实例：
+docker run -p 6379:6379 --name redis \ -v /Users/xu/Documents/DockerConfig/redis/data:/data \ -v /Users/xu/Documents/DockerConfig/redis/conf/redis.conf:/etc/redis/redis.conf \ -d redis redis-server /etc/redis/redis.conf 使用 redis 镜像执行 redis-cli 命令连接 # docker exec -it redis redis-cli </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/solution/environment/hugo-%E4%B8%BB%E9%A2%98-hugo-book-%E4%B8%AD%E8%8B%B1%E6%96%87%E6%90%9C%E7%B4%A2%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/solution/environment/hugo-%E4%B8%BB%E9%A2%98-hugo-book-%E4%B8%AD%E8%8B%B1%E6%96%87%E6%90%9C%E7%B4%A2%E9%85%8D%E7%BD%AE/</guid>
+      <description>Hugo 主题 Hugo-book 中英文搜索配置 # 可以直接看解决方案修改即可，前提defaultContentLanguage = &amp;quot;zh&amp;quot;。因为修改的就是 zh.yaml 文件。
+存在的问题 # 主要问题是不能用英文搜索，这是存在问题时的配置文件：
+baseURL = &amp;#39;https://pp-tt.github.io.git&amp;#39; title = &amp;#39;噗通&amp;#39; theme = &amp;#39;hugo-book&amp;#39; defaultContentLanguage = &amp;#34;zh&amp;#34; 配置文件中defaultContentLanguage 指向 zh，但是这导致一个问题，页面中可以搜索中文，但是搜索英文失败，比如搜索 Tensorflow 的时候，网页是没有任何显示的，但是 content 确确实实存在这些关键词文件。下面是搜索结果图：
+解决思路 # 先看一下themes/hugo-book/i18n/zh.yaml配置文件，主要看id: bookSearchConfig这项配置，文件具体内容如下：
+# zh.yaml 文件内容 - id: bookSearchConfig translation: | { encode: false, tokenize: function(str) { return str.replace(/[\x00-\x7F]/g, &amp;#39;&amp;#39;).split(&amp;#39;&amp;#39;); } } 回顾问题：当defaultContentLanguage = &amp;quot;zh&amp;quot;可以进行仅中文搜索，当defaultContentLanguage = &amp;quot;en&amp;quot;仅可以进行英文搜索，那么是否可以通过搜索修改
+zh.yaml将其变成中英文搜索呢？参考https://github.com/alex-shpak/hugo-book/issues/357中韩国大佬 yeonns 的做法，尝试了下解决了我的问题。
+解决方案 # 将 themes/hugo-book/i18n/zh.yaml 中的 id: bookSearchConfig 内容修改如下即可：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/solution/environment/iterm2-oh-my-zsh-%E9%85%8D%E7%BD%AE/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/solution/environment/iterm2-oh-my-zsh-%E9%85%8D%E7%BD%AE/</guid>
+      <description>iTerm2-Oh-My-Zsh-配置 # 配置 Oh My ZSH # 官网链接：http://ohmyz.sh/
+安装 # 安装命令如下：
+sh -c &amp;#34;$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&amp;#34; 输出如下：
+配置主题 # 在 ~/.zshrc 文件中配置主题（注：原先的配置文件内容被转移到 .zshrc.pre-oh-my-zsh 文件中），配置如下：
+ZSH_THEME=&amp;#34;agnoster&amp;#34; # 更多主题：https://github.com/ohmyzsh/ohmyzsh/wiki/Themes 卸载 Oh My ZSH # uninstall_oh_my_zsh 更新 # upgrade_oh_my_zsh 安装配置 iTerm2 # 链接：https://iterm2.com/
+刚刚装好字体会显示错误，需要安装对应字体。
+安装字体 # git clone https://github.com/pp-tt/fonts cd fonts ./install.sh cd .. rm -rf fonts 配置相关 # 配置 Theme 为 Dark
+配置 Colors
+配置字体
+安装插件 # cd ~/.oh-my-zsh/custom/plugins/ git clone https://github.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/solution/environment/m1-%E8%8A%AF%E7%89%87-docker-%E5%AE%89%E8%A3%85-mysql5.7-/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/solution/environment/m1-%E8%8A%AF%E7%89%87-docker-%E5%AE%89%E8%A3%85-mysql5.7-/</guid>
+      <description>此处是针对 Apple 芯片Mac来配置安装的，其它类型设备日后遇到再更新，并且其他 x86 架构安装配置也应该没有那么麻烦吧！
+获取镜像 # 修改为 x86 架构
+docker pull --platform linux/x86_64 mysql:5.7 创建实例 # docker run -p 3306:3306 --name mysql -v /Users/xu/Documents/DockerConfig/mysql/log:/var/log/mysql -v /Users/xu/Documents/DockerConfig/mysql/data:/var/lib/mysql -v /Users/xu/Documents/DockerConfig/mysql/conf:/etc/mysql -e MYSQL_ROOT_PASSWORD=root -d biarms/mysql:5.7 配置 Mysql # 添加 DockerConfig/mysql/conf/my.cnf 文件，配置如下，主要为了解决字符编码问题：
+[client] default-character-set=utf8 [mysql] default-character-set=utf8 [mysqld] init_connect=&amp;#39;SET collation_connection = utf8_unicode_ci&amp;#39; init_connect=&amp;#39;SET NAMES utf8&amp;#39; character-set-server=utf8 collation-server=utf8_unicode_ci skip-character-set-client-handshake skip-name-resolve </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/solution/environment/mac-idea-%E5%BF%AB%E6%8D%B7%E9%94%AE%E4%BD%8D/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/solution/environment/mac-idea-%E5%BF%AB%E6%8D%B7%E9%94%AE%E4%BD%8D/</guid>
+      <description>Opt + Cmd + u : 类图
+Cmd + o ：搜索查询类
+Cmd + F12 ：列出方法定义</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</guid>
+      <description>内网穿透 # 教程主要分为两部分，分别为服务端（公网服务器）部分和客户端（即需要穿透的设备）部分。
+官方文档
+服务端部署步骤 # 首先保证服务器6000～9000端口放行，然后下载程序。
+程序下载链接：https://github.com/fatedier/frp/releases 根据硬件配置选择对应的程序下载并解压，可先下载本地，后续再通过其他方法上传到服务器，或者直接wget。上传到终端后操作如下：
+mv frp_0.38.0_linux_amd64 frps # 修改文件夹名为frps，s表示服务端程序 cd frps rm -rf frpc* # 删除所有frpc开头的文件，即将客户端文件删除 ./frps -c ./frps.ini # 启动程序 根据服务器配置类型选择对应的版本下载并解压，命令如下图：
+至此，服务端部署完毕！
+客户端部署步骤 # 检查SSH # 我的机器系统是Ubuntu 20.04,首先检查是否安装openssh-server，连接待穿透主机，终端输入sshd，若提示无此相关程序，则键入如下命令安装：
+sudo apt install openssh-server
+获取程序 # 因为我的主机是x86架构，同我的云服务器一样，所以用的是和之前一样的程序包，只不过这次删除的是同服务端无关的所有软件了，这里我使用wget重新下载的一样的程序：
+sudo wget https://github.com/fatedier/frp/releases/download/v0.38.0/frp_0.38.0_linux_amd64.tar.gz 然后解压:
+sudo tar -zxvf frp_0.38.0_linux_amd64.tar.gz 整理程序 # 重命名文件夹为frpc，c代表客户端的意思，并删除所有frps开头的文件，即删除所有与客户端不相关的文件。这一步其实不操作也不影响，只是为了看起来舒服，如果后续设置开机自启动的话，这样路径比较清楚。
+sudo mv frp_0.38.0_linux_amd64 frpc cd frpc/ sudo rm -rf frps* 配置参数 # 配置相关参数（穿透22端口，实现远程ssh)，修改frpc.ini文件，修改如下：
+[common] server_addr = x.x.x.x server_port = 7000 [ssh] type = tcp local_ip = 127.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E7%9A%84%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E7%9A%84%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE/</guid>
+      <description>实验机器：Ubuntu16、Ubuntu18
+整体步骤 # 编写 .service 文件，习惯以 name@用途/用户名.service 的格式命名 使用 systemctl daemon-reload 让系统服务被加载 使用 systemctl start [service文件名，不需要尾缀] 来启动 使用 systemctl enable name@用途/用户名.service 设置开启启动 总共就以上一个步骤，下面会一一记录，除此之外，以下总结一些常用命令（ 参考链接）：
+启动一个服务：systemctl start nginx.service 关闭一个服务：systemctl stop postfix.service 重启一个服务：systemctl restart nginx.service 显示一个服务的状态：systemctl status postfix.service 在开机时启用一个服务：systemctl enable nginx.service 在开机时禁用一个服务：systemctl disable nginx.service 查看服务是否开机启动：systemctl is-enabled nginx.service 查看已启动的服务列表：systemctl list-unit-files|grep enabled
+编写 .service 文件 # 路径如下：
+vi /lib/systemd/system/frp@xu.service
+文件内容如下（注意修改 frp 程序路径）：
+[Unit] Description=Frp Client Service After=network.target syslog.target Wants=network.target [Service] Type=simple Restart=on-failure RestartSec=5s ExecStart=/bin/sh -c &amp;#39;/home/xu/frp/frpc -c /home/xu/frp/frpc.</description>
+    </item>
+    
+  </channel>
+</rss>

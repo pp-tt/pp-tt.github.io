@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>代码随想录刷题 on 噗通 🍀</title>
+    <link>https://pp-tt.github.io.git/notes/leetcode/</link>
+    <description>Recent content in 代码随想录刷题 on 噗通 🍀</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language><atom:link href="https://pp-tt.github.io.git/notes/leetcode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day001-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day001-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/</guid>
+      <description>今天刷的题 # 二分查找
+搜索插入位置
+在排序数组中查找元素的第一个和最后一个位置
+移除元素
+刷题总结 # 二分查找： # 通过看卡哥视频，了解到主要分为两个边界：[m,n] 和 [m,n) ， 然后代码的时候要注意统一边界问题，右边界的更行规则要和while中的规则一致。
+搜索插入位置： # 没能变通过来，直接套用了二分的模型，但是最后返回不对，主要是因为 while 循环外的返回直接用了 mid ，这里应该是返回左边界，也就是 left。
+在排序数组中查找元素的第一个和最后一个位置： # 暴力解决了，但是效果不太好。尝试二分解决，但是没能弄出来。后来看题解才发现，二分还能那样用，这题重点记一下吧。
+总的思路是利用两次二分查找，第一次查找左边界（第一个大于等于 target 的数字），第二次查找右边界（第一个大于 target 的数字）。暂时还不是太了解，代码如下：
+class Solution { public int[] searchRange(int[] nums, int target) { int leftIdx = binarySearch(nums, target, true); int rightIdx = binarySearch(nums, target, false) - 1; if (leftIdx &amp;lt;= rightIdx &amp;amp;&amp;amp; rightIdx &amp;lt; nums.length &amp;amp;&amp;amp; nums[leftIdx] == target &amp;amp;&amp;amp; nums[rightIdx] == target) { return new int[]{leftIdx, rightIdx}; } return new int[]{-1, -1}; } public int binarySearch(int[] nums, int target, boolean lower) { int left = 0, right = nums.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day002-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day002-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/</guid>
+      <description>今天刷的题 # 977. 有序数组的平方
+209. 长度最小的子数组
+59. 螺旋矩阵 II
+总结 # 有序数组的平方 # 开始没想通，以为和之前那题“移除元素”一样，必须要原地操作，不能开拓新的数组。这给我整不会了，然后看题解才发现，是要开辟新数组的，悟了。
+// 给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。 public int[] sortedSquares(int[] nums) { int index = nums.length-1; int[] res = new int[index+1]; int l = 0, r = nums.length-1; while (l &amp;lt;= r) { if (nums[l] * nums[l] &amp;gt; nums[r] * nums[r] ) res[index--] = nums[l] * nums[l++]; else res[index--] = nums[r] * nums[r--]; } return res; } 长度最小的字数组 # 上次做是一个月前，不会做，看了卡哥题解，通透了，这次做直接会了。本质上还是双指针，这里说快慢指针的话感觉更合适。代码如下：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day003-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day003-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/</guid>
+      <description>今天刷的题 # 203. 移除链表元素 # 707. 设计链表 # 206. 反转链表 # 总结 # 移除元素 # 链表移除元素还是比较简单的，但涉及到一个头节点的处理，会很碍事的感觉，这里可以添加一个虚拟头节点，这样会很好用，可以编写代码统一处理。代码如下：
+// 给你一个链表的头节点 head 和一个整数 val ，请你删除链表中所有满足 Node.val == val 的节点，并返回 新的头节点 。 public ListNode removeElements(ListNode head, int val) { ListNode dummy = new ListNode(-1, head); ListNode p = new ListNode(); p.next = head; while (p.next != null) { if (p.next.val == val) { p.next = p.next.next; // p.next 删除 } else { p = p.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day004-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day004-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/</guid>
+      <description>今天刷的题 # 24. 两两交换链表中的节点 # 19. 删除链表的倒数第 N 个结点 # 面试题 02.07. 链表相交 # 142. 环形链表 II # 总结 # 两两交换链表中的节点 # 这题还可以用递归，但是我没搞明白递归，递归回头要看一下。开始没画图，没做出来，指针题一定要画图，指针题一定要画图，指针题一定要画图！后来画图给整出来啦，第一题呀不是很难。代码如下：
+public static ListNode swapPairs(ListNode head) { ListNode dummy = new ListNode(-1, head); ListNode p = dummy; while (p.next != null &amp;amp;&amp;amp; p.next.next != null) { ListNode q = p.next.next.next; p.next.next.next = p.next; p.next = p.next.next; p.next.next.next = q; p = p.next.next; } return dummy.next; } 删除链表的倒数第N个结点 # 没写出来，卡哥的方法很妙，用快慢指针，快慢指针中间间隔 n+1 位数，这样，快指针到链表最后，慢指针刚刚好到了要删除的数的前一位，具体写的代码如下：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day006-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day006-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/</guid>
+      <description>今天刷的题 # 242. 有效的字母异位词
+349. 两个数组的交集
+202. 快乐数
+1. 两数之和
+总结 # 有效字母的异位词 # 相关哈希表的知识早就忘完了，今天刚刚刷哈希表章节的题目，感觉很是陌生难下手，看了卡哥的题解才自己写出来了。主要思想是开辟一个新数组，新数组的下标用来表示字母，新数组的元素值用来计数。具体代码如下：
+public static boolean isAnagram(String s, String t) { int[] record = new int[26]; for (int i = 0; i &amp;lt; s.length(); i++) { record[s.charAt(i) - &amp;#39;a&amp;#39;]++; } for (int i = 0; i &amp;lt; t.length(); i++) { record[t.charAt(i) - &amp;#39;a&amp;#39;]--; } for (int count : record){ if (count != 0) { return false; } } return true; } 两个数组的交集 # 这题我用了和上题一样的方法解的，因为我发现题目限制了数值，数值最大只有1000，最小为0，所以我还是开辟了一个1001长度的数组用来给第一个数组计数。遍历完第一个数组后遍历第二个数组，查看其位置是否大于0，如果大于0，则说明有交集，将其标记为-1，并用一个计数器，记录个数。然后初始化一个数组保存结果，并遍历任意一个数组，一旦发现为-1，将其存入数组。时间复杂度为 O(2m + n)，发现比卡哥的代码要快一点， 代码如下：</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day007-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day007-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/</guid>
+      <description>今天刷的题 # 454. 四数相加 II
+383. 赎金信
+15. 三数之和
+18. 四数之和
+总结 # 四数相加 # 稍微想了下，除掉暴力，丝毫没有思路，看了卡哥的题解，巧妙的将多重循环变成了双重循环，时间复杂度一下子降了好几个量级。代码如下：
+class Solution { public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) { Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); int temp; int res = 0; //统计两个数组中的元素之和，同时统计出现的次数，放入map for (int i : nums1) { for (int j : nums2) { temp = i + j; if (map.containsKey(temp)) { map.put(temp, map.get(temp) + 1); } else { map.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day008-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day008-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>今天刷的题 # 344. 反转字符串
+541. 反转字符串 II
+剑指 Offer 05. 替换空格
+151. 反转字符串中的单词
+剑指 Offer 58 - II. 左旋转字符串
+总结 # 反转字符串 # 没啥可说的，反着 for 循环，然后记录即可。
+class Solution { public void reverseString(char[] s) { int leftIndex = 0; int rightIndex = s.length-1; while (leftIndex &amp;lt; rightIndex) { char temp = s[leftIndex]; s[leftIndex++] = s[rightIndex]; s[rightIndex--] = temp; } } } 反转字符串|| # 这题没写出来，总结下主要思想，主要的思想方法有三个：
+寻找 firstK 和 secondK 的位置 切片，反转 start 到 firstK 的元素 加入 StringBuffer class Solution { public String reverseStr(String s, int k) { StringBuffer res = new StringBuffer(); int start = 0; int length = s.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day009-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day009-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>今天的任务主要是复习双指针算法，以及了解 KMP 算法
+双指针
+KMP</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day010-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day010-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</guid>
+      <description>今天刷的题 # 学习栈和队列的理论知识 232.用栈实现队列 225.用队列实现栈 总结 # 题目之前做过，今天做挺快的，很快就刷完了，并且一次AC。
+用栈实现队列 # 这里主要用两个栈 stackIn 和 stackOut：
+正常 push，入 stackIn 取元素时，以及判空时，先检查 stackOut 是否为空，不空取元素，空的话将 stackIn 中的元素全部放入再返回 代码如下：
+class MyQueue { Stack&amp;lt;Integer&amp;gt; stackIn = new Stack&amp;lt;&amp;gt;(); Stack&amp;lt;Integer&amp;gt; stackOut = new Stack&amp;lt;&amp;gt;(); public MyQueue() { } public void push(int x) { stackIn.push(x); } public int pop() { if (stackOut.isEmpty()) { // 一个栈移到另一个栈 while (!stackIn.isEmpty()) { stackOut.push(stackIn.pop()); } } return stackOut.pop(); } public int peek() { if (stackOut.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day011-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day011-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</guid>
+      <description>今天刷的题 # 有效的括号 1047. 删除字符串中的所有相邻重复项 150. 逆波兰表达式求值 总结 # 目前所遇到的栈与队列相关的题目感觉还都是比较简单的。
+有效的括号 # 用一个栈，遍历所有括号，放入栈，同时，一旦发现栈顶的括号与当前放入的括号匹配，则立马出栈。代码如下：
+class Solution { public boolean isValid(String s) { Stack&amp;lt;Character&amp;gt; characters = new Stack&amp;lt;&amp;gt;(); for (int i = 0; i &amp;lt; s.length(); i++) { if (!characters.isEmpty()) { if (s.charAt(i) == &amp;#39;]&amp;#39; &amp;amp;&amp;amp; characters.peek() == &amp;#39;[&amp;#39;) { characters.pop(); } else if (s.charAt(i) == &amp;#39;)&amp;#39; &amp;amp;&amp;amp; characters.peek() == &amp;#39;(&amp;#39;) { characters.pop(); } else if (s.charAt(i) == &amp;#39;}&amp;#39; &amp;amp;&amp;amp; characters.peek() == &amp;#39;{&amp;#39;) { characters.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day013-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day013-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</guid>
+      <description>今天刷的题 # 滑动窗口最大值
+前 K 个高频元素
+总结 # 两题都是属于困难级别的题目，也都没有做出来。并且理解的时候也还比较困难，需要点时间去消化。
+滑动窗口最大值 # 解题用的算法是单调队列，之前从没接触过，主要需要了解单调队列怎么去写，怎么去维护值的更新，哪些值需要去维护。
+class Solution { public int[] maxSlidingWindow(int[] nums, int k) { int[] res = new int[nums.length - k + 1]; MonotoneQueue monotoneQueue = new MonotoneQueue(); for (int i = 0; i &amp;lt; k; i++) { monotoneQueue.push(nums[i]); } for (int i = k; i &amp;lt; nums.length; i++) { res[i-k] = monotoneQueue.front(); monotoneQueue.pop(nums[i-k]); monotoneQueue.push(nums[i]); } res[nums.length-k] = monotoneQueue.front(); return res; } } public class MonotoneQueue { private Deque&amp;lt;Integer&amp;gt; deque = new ArrayDeque&amp;lt;&amp;gt;(); void pop(int value) { if (value == deque.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day014-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day014-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
+      <description>今天刷的题 # 二叉树的前序遍历
+二叉树的后序遍历
+二叉树的中序遍历
+总结 # 今天的题不按照题来总结了，按照方法来总结，因为每一道题都有三种相同的解决方法。
+递归法 # 针对这三道题，递归方法来遍历解答比较统一，每个不同的仅有顺序。具体代码如下：
+// 前序遍历 class Solution { public List&amp;lt;Integer&amp;gt; preorderTraversal(TreeNode root) { List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;(); preorder(root, res); return res; } public void preorder(TreeNode treeNode, List&amp;lt;Integer&amp;gt; res) { if (treeNode == null) return; res.add(treeNode.val); preorder(treeNode.left, res); preorder(treeNode.right, res); } } // 中序遍历 class Solution { public List&amp;lt;Integer&amp;gt; inorderTraversal(TreeNode root) { List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;(); inorder(root, res); return res; } public void inorder(TreeNode treeNode, List&amp;lt;Integer&amp;gt; res) { if (treeNode == null) return; inorder(treeNode.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day015-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day015-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
+      <description>今天刷的题 # 102.二叉树的层序遍历 # 107.二叉树的层次遍历II # 226.翻转二叉树 # 101. 对称二叉树 # 总结 # 二叉树的层序遍历 # 最终要求返回的结果是嵌套的 List，外层 List 存放层，内层 List 存放数值，用一个计数器记录层数，然后再用递归方法来解决。具体代码如下：
+class Solution { public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; levelOrder(TreeNode root) { List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;(); if (root == null) return res; int levelNum = 0; levelOrderProcess(root, res, levelNum); return res; } public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; levelOrderProcess(TreeNode node, List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res, int levelNum) { levelNum++; // 表示层数 if (res.size() &amp;lt; levelNum) { // 让层数和 size 保持一致 List&amp;lt;Integer&amp;gt; level = new ArrayList&amp;lt;&amp;gt;(); res.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://pp-tt.github.io.git/notes/leetcode/day017-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://pp-tt.github.io.git/notes/leetcode/day017-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
+      <description>今天刷的题 # 二叉树的最大深度 # 111.二叉树的最小深度 # 222. 完全二叉树的节点个数 # 总结 # 最近事比较多，打算把进度补上，不然压着好难受呀，但是事情确实又比较多。同时我发现一个问题，二叉树这一块，很多方法模版，递归、迭代、同一递归等等，但是都掌握的话时间又不够，到近期刷题感觉很乱。所以现在一刷我不求那么多，指掌握递归吧。
+二叉树的最大深度 # 用前序遍历和后序遍历都可以，中序遍历没有试过。
+class solution { /** * 递归法 */ public int maxDepth(TreeNode root) { if (root == null) { return 0; } int leftDepth = maxDepth(root.left); int rightDepth = maxDepth(root.right); return Math.max(leftDepth, rightDepth) + 1; } } 二叉树的最小深度 # 也是前序后序都可以，我也没做出来，卡哥的代码写的太精简了，忍不住想贴上来。
+class Solution { /** * 递归法，相比求MaxDepth要复杂点 * 因为最小深度是从根节点到最近**叶子节点**的最短路径上的节点数量 */ public int minDepth(TreeNode root) { if (root == null) { return 0; } int leftDepth = minDepth(root.</description>
+    </item>
+    
+  </channel>
+</rss>

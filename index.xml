@@ -1,0 +1,1044 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>噗通 on 噗通 🍀</title>
+<link>https://pp-tt.github.io.git/</link>
+<description>Recent content in 噗通 on 噗通 🍀</description>
+<generator>Hugo -- gohugo.io</generator>
+<language>zh</language>
+<lastBuildDate>Mon, 10 Mar 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://pp-tt.github.io.git/index.xml" rel="self" type="application/rss+xml"/>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/jvm/%E4%BB%80%E4%B9%88%E6%98%AF-jvm/</link>
+<pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/jvm/%E4%BB%80%E4%B9%88%E6%98%AF-jvm/</guid>
+<description> 什么是 JVM # JVM 定义 # Java Virtual Machine 是 java 程序的运行环境（java 二进制字节码的运行环境）。
+JVM 有什么好处？ # 一次编写，到处运行 自动内存管理，垃圾回收功能 数组下标越界检查 多态 JVM、JRE、JDK 三者之间关系？ # JRE（Java Runtime Environment）：JVM + 基础类库
+JDK（Java Developm Kit）：JVM + 基础类库 + 编译工具
+JVM 组成结构 # 补充：
+ClassLoader： 加载二进制字节码到 JVM 中。 Method Area： 类均放在方法区部分。 Heap： 类创建的实例对象放在 Heap 部分，堆中的实例调用方法时用到 JVM Stacks、PC Register、Native Method Stacks。方法中的每行代码由执行引擎中的 Interpreter 逐行执行， JIT 对方法中的热点代码进行优化后执行。 GC： 对 Heap 中不再被引用的对象进行垃圾回收。 </description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/redis/nosql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E4%BB%8B/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/redis/nosql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E4%BB%8B/</guid>
+<description>NoSQL数据库简介 # NoSQL概述 # NoSQL 不同于 MySql，不依赖业务逻辑方式存储，以简单的 key-value 方式存储，增加了数据库的扩展能力。
+NoSQL 适用场景 # 对高并发数据的读写 海量数据的读写 对数据的高扩展性 NoSQL不适用场景 # 需要事务支持 基于 sql 的结构化查询存储，处理复杂的关系 用不着sql的和用了sql也不行的情况就考虑用 NoSQL Memcached 与 Redis 的不同 # Memcached支持单一数据类型，而Redis支持多种数据类型 Memcached不支持持久化，但是Redis可以支持 Memcached采用多线程+锁，Redis使用的是单线程+多路IO复用 多路IO复用 # IO 多路复用是一种同步IO模型，实现一个线程可以监视多个文件句柄； 一旦某个文件句柄就绪，就能够通知应用程序进行相应的读写操作； 没有文件句柄就绪就会阻塞应用程序，交出CPU。</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/spring/beanfactory%E4%B8%8Eapplicationcontext/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/spring/beanfactory%E4%B8%8Eapplicationcontext/</guid>
+<description>BeanFactory 与 ApplicationContext # BeanFactory # 什么是 BeanFactory # BeanFactory 是 ApplicationContext 的父接口，它是 Spring 的核心容器，主要的 Spring 实现都组合了它的功能。
+BeanFactory 能做什么 # 类的方法如下图，表面上只有 getBean()，实际上控制反转、依赖注入、Bean 的生命周期等各种功能都由它的实现类来实现。
+ApplicationContext # 如下图，ApplicationContext 的扩展功能主要体现在它的四个父接口上。
+MessageSource：处理国际化资源，如程序支持多种语言、翻译
+ResourcePatternResolver：根据通配符去匹配资源
+file：磁盘路径下找资源
+classpsth：类路径下找资源
+classpsth*：类和jar包下找资源
+ApplicationEventPublisher：用来发布事件对象，通常可以作为事件解藕
+EnvironmentCapable：处理环境信息，如yaml、yml等
+总结 # BeanFactory 与 ApplicationContext 之间并不仅仅是简单的接口继承关系，ApplicationContext 组合并扩展了 BeanFactory 的功能。除此之外，通过 ApplicationEventPublisher 学到一种解藕技术。</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+<description>TensorFlow 笔记（一） # 介绍TensorFlow基本API和神经网络训练的基本流程：准备数据（数据加载，数据乱序，数据分割，数据配对），搭建神经网络，参数优化，计算LOSS，计算ACC，画出LOSS和ACC图。通过鸢尾花分类串起来以上操作。
+1.神经网络的计算过程 # 反向传播计算示例代码：
+import tensorflow as tf w = tf.Variable(tf.constant(5, dtype=tf.float32)) # 定义可变变量 lr = 0.999 # 定义学习率 epoch = 40 # 迭代次数 for epoch in range(epoch): with tf.GradientTape() as tape: # with 结构起到grads框起了梯度的计算过程 loss = tf.square(w + 1) grads = tape.gradient(loss, w) # .gradient函数告知谁对谁求导 w.assign_sub(lr * grads) # .assign_sub 对变量做自减，即 w -= lr * grads print(f&amp;#34;After {epoch} epoch, w is {w.numpy()}, loss is {loss}&amp;#34;) 2.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/c/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/c/</guid>
+<description>C 语言中 ## 和 # 的区别 # ## 操作符 # ## 操作符（Token Pasting Operator）：在宏定义中，**## 可以将两个标识符（tokens）粘合在一起，形成一个新的标识符。**例如，如果有以下宏定义：
+#define CONCAT(a, b) a##b 那么，当你调用 CONCAT 宏并传递两个参数时，它会将这两个参数的内容合并成一个新的标识符：
+CONCAT(foo, bar); // 最终的标识符为 &amp;#34;foobar&amp;#34; # 操作符 # # 操作符（Stringizing Operator）：在宏定义中，# 可以将宏参数转化为字符串常量。例如，如果有以下宏定义：
+#define STRINGIFY(x) #x 那么，当你调用 STRINGIFY 宏并传递一个参数时，它会将参数转换为字符串常量：
+printf(&amp;#34;%s\n&amp;#34;, STRINGIFY(Hello)); // 输出 &amp;#34;Hello&amp;#34; # 操作符的作用是将参数的内容用双引号包裹起来，将其转化为字符串。
+实验 # 实验如下：
+#include &amp;lt;stdio.h&amp;gt; #define GENSTR(x) #x #define CONCAT(a, b) a##b int main() { // ## 实验 int foobar = 5; printf(&amp;#34;%d\n&amp;#34;, CONCAT(foo, bar)); // # 实验 printf(&amp;#34;%s\n&amp;#34;, GENSTR(String)); return(0); } 输出结果：</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE/</guid>
+<description>UML图 # 统一建模语言（Unified Modeling Language，UML）是用来设计软件的可视化建模语言。它的特点是简单、统一、图形化、能表达软件设计中的动态与静态信息。
+UML 从目标系统的不同角度出发，定义了用例图、类图、对象图、状态图、活动图、时序图、协作图、构件图、部署图等 9 种图。
+1 类图概述 # 类图(Class diagram)是显示了模型的静态结构，特别是模型中存在的类、类的内部结构以及它们与其他类的关系等。类图不显示暂时性的信息。类图是面向对象建模的主要组成部分。
+2 类图的作用 # 在软件工程中，类图是一种静态的结构图，描述了系统的类的集合，类的属性和类之间的关系，可以简化了人们对系统的理解； 类图是系统分析和设计阶段的重要产物，是系统编码和测试的重要模型。 3 类的表示方式 # 在UML类图中，类使用包含类名、属性(field) 和方法(method) 且带有分割线的矩形来表示，比如下图表示一个Employee类，它包含name,age和address这3个属性，以及work()方法。
+属性/方法名称前加的加号和减号表示了这个属性/方法的可见性，UML类图中表示可见性的符号有三种：
++：表示public
+-：表示private
+#：表示protected
+属性的完整表示方式是： 可见性 名称 ：类型 [ = 缺省值]
+方法的完整表示方式是： 可见性 名称(参数列表) [ ： 返回类型]
+注意：
+​	1，中括号中的内容表示是可选的
+​	2，也有将类型放在变量名前面，返回值类型放在方法名前面
+举个栗子：
+上图Demo类定义了三个方法：
+method()方法：修饰符为public，没有参数，没有返回值。 method1()方法：修饰符为private，没有参数，返回值类型为String。 method2()方法：修饰符为protected，接收两个参数，第一个参数类型为int，第二个参数类型为String，返回值类型是int。 4 类图的表示方式 # 4.1 关联关系 # 关联关系是对象之间的一种引用关系，用于表示一类对象与另一类对象之间的联系，如老师和学生、师傅和徒弟、丈夫和妻子等。关联关系是类与类之间最常用的一种关系，分为一般关联关系、聚合关系和组合关系。我们先介绍一般关联。
+关联又可以分为单向关联，双向关联，自关联。
+4.1.1 单向关联 # 在UML类图中单向关联用一个带箭头的实线表示。上图表示每个顾客都有一个地址，这通过让Customer类持有一个类型为Address的成员变量类实现。
+4.1.2 双向关联 # 从上图中我们很容易看出，所谓的双向关联就是双方各自持有对方类型的成员变量。
+在UML类图中，双向关联用一个不带箭头的直线表示。上图中在Customer类中维护一个List&amp;lt;Product&amp;gt;，表示一个顾客可以购买多个商品；在Product类中维护一个Customer类型的成员变量表示这个产品被哪个顾客所购买。</description>
+</item>
+<item>
+<title>Concurrence</title>
+<link>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/%E5%B9%B6%E5%8F%91/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/%E5%B9%B6%E5%8F%91/</guid>
+<description>基础 # 1.并行跟并发有什么区别？ # 并行就是同一时刻，两个线程都在执行。这就要求有两个CPU去分别执行两个线程。 并发就是同一时刻，只有一个执行，但是一个时间段内，两个线程都执行了。并发的实现依赖于CPU切换线程，因为切换的时间特别短，所以基本对于用户是无感知的。 2.说说什么是进程和线程？ # 进程：进程是代码在数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位。 线程：线程是进程的一个执行路径，一个进程中至少有一个线程，进程中的多个线程共享进程的资源。 3.说说线程有几种创建方式？ # Java中创建线程主要有三种方式，分别为继承Thread类、实现Runnable接口、实现Callable接口。
+继承Thread类，重写run()方法，调用start()方法启动线程
+public class ThreadTest { /** * 继承Thread类 */ public static class MyThread extends Thread { @Override public void run() { System.out.println(&amp;#34;This is child thread&amp;#34;); } } public static void main(String[] args) { MyThread thread = new MyThread(); thread.start(); } } 实现 Runnable 接口，重写run()方法
+public class RunnableTask implements Runnable { public void run() { System.out.println(&amp;#34;Runnable!&amp;#34;); } public static void main(String[] args) { RunnableTask task = new RunnableTask(); new Thread(task).</description>
+</item>
+<item>
+<title>MP快速入门</title>
+<link>https://pp-tt.github.io.git/notes/mybatisplus/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/mybatisplus/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</guid>
+<description>共分为以下6步：
+1 创建表 # 创建数据表，用于测试使用，数据库名为 mybatis_plus，建表语句如下：
+# 创建表 CREATE TABLE user ( id BIGINT(20) NOT NULL COMMENT &amp;#39;主键ID&amp;#39;, name VARCHAR(30) NULL DEFAULT NULL COMMENT &amp;#39;姓名&amp;#39;, age INT(11) NULL DEFAULT NULL COMMENT &amp;#39;年龄&amp;#39;, email VARCHAR(50) NULL DEFAULT NULL COMMENT &amp;#39;邮箱&amp;#39;, PRIMARY KEY (id) ); # 插入数据 INSERT INTO user (id, name, age, email) VALUES (1, &amp;#39;Jone&amp;#39;, 18, &amp;#39;test1@baomidou.com&amp;#39;), (2, &amp;#39;Jack&amp;#39;, 20, &amp;#39;test2@baomidou.com&amp;#39;), (3, &amp;#39;Tom&amp;#39;, 28, &amp;#39;test3@baomidou.com&amp;#39;), (4, &amp;#39;Sandy&amp;#39;, 21, &amp;#39;test4@baomidou.com&amp;#39;), (5, &amp;#39;Billie&amp;#39;, 24, &amp;#39;test5@baomidou.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/jvm/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/jvm/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/</guid>
+<description>程序计数器（Program Counter Register） # 程序计数器用途 # 记住下一条 jvm 指令的执行地址，在物理上是通过寄存器来实现的。
+程序计数器执行流程 # 二进制字节码 ➡️ 解释器（中间解释器还需要去程序计数器取下一条指令的执行地址） ➡️ 机器码 ➡️ CPU。二进制字节码和 Java 源代码如下：
+二进制字节码 java 源代码 （每一条是jvm指令） 0: getstatic #20 // PrintStream out = System.out; 3: astore_1	// -- 4: aload_1	// out.println(1); 5: iconst_1	// -- 6: invokevirtual #26	// -- 9: aload_1	// out.println(2); 10: iconst_2	// -- 11: invokevirtual #26	// --	14: aload_1	// out.println(3); 15: iconst_3	// -- 16: invokevirtual #26	// -- 19: aload_1	// out.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/redis/redis-key/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/redis/redis-key/</guid>
+<description>Redis Key # keys *：查看当前库的所有 key
+exists key：判断某个 key 是否存在
+type key：查看 key 是什么类型
+del key：即时删除指定 key
+unlink key ：仅仅从 keyspace 元数据中删除，真正操作后续异步执行
+expire key 10：为给定的 key 设置过期时间
+ttl key：查看还有多少秒过期，-1 表示永不过期，-2表示已过期
+select：命令切换数据库
+dbsize：查看当前数据库的 key 的数量
+flushdb：清空当前库
+flushall：通杀全部库</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%8C/</guid>
+<description>TensorFlow 笔记（二） # 介绍神经网络的优化过程，主要有：
+神经网络复杂度 指数衰减学习率 激活函数 损失函数 欠拟合与过拟合 正则化减少过拟合 优化器更新网络参数 1. 预备知识 # tf.where(条件语句，真返回A，假返回B)：条件语句，真返回A，假返回B a = tf.constant([1, 2, 3, 1, 1]) b = tf.constant([0, 1, 3, 4, 5]) c = tf.where(tf.greater(a, b), a, b) # 若a&amp;gt;b，返回 a 对应位置的元素，否则返回 b 对应位置的元素 输出：c = tf.Tensor([1 2 3 4 5], shape=(5,), dtype=int32) np.random.RandomState.rand(维度)：返回 [0, 1) 之间的随机数 rdm = np.random.RandomState(seed=1) a = rdm.rand() # 返回一个随机标量 b = rdm.rand(2, 3) # 返回维度为2行3列随机数矩阵 np.vstack(数组1， 数组2)：将两个数组按垂直方向叠加 a = np.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/</guid>
+<description>设计原则 # 在软件开发中，为了提高软件系统的可维护性和可复用性，增加软件的可扩展性和灵活性，程序员要尽量根据6条原则来开发程序，从而提高软件开发效率、节约软件开发成本和维护成本。
+1 开闭原则 # 对扩展开放，对修改关闭。在程序需要进行拓展的时候，不能去修改原有的代码，实现一个热插拔的效果。简言之，是为了使程序的扩展性好，易于维护和升级。
+想要达到这样的效果，我们需要使用接口和抽象类。
+因为抽象灵活性好，适应性广，只要抽象的合理，可以基本保持软件架构的稳定。而软件中易变的细节可以从抽象派生来的实现类来进行扩展，当软件需要发生变化时，只需要根据需求重新派生一个实现类来扩展就可以了。
+下面以 搜狗输入法 的皮肤为例介绍开闭原则的应用。
+【例】搜狗输入法 的皮肤设计。
+分析：搜狗输入法 的皮肤是输入法背景图片、窗口颜色和声音等元素的组合。用户可以根据自己的喜爱更换自己的输入法的皮肤，也可以从网上下载新的皮肤。这些皮肤有共同的特点，可以为其定义一个抽象类（AbstractSkin），而每个具体的皮肤（DefaultSpecificSkin和HeimaSpecificSkin）是其子类。用户窗体可以根据需要选择或者增加新的主题，而不需要修改原代码，所以它是满足开闭原则的。
+2 里氏代换原则 # 里氏代换原则是面向对象设计的基本原则之一。
+里氏代换原则：**任何基类可以出现的地方，子类一定可以出现。**通俗理解：子类可以扩展父类的功能，但不能改变父类原有的功能。换句话说，子类继承父类时，除添加新的方法完成新增功能外，尽量不要重写父类的方法。
+如果通过重写父类的方法来完成新的功能，这样写起来虽然简单，但是整个继承体系的可复用性会比较差，特别是运用多态比较频繁时，程序运行出错的概率会非常大。
+下面看一个里氏替换原则中经典的一个例子
+【例】正方形不是长方形。
+在数学领域里，正方形毫无疑问是长方形，它是一个长宽相等的长方形。所以，我们开发的一个与几何图形相关的软件系统，就可以顺理成章的让正方形继承自长方形。
+代码如下：
+长方形类（Rectangle）：
+public class Rectangle { private double length; private double width; public double getLength() { return length; } public void setLength(double length) { this.length = length; } public double getWidth() { return width; } public void setWidth(double width) { this.width = width; } } 正方形（Square）：</description>
+</item>
+<item>
+<title>MyBatis</title>
+<link>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/mybatis/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/mybatis/</guid>
+<description>1. 说说什么是MyBatis? # Mybatis 是一个半 自动ORM（对象关系映射）框架，它内部封装了 JDBC，开发时只需要关注 SQL 语句本身，不需要花费精力去处理加载驱动、创建连接、创建statement 等繁杂的过程。 MyBatis 可以使用 XML 或注解来配置和映射原生信息，将 POJO 映射成数据库中的记录，避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。 2.为什么说Mybatis是半自动ORM映射工具？它与全自动的区别在哪里？ # Hibernate属于全自动ORM映射工具，使用Hibernate查询关联对象或者关联集合对象时，可以根据对象关系模型直接获取，所以它是全自动的。 而Mybatis在查询关联对象或关联集合对象时，需要手动编写SQL来完成，所以，被称之为半自动ORM映射工具。 3.Hibernate 和 MyBatis 有什么区别？ # 相同点
+都是对jdbc的封装，都是应用于持久层的框架。 不同点
+1）映射关系
+MyBatis 是一个半自动映射的框架，配置Java对象与sql语句执行结果的对应关系，多表关联关系配置简单 Hibernate 是一个全表映射的框架，配置Java对象与数据库表的对应关系，多表关联关系配置复杂 2）SQL优化和移植性
+Hibernate 对SQL语句封装，提供了日志、缓存、级联（级联比 MyBatis 强大）等特性，此外还提供 HQL（Hibernate Query Language）操作数据库，数据库无关性支持好，但会多消耗性能。如果项目需要支持多种数据库，代码开发量少，但SQL语句优化困难。 MyBatis 需要手动编写 SQL，支持动态 SQL、处理列表、动态生成表名、支持存储过程。开发工作量相对大些。直接使用SQL语句操作数据库，不支持数据库无关性，但sql语句优化容易。 3）MyBatis和Hibernate的适用场景不同
+Hibernate 是标准的ORM框架，SQL编写量较少，但不够灵活，适合于需求相对稳定，中小型的软件项目，比如：办公自动化系统 MyBatis 是半ORM框架，需要编写较多SQL，但是比较灵活，适合于需求变化频繁，快速迭代的项目，比如：电商网站 3. MyBatis使用过程？生命周期？ # MyBatis基本使用的过程大概可以分为这么几步：
+1）创建SqlSessionFactory
+可以从配置或者直接编码来创建SqlSessionFactory
+String resource = &amp;#34;org/mybatis/example/mybatis-config.xml&amp;#34;; InputStream inputStream = Resources.getResourceAsStream(resource); SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().</description>
+</item>
+<item>
+<title>一般查询操作</title>
+<link>https://pp-tt.github.io.git/notes/mybatisplus/%E4%B8%80%E8%88%AC%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/mybatisplus/%E4%B8%80%E8%88%AC%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C/</guid>
+<description>按照增、删、改、查的顺序，分别如下：
+1 新增记录 # @Test void addTest() { User user = new User(); user.setName(&amp;#34;测试2&amp;#34;); user.setAge(20); user.setEmail(&amp;#34;xzb996@gmail.com&amp;#34;); userMapper.insert(user); testSelectList(); } 2 删除指定 id # // 根据 ID 删除单个 @Test void testDelByID() { userMapper.deleteById(1614632871479058433L); testSelectList(); } 3 批量删除指定 id # // 根据 ID 批量删除 @Test void testDelBatchByID() { userMapper.deleteBatchIds(Arrays.asList(1614631462599655425L, 1614627651596423170L)); testSelectList(); } 4 根据 id 修改记录 # @Test void testUpdateByID() { User user = userMapper.selectById(1L); user.setName(&amp;#34;科比&amp;#34;); userMapper.updateById(user); testSelectList(); } 5 查询全部 # @Autowired UserMapper userMapper; // 查询全部 @Test void testSelectList() { List&amp;lt;User&amp;gt; userList = userMapper.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/jvm/%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/jvm/%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/</guid>
+<description>虚拟机栈 # 什么是虚拟机栈 # 即线程运行时需要的内存空间，多个线程多个虚拟机栈。每个虚拟机栈由栈帧组成，一个栈帧对应一次方法的调用，所以每个方法运行时需要的内存空间可以称之为栈帧。每个线程只能有一个活动栈帧，对应着当前正在执行的那个方法。
+问题辨析 # 垃圾回收是否涉及到栈内存？
+栈内存是一次次的方法调用所产生的栈帧内存，每次方法调用完毕，栈帧就会弹出 ，不需要垃圾回收来管理。
+栈内存分配越大越好吗？
+栈内存划分越大，会支持越多次数的方法递归调用，但是线程数量会越少， 因为物理内存是固定的。
+**栈内存在idea中设置方法：**Edit Configurations&amp;hellip; &amp;gt; Modify options &amp;gt; Add VM options
+然后设置参数如下：
+方法内的局部变量是否是线程安全的？
+判断一个变量是否安全，不仅要看是否为方法内的局部变量，还要判断其是否离开了方法的作用范围，如：行参、返回值等都能够引起线程不安全。基本类型是安全的，但是引用类型要考虑下述问题：
+如果方法内局部变量没有逃离方法的作用访问，它是线程安全的 如果是局部变量引用了对象（基本类型安全），并逃离方法的作用方法，需要考虑线程安全 栈内存溢出的原因？ # 过多的栈帧入栈，但是没有出栈就很容易导致栈内存溢出，一般递归调用没有一个正确的递归条件的话，就很容易导致栈内存溢出 栈帧过大 栈内存溢出问题案例分析： # Emp 和Dept 类之间存在相互引用，这时转 json 的话会出现无限递归的报错导致栈溢出，这时候只需要在被依赖的变量上添加注解@JsonIgnore打断循环依赖即可。
+/** * json 数据转换 */ public class Demo1_19 { public static void main(String[] args) throws JsonProcessingException { Dept d = new Dept(); d.setName(&amp;#34;Market&amp;#34;); Emp e1 = new Emp(); e1.setName(&amp;#34;zhang&amp;#34;); e1.setDept(d); Emp e2 = new Emp(); e2.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/redis/redis-string/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/redis/redis-string/</guid>
+<description>String # 二进制安全，可以包含任何数据，如图片、序列化对象等。
+常用命令 # set &amp;lt;key&amp;gt;&amp;lt;value&amp;gt;：添加键值对
+get &amp;lt;key&amp;gt;：查询对应键值
+append &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：将给定的 追加到原值的末尾
+strlen &amp;lt;len&amp;gt;：获得值的长度
+sentnx &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：只有key不存在时，设置 key 值
+incr &amp;lt;key&amp;gt;：将 key 中储存的数字增1（原子操作）
+decr &amp;lt;key&amp;gt;：将 key 中储存的数字减1
+incrby / decrby &amp;lt;key&amp;gt; &amp;lt;步长&amp;gt;：将key中数字按照自定义步长增减
+原子操作：不会被线程调度机制打乱的操作，这种线程一旦开始，就会一直运行到结束，中间不会跳到其他线程。
+mset &amp;lt;key1&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;key2&amp;gt; &amp;lt;value2&amp;gt;：设置多个键值
+mget &amp;lt;key1&amp;gt; &amp;lt;key2&amp;gt; &amp;lt;key3&amp;gt;：同时获取多个 value
+msetnx &amp;lt;key1&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;key2&amp;gt; &amp;lt;value2&amp;gt;：同时设置多个键值，前提 key 不存在
+getrange &amp;lt;key&amp;gt; &amp;lt;起始位置&amp;gt; &amp;lt;结束位置(包括)&amp;gt;：获得值的范围，类似 java 中的 substring
+setrange &amp;lt;key&amp;gt; &amp;lt;起始位置&amp;gt; &amp;lt;value&amp;gt;：用 value 覆盖从起始位置开始的字符串
+setex &amp;lt;key&amp;gt; &amp;lt;过期时间&amp;gt; &amp;lt;value&amp;gt;：设置键值的同时，设置过期时间，单位秒
+getset &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：以旧换新，设置新值的同时获得旧值</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%89/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%89/</guid>
+<description>TensorFlow 笔记（三） # 利用 TensorFlow API 搭建神经网络，利用六步法，采用 20 行左右代码重写 iris 分类。
+1. 六步法 # import train，test model = tf.keras.models.Sequential model.compile model.fit model.summary 2. 相关 API 解析 # 2.1 model # # 描述各层网络 model = tf.keras.models.Sequential([ 网络结构 ]) 网络结构举例：
+拉直层： tf.keras.layers.Flatten() 全连接层 tf.keras.layers.Dense(神经元个数, activation=&amp;#39;激活函数&amp;#39;, kernel_regularizer=哪种正则化) activation (字符串给出) 可选：relu, softmax, sigmoid, tanh kernel_regularizer 可选：tf.keras.regularizers.l1(), tf.keras.regularizers.l2() 卷积层 tf.keras.layers.Conv2D(filters = 卷积个数, kernel_size = 卷积, strides = 卷积步长, padding = &amp;#34;vaild&amp;#34; or &amp;#34;same&amp;#34;) LSTM层 tf.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
+<description>创建型模式 # 创建型模式的主要关注点是“怎样创建对象？”，它的主要特点是“将对象的创建与使用分离”。
+这样可以降低系统的耦合度，并且使用者不需要关注对象的创建细节。
+1 单例设计模式 # 1.1 概述 # 单例模式（Singleton Pattern）是 Java 中最简单的设计模式之一。这种类型的设计模式属于创建型模式，它提供了一种创建对象的最佳方式。
+这种模式涉及到一个单一的类，该类负责创建自己的对象，同时确保只有单个对象被创建。这个类提供了一种访问其唯一的对象的方式，可以直接访问，不需要实例化该类的对象。
+1.2 结构 # 单例模式的主要有以下角色：
+单例类。只能创建一个实例的类 访问类。使用单例类 1.3 案例实现 # 单例设计模式分类两种：
+​	饿汉式：类加载就会导致该单实例对象被创建
+​	懒汉式：类加载不会导致该单实例对象被创建，而是首次使用该对象时才会创建
+1.2.1 饿汉式 # 方式1（静态变量方式）
+点击展开 ... /** * 饿汉式 * 静态变量创建类的对象 */ public class Singleton { //私有构造方法 private Singleton() {} //在成员位置创建该类的对象 private static Singleton instance = new Singleton(); //对外提供静态方法获取该对象 public static Singleton getInstance() { return instance; } } 说明：
+​	该方式在成员位置声明Singleton类型的静态变量，并创建Singleton类的对象instance。instance对象是随着类的加载而创建的。如果该对象足够大的话，而一直没有使用就会造成内存的浪费。</description>
+</item>
+<item>
+<title>MySQL</title>
+<link>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/mysql/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/mysql/</guid>
+<description>1. 什么是内连接、外连接、交叉连接、笛卡尔积呢？ # 内连接（inner join）：取得两张表中满足存在连接匹配关系的记录。
+-- 标准语法（显式内连接） SELECT 列名 FROM 表名1 [INNER] JOIN 表名2 ON 条件; -- 查询用户信息和对应的订单信息 SELECT * FROM USER INNER JOIN orderlist ON user.id=orderlist.uid; -- 标准语法(隐式内连接) SELECT 列名 FROM 表名1,表名2 WHERE 条件; 外连接（outer join）：不只取得两张表中满足存在连接匹配关系的记录，还包括某张表（或两张表）中不满足匹配关系的记录。
+交叉连接（cross join）：显示两张表所有记录一一对应，没有匹配关系进行筛选，它是笛卡尔积在 SQL 中的实现，如果 A 表有 m 行，B 表有 n 行，那么 A 和 B 交叉连接的结果就有 m*n 行。
+笛卡尔积：是数学中的一个概念，例如集合 A={a,b}，集合 B={1,2,3}，那么 A✖️B={&amp;lt;a,o&amp;gt;,&amp;lt;a,1&amp;gt;,&amp;lt;a,2&amp;gt;,&amp;lt;b,0&amp;gt;,&amp;lt;b,1&amp;gt;,&amp;lt;b,2&amp;gt;,}。
+2.说一下数据库的三大范式？ # 第一范式：数据表中的每一列（每个字段）都不可以再拆分。例如用户表，用户地址还可以拆分成国家、省份、市，这样才是符合第一范式的。 第二范式：在第一范式的基础上，非主键列完全依赖于主键，而不能是依赖于主键的一部分。例如订单表里，存储了商品信息（商品价格、商品类型），那就需要把商品 ID 和订单 ID 作为联合主键，才满足第二范式。 第三范式：在满足第二范式的基础上，表中的非主键只依赖于主键，而不依赖于其他非主键。例如订单表，就不能存储用户信息（姓名、地址）。 三大范式的作用是为了控制数据库的冗余，是对空间的节省，实际上，一般互联网公司的设计都是反范式的，通过冗余一些数据，避免跨表跨库，利用空间换时间，提高性能。
+3.varchar 与 char 的区别？ # char：</description>
+</item>
+<item>
+<title>分页查询</title>
+<link>https://pp-tt.github.io.git/notes/mybatisplus/%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/mybatisplus/%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/</guid>
+<description>分页查询主要分为两个步骤，其一为添加分页插件，其二为配置分页参数。具体如下：
+1 添加分页插件 # 在 config 包中添加配置类， 这里命名为 MpConfig。其中代码如下：
+package com.atguigu.config; import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor; import org.springframework.context.annotation.Bean; import org.springframework.context.annotation.Configuration; @Configuration public class MpConfig { @Bean public PaginationInterceptor paginationInterceptor() { return new PaginationInterceptor(); } } 2 配置分页参数 # Page&amp;lt;User&amp;gt; page = new Page&amp;lt;&amp;gt;(1, 2); // 意思为从第一条记录开始，每页显示两条记录 userMapper.selectPage(page, null);	// 将 page 配置绑定到 userMapper 3 相关查询 API # page.getRecords().forEach(System.out::println); // 当前页所有记录 System.out.println(page.getPages()); // 总共页数 System.out.println(page.getCurrent()); // 获取当前页数 System.out.println(page.getSize()); // 每页记录数 System.out.println(page.getTotal()); // 总记录数 System.out.println(page.hasNext()); // 是否有下一页 System.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/jvm/%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88-/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/jvm/%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88-/</guid>
+<description>本地方法栈 # Java 语言不能直接和系统底层硬件打交道，这时候需要用到 C/C++编写的方法来与操作系统更底层的 API 通信，Java 代码可以通过本地方法（一般 native 修饰）来调用底层功能，这些本地方法运行的时候，所使用的内存就是本地方法栈。</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/redis/redis-list/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/redis/redis-list/</guid>
+<description>Redis List # 是简单的字符串列表，按照插入顺序排序，底层是双向链表，对两端操作性能高，索引下标操作中间性能会比较差。
+常用命令 # lpush/rpush &amp;lt;key&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;value2&amp;gt; &amp;lt;value3&amp;gt;：从左边或值右边插入值
+lpop/rpop &amp;lt;key&amp;gt;：吐值
+rpoplpush &amp;lt;key1&amp;gt; &amp;lt;key2&amp;gt;：从列表右边吐出一个值，插到 列表左边
+lrange &amp;lt;key&amp;gt; &amp;lt;start&amp;gt; &amp;lt;stop&amp;gt;：按照索引下标获得元素（从左到右），0~-1取所有值
+lindex &amp;lt;key&amp;gt; &amp;lt;index&amp;gt;：按照索引下标获得元素（从左到右）
+llen &amp;lt;key&amp;gt;：获得列表长度
+linsert &amp;lt;key&amp;gt; after/before &amp;lt;value&amp;gt; &amp;lt;newvalue&amp;gt; 在 的前/后面插入 lrem &amp;lt;key&amp;gt; &amp;lt;n&amp;gt; &amp;lt;value&amp;gt;：从左边删除 n 个 value（从左到右）
+lset &amp;lt;key&amp;gt; &amp;lt;index&amp;gt; &amp;lt;value&amp;gt;：将列表 key 下标为 index 的值替换成 value
+List 数据结构 # List的数据结构是 quickList，但不安全是，当数据元素比较少的时候，元素都是在连续内存空间存储，这时候的结构是 zipList，即压缩列表。当元素比较多的时候，会产生多个 zipList，然后将多个 zipList 以链表的形式存储。如下图：</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E5%9B%9B/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E5%9B%9B/</guid>
+<description>TensorFlow 笔记（四） # 对六步法进行扩展，扩展内容如下：
+自制数据集，解决本领域应用 数据增强，扩充数据集 断点续训，存取模型 参数提取，把参数存入文本 acc / loss 可视化，查看训练效果 应用程序，给图识物 1. 自制数据集 # &amp;#34;&amp;#34;&amp;#34; import &amp;#34;&amp;#34;&amp;#34; from matplotlib.pyplot import cla from sklearn import metrics from tensorflow.keras.layers import Dense, Flatten import tensorflow as tf from tensorflow.keras import Model from PIL import Image import numpy as np &amp;#34;&amp;#34;&amp;#34; train, test &amp;#34;&amp;#34;&amp;#34; train_img_path = &amp;#39;TensorFlow 笔记/mnist_image_label/mnist_train_jpg_60000&amp;#39; test_img_path = &amp;#39;TensorFlow 笔记/mnist_image_label/mnist_test_jpg_10000&amp;#39; train_label = &amp;#39;TensorFlow 笔记/mnist_image_label/mnist_train_jpg_60000.txt&amp;#39; test_label = &amp;#39;TensorFlow 笔记/mnist_image_label/mnist_test_jpg_10000.txt&amp;#39; def generateds(path, txt): f = open(txt) contents = f.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
+<description>结构型模式 # 1 代理模式 # 1.1 概述 # 由于某些原因需要给某对象提供一个代理以控制对该对象的访问。这时，访问对象不适合或者不能直接引用目标对象，代理对象作为访问对象和目标对象之间的中介。
+Java中的代理按照代理类生成时机不同又分为静态代理和动态代理。静态代理代理类在编译期就生成，而动态代理代理类则是在Java运行时动态生成。动态代理又有JDK代理和CGLib代理两种。
+1.2 结构 # 代理（Proxy）模式分为三种角色：
+抽象主题（Subject）类： 通过接口或抽象类声明真实主题和代理对象实现的业务方法。 真实主题（Real Subject）类： 实现了抽象主题中的具体业务，是代理对象所代表的真实对象，是最终要引用的对象。 代理（Proxy）类 ： 提供了与真实主题相同的接口，其内部含有对真实主题的引用，它可以访问、控制或扩展真实主题的功能。 1.3 案例实现 # 火车站卖票：如果要买火车票的话，需要去火车站买票，坐车到火车站，排队等一系列的操作，显然比较麻烦。而火车站在多个地方都有代售点，我们去代售点买票就方便很多了。这个例子其实就是典型的代理模式，火车站是目标对象，代售点是代理对象。类图如下：
+1.3.1 静态代理 # 点击展开 ... //卖票接口 public interface SellTickets { void sell(); } //火车站 火车站具有卖票功能，所以需要实现SellTickets接口 public class TrainStation implements SellTickets { public void sell() { System.out.println(&amp;#34;火车站卖票&amp;#34;); } } //代售点 public class ProxyPoint implements SellTickets { private TrainStation station = new TrainStation(); public void sell() { System.</description>
+</item>
+<item>
+<title>逻辑删除</title>
+<link>https://pp-tt.github.io.git/notes/mybatisplus/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/mybatisplus/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/</guid>
+<description>逻辑删除主要步骤如下：
+新增 deleted 字段
+实体类中添加对应字段并注释，如下
+@TableLogic private Integer deleted; 配置文件默认如下，也可以自定义，主要用于指定删除或未删除的默认值
+mybatis-plus: global-config: db-config: logic-delete-value: 1 logic-not-delete-value: 0 </description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/jvm/%E5%A0%86/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/jvm/%E5%A0%86/</guid>
+<description>堆（Heap） # 通过 new 关键字创建的对象都会使用堆。
+堆的特点 # 线程共享，堆中的对象都需要考虑线程安全问题。 有垃圾回收机制 堆内存溢出代码 # public class Demo1_5 { public static void main(String[] args) { int i = 0; try { List&amp;lt;String&amp;gt; list = new ArrayList&amp;lt;&amp;gt;(); String a = &amp;#34;hello&amp;#34;; while (true) { list.add(a); a = a + a; i++; } } catch (Throwable e) { e.printStackTrace(); System.out.println(i); } } } 报错代码 ... java.lang.OutOfMemoryError: Java heap space at java.base/java.util.Arrays.copyOf(Arrays.java:3512) at java.base/java.util.Arrays.copyOf(Arrays.java:3481) at java.base/java.util.ArrayList.grow(ArrayList.java:237) at java.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/redis/redis-set/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/redis/redis-set/</guid>
+<description>Redis Set # 常用命令 # sadd &amp;lt;key&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;value2&amp;gt;：将一个或多个 member 元素加入到集合 key 中，已经存在的 member 元素将被忽略
+smembers &amp;lt;key&amp;gt;：取出集合的所有值
+sismember &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：判断 key 中是否有 value，有1无0
+scard &amp;lt;key&amp;gt;：返回该集合中元素的个数
+srem &amp;lt;key&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;value2&amp;gt; &amp;lt;value3&amp;gt;：删除集合中的指定元素
+spop &amp;lt;key&amp;gt;：随机从集合中吐出一个值
+srandmember &amp;lt;key&amp;gt; &amp;lt;n&amp;gt;：随机从集合中取出 n 个值，不会从集合中删除
+smove &amp;lt;source&amp;gt; &amp;lt;destination&amp;gt; &amp;lt;value&amp;gt;：集合中的某个值移动到另一个集合
+sinter &amp;lt;key1&amp;gt; &amp;lt;key2&amp;gt;：返回两个集合的交集元素
+sunion &amp;lt;key1&amp;gt; &amp;lt;key2&amp;gt;：返回两个集合的并集元素
+sdiff &amp;lt;key1&amp;gt; &amp;lt;key2&amp;gt;：返回两个集合的差集元素
+数据结构 # Set 数据结构是 dict 字典，字典是用哈希表实现的。
+Java 中 HashSet 的内部实现使用的是 HashMap，但是所有的 value 都指向同一个对象。Redis 的 set 结构同样如此，内部也是用 hash 结构，所有的 value 都指向同一个内部值。</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%94/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%94/</guid>
+<description>TensorFlow 笔记（五） # 介绍卷积神经网络的一些概念，并利用卷积神经网络对 Cifar10 数据集进行分类。
+1.全连接NN # 每个神经元与前后相邻层的每一个神经元都有连接关系，输入是特征，输出为预测的结果。
+实际应用时会先对原始图像进行特征提取，再把提取到的特征送给全连接网络。
+2.卷积 # 卷积计算是一种有效的提取图像特征的方法。
+一般会用一个正方形的卷积核，按指定步长，在输入特征图上滑动，遍历输入特征图中的每个像素点。每一个步长，卷积核会与输入特征图出现重合区域，重合区域对应元素相乘，求和再加上偏执项得到输出特征的一个像素点。
+输入特征图的深度（channel数）决定了当前层卷积核的深度；当前层卷积核的个数，决定了当前层输出特征图的深度。
+tf.keras.layers.Conv2D( filters = ,	# 卷积核个数 kernel_size = ,	# 卷积核尺寸 # stride = ,	# 滑动步长 padding = ,	# &amp;#34;same&amp;#34; or &amp;#34;valid&amp;#34; activation = ,	# &amp;#34;relu&amp;#34;，&amp;#34;sofmax&amp;#34;，&amp;#34;tanh&amp;#34;，&amp;#34;sigmoid&amp;#34; # input_shape = ,	# (高，宽，通道数) ) 3. 感受野 # 卷积神经网络各输出特征图中的每个像素点在原始输入图片上映射区域的大小。 \[padding=\begin{cases}SAME（全零填充）, &amp;amp; \frac {入长}{步长}（向上取整） \\ VALID（不全零填充）, &amp;amp; \frac {入长-核长&amp;#43;1}{步长}（向上取整） \end{cases}\] 4. 批标准化（Batch Normalization，BN） # 标准化：使数据符合均值为 0，1 位标准差的分布</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
+<description>行为型模式 # 行为型模式用于描述程序在运行时复杂的流程控制，即描述多个类或对象之间怎样相互协作共同完成单个对象都无法单独完成的任务，它涉及算法与对象间职责的分配。
+行为型模式分为类行为模式和对象行为模式，前者采用继承机制来在类间分派行为，后者采用组合或聚合在对象间分配行为。由于组合关系或聚合关系比继承关系耦合度低，满足“合成复用原则”，所以对象行为模式比类行为模式具有更大的灵活性。
+1 模板方法模式 # 1.1 概述 # 在面向对象程序设计过程中，程序员常常会遇到这种情况：设计一个系统时知道了算法所需的关键步骤，而且确定了这些步骤的执行顺序，但某些步骤的具体实现还未知，或者说某些步骤的实现与具体的环境相关。
+例如，去银行办理业务一般要经过以下4个流程：取号、排队、办理具体业务、对银行工作人员进行评分等，其中取号、排队和对银行工作人员进行评分的业务对每个客户是一样的，可以在父类中实现，但是办理具体业务却因人而异，它可能是存款、取款或者转账等，可以延迟到子类中实现。
+定义一个操作中的算法骨架，而将算法的一些步骤延迟到子类中，使得子类可以不改变该算法结构的情况下重定义该算法的某些特定步骤。
+1.2 结构 # 模板方法（Template Method）模式包含以下主要角色：
+抽象类（Abstract Class）：负责给出一个算法的轮廓和骨架。它由一个模板方法和若干个基本方法构成。
+模板方法：定义了算法的骨架，按某种顺序调用其包含的基本方法。
+基本方法：是实现算法各个步骤的方法，是模板方法的组成部分。基本方法又可以分为三种：
+抽象方法(Abstract Method) ：一个抽象方法由抽象类声明、由其具体子类实现。
+具体方法(Concrete Method) ：一个具体方法由一个抽象类或具体类声明并实现，其子类可以进行覆盖也可以直接继承。
+钩子方法(Hook Method) ：在抽象类中已经实现，包括用于判断的逻辑方法和需要子类重写的空方法两种。
+一般钩子方法是用于判断的逻辑方法，这类方法名一般为isXxx，返回值类型为boolean类型。
+具体子类（Concrete Class）：实现抽象类中所定义的抽象方法和钩子方法，它们是一个顶级逻辑的组成步骤。
+1.3 案例实现 # 炒菜：炒菜的步骤是固定的，分为倒油、热油、倒蔬菜、倒调料品、翻炒等步骤。现通过模板方法模式来用代码模拟。类图如下：
+点击展开 ... public abstract class AbstractClass { public final void cookProcess() { //第一步：倒油 this.pourOil(); //第二步：热油 this.heatOil(); //第三步：倒蔬菜 this.pourVegetable(); //第四步：倒调味料 this.pourSauce(); //第五步：翻炒 this.fry(); } public void pourOil() { System.out.println(&amp;#34;倒油&amp;#34;); } //第二步：热油是一样的，所以直接实现 public void heatOil() { System.</description>
+</item>
+<item>
+<title>条件查询</title>
+<link>https://pp-tt.github.io.git/notes/mybatisplus/%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/mybatisplus/%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/</guid>
+<description>1 比较符号 # 符号 意义 ge 大于 gt 大于等于 le 小于 eq 等于 nq 不等于 le 小于 @Test public void testSelect() { QueryWrapper&amp;lt;User&amp;gt; queryWrapper = new QueryWrapper&amp;lt;&amp;gt;(); queryWrapper.ge(&amp;#34;age&amp;#34;, 28); List&amp;lt;User&amp;gt; users = userMapper.selectList(queryWrapper); System.out.println(users); } @Test public void testSelectOne() { QueryWrapper&amp;lt;User&amp;gt; queryWrapper = new QueryWrapper&amp;lt;&amp;gt;(); queryWrapper.eq(&amp;#34;name&amp;#34;, &amp;#34;Tom&amp;#34;); // seletOne返回的是一条实体记录，当出现多条时会报错 User user = userMapper.selectOne(queryWrapper); System.out.println(user); } 2 模糊查询 # 符号 意义 like %xx% likeLeft %xx rightLeft xx% selectMaps返回Map集合列表
+@Test public void testSelectMaps() { QueryWrapper&amp;lt;User&amp;gt; queryWrapper = new QueryWrapper&amp;lt;&amp;gt;(); queryWrapper .</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/jvm/%E6%96%B9%E6%B3%95%E5%8C%BA/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/jvm/%E6%96%B9%E6%B3%95%E5%8C%BA/</guid>
+<description>方法区 # 方法区是所有 Java 虚拟机线程共享的区域，它存储和类结构相关的信息，如成员变量、方法数据、成员方法和构造器方法的代码部分，以及类的构造器和运行时常量池等。方法区在虚拟机启动时被创建，如果内存不足，方法区也会跑出 OutOfMemoryError。
+JVM 1.8前后方法区的区别 # JVM 1.8 之前 和 JVM 1.8 的方法区实现不一样，JVM 1.8 之前是 PermGem（永久代），1.8 是 Metaspace（元空间），如下图：
+永久代内存溢出报错：java.lang.OutOfMemoryError: PermGen space
+永久代最大空间设置参数：-XX:MaxPermSize=8m
+元空间内存溢出报错：java.lang.OutOfMemoryError: Metaspace
+元空间最大空间设置参数：-XX:MaxMetaspaceSize=8m
+运行时常量池 # **常量池：**就是一张表，虚拟机指令根据这张表找到要执行的类名、方法名、参数类型、字面量等信息。
+**运行时常量池：**常量池是在 *.class 文件中的，当该类被加载，它的常量池信息就会放入运行时常量池，并把里面的符号地址变为真实地址。
+关于运行时常量池必知必会： # 可以使用 intern 方法，主动将串池中还没有的字符串对象放入串池 1.8 将这个字符串对象尝试放入串池，如果有则并不会放入，如果没有则放入串池并返回 1.8 将这个字符串对象尝试放入串池，如果有则并不会放入，如果没有则将此对象复制一份放入串池并返回 常量池中的字符串仅是符号，第一次用到时才变为对象 利用串池的机制来避免重复创建字符串对象 字符串变量拼接的原理是 StringBuilder（1.8） 和编译期优化 String s1 = &amp;#34;a&amp;#34;; String s2 = &amp;#34;b&amp;#34;; String s3 = &amp;#34;a&amp;#34; + &amp;#34;b&amp;#34;; String s4 = s1 + s2; String s5 = &amp;#34;ab&amp;#34;; String s6 = s4.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/redis/redis-hash/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/redis/redis-hash/</guid>
+<description>Hash 哈希 # 常用命令 # hset &amp;lt;key&amp;gt; &amp;lt;field&amp;gt; &amp;lt;value&amp;gt;：给 集合中的 赋值
+hget &amp;lt;key1&amp;gt; &amp;lt;field&amp;gt; &amp;lt;value&amp;gt;：从 key1 中取出 value
+hmet &amp;lt;key1&amp;gt; &amp;lt;field1&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;field2&amp;gt; &amp;lt;value2&amp;gt;：批量设置 hash 的值
+hexists &amp;lt;key1&amp;gt; &amp;lt;field&amp;gt;：判断 key1 中是否有 field 存在
+hkeys &amp;lt;key&amp;gt;：列出 hash 集合中的所有 field
+hvals &amp;lt;key&amp;gt;：列出 hash 集合中的所有 value
+hincrby &amp;lt;key&amp;gt; &amp;lt;field&amp;gt; &amp;lt;increment&amp;gt;：为 field 上的值加上 increment
+hsetnx &amp;lt;key&amp;gt; &amp;lt;field&amp;gt; &amp;lt;value&amp;gt;：同 hset，前提 field 不存在才能成功
+数据结构 # Hash 类型对应的数据结构是两种：ziplist（压缩列表），hashtable（哈希表）。当 field-value 长度较短且个数较少时，使用 ziplist，否则使用 hashtable。</description>
+</item>
+<item>
+<title>封装service使用</title>
+<link>https://pp-tt.github.io.git/notes/mybatisplus/%E5%B0%81%E8%A3%85service%E4%BD%BF%E7%94%A8/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/mybatisplus/%E5%B0%81%E8%A3%85service%E4%BD%BF%E7%94%A8/</guid>
+<description> 1 创建service # public interface UserService extends IService&amp;lt;User&amp;gt; { } 2 创建service实现类 # @Service public class UserServiceImpl extends ServiceImpl&amp;lt;UserMapper, User&amp;gt; implements UserService { } 3 底层封装了注入Mapper过程 # 4 方法调用测试 # @SpringBootTest class TestApplicationTests { //注入service @Autowired private UserService userService; //查询表所有数据 @Test public void findAll() { List&amp;lt;User&amp;gt; userList = userService.list(); for (User user:userList) { System.out.println(user); } } } </description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/</guid>
+<description>直接内存 # 不属于 Java 虚拟机内存，是操作系统内存。
+常见于 NIO 操作时， 用于缓冲内存 分配回收成本比较高，但读写性能高 不受 JVM 内存回收管理 直接内存既然不受 JVM 虚拟机管理和垃圾回收，那么它会不会被正确回收？底层又是如何实现的？ # 直接内存是通过主动调用 Unsafe 的 freeMenory 方法来释放内存的。
+分配和回收原理 # 使用了 Unsafe 对象完成直接内存的分配回收，并且回收需要主动调用它的 freeMemory 方法 ByteBuffer 的实现类内部，使用了 Cleaner （虚引用）来监测 ByteBuffer 对象，一旦 ByteBuffer 对象被垃圾回收，那么就会由 ReferenceHandler 线程通过 Cleaner 的 clean 方法调用 freeMemory 来释放直接內存 JVM 调优相关问题 # JVM 调优时一般会增加参数 -XX: +DisableExplicitGC 来禁用显式的垃圾回收，即 System.gc() ，但这主动调用触发的是 Full GC ，比较影响性能，因为不仅回收新生代，也会回收老年代，会使程序暂停时间比较长。所以为了防止一些程序员不小心在程序中写的 System.gc()，所以就加上 -XX: +DisableExplicitGC 。但这就会影响直接内存了，如果加上 -XX: +DisableExplicitGC 的话，直接内存就只有等到真正的垃圾回收的时候才会被清理，这就造成直接内存占用较大，长时间得不到释放。
+解决方案：
+直接内存的回收可以不用 Java 的垃圾回收，可以用 Unsafe 的 freeMenory 方法来释放内存。示例如下：</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/redis/redis-zset/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/redis/redis-zset/</guid>
+<description>Redis Zset 有序集合（sorted set） # 常用命令 # zadd &amp;lt;key&amp;gt; &amp;lt;score1&amp;gt; &amp;lt;value1&amp;gt; &amp;lt;score2&amp;gt; &amp;lt;value2&amp;gt;： 将一个或者多个 value 和 score 加入到 key 中
+zrange &amp;lt;key&amp;gt; &amp;lt;start&amp;gt; &amp;lt;stop&amp;gt; [withscores]：返回下标在 和 之间的元素，加 withscores 则返回 score
+zrangebyscore &amp;lt;key&amp;gt; &amp;lt;min&amp;gt; &amp;lt;max&amp;gt; [withscores] [limit offset count]：返回 score 在 和 之间的
+zrevrangebyscore &amp;lt;key&amp;gt; &amp;lt;max&amp;gt; &amp;lt;min&amp;gt; [withscores] [limit offset count]：逆序返回 score 在 和 之间的
+zincrby &amp;lt;key&amp;gt; &amp;lt;increment&amp;gt; &amp;lt;value&amp;gt;：为元素的 score 加上 增量
+zrem &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：删除该集合下指定值的元素
+zcount &amp;lt;key&amp;gt; &amp;lt;min&amp;gt; &amp;lt;max&amp;gt;：统计该集合分数区间内的元素个数
+zrank &amp;lt;key&amp;gt; &amp;lt;value&amp;gt;：返回该值在集合中的排名，从 0 开始</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</guid>
+<description> 垃圾回收 # 如何判断对象可以回收？ # 引用计数法 # 给对象添加一个引用计数器，每当有一个地方引用它，计数器值就加一；相反的，当引用失效的时候，计数器值就减一；任何时刻计数器为0的对象就是不可能再被使用的。 弊端： 循环引用，如下图，哪怕两个对象都没有被引用，也不会被回收，引用计数器不为0.
+可达性分析算法 # Java 虚拟机中的垃圾回收器采用可达性分析来探索所有存活的对象。 扫描堆中的对象，看是否能够沿着 GC Root 为起点的引用链找到该对象，找不到则表示可以回收。
+Java语言中，可以作为GC Roots的对象包括以下几种
+虚拟机栈（栈帧中的本地变量表）中引用的对象。 方法区中类静态属性引用的对象。 方法区中常量引用的对象。 本地方法栈中JNI（即一般说的Native方法）引用的对象。 四种引用 # 强引用
+只有所有 GC Roots 对象都不通过强引用引用该对象，该对象才能被垃圾回收
+软引用
+发生垃圾回收后又发现内存不够，这时候就会去回收仅有软引用的对象。（软引用自身也是一种引用对象，如果在创建软引用时给分配了一个引用队列，一旦其引用的对象都被回收时，软引用对象自身就会进入引用队列。）
+弱引用
+只要发生垃圾回收 (Full GC) ，不管内存够不够，都会去回收仅有弱引用的对象。（弱引用同上，软硬引用的回收可以通过引用队列来遍历然后回收）
+虚引用
+必须配合引用队列使用（软硬引用不是必须），主要配合 ByteBuffer 使用，被引用对象回收时，会将虚引用入队，由 Reference Handler 线程调用虚引用相关方法释放直接内存
+终结器引用
+必须配合引用队列使用（软硬引用不是必须）。无需手动编码，但其内部配合引用队列使用，在垃圾回收时，终结器引用入队（被引用对象暂时没有被回收），再由 Finalizer 线程通过终结器引用找到被引用对象并调用它的 finalize 方法，第二次 GC 时才能回收被引用对象。
+垃圾回收算法 # 标记清除 # 优点：速度快
+缺点：容易产生较多的内存碎片
+标记整理 # 缺点：效率较低
+优点：避免了内存碎片
+复制 # 缺点：占用双倍内存空间
+优点：不会产生内存碎片
+分代回收 # 对象首先分配在伊甸园区域 新生代不足时会触发 minor gc，伊甸园和from中存活的对象会使用 copy 复制到幸存区 to 中，存活对象年龄 +1 ，并交换 from 和 to minor gc 会引发 stop the world，并暂停其他用户线程，等待垃圾回收结束后，其他线程才会运行（因为 gc 会涉及到很多对象地址的变更，不暂停线程的话，容易引起程序崩溃） 当寿命超过阈值时，会晋升到老年代，最大寿命为 15 当老年代空间不足，会先尝试触发 minor gc，如果之后空间仍然不足，那么出发 full fc，这时 STW 时间更长 相关参数 # 含义 参数 堆初始大小 -Xms 堆最大大小 -Xmx 或 -XX:MaxHeapSize=size 新生代大小 -Xmn 或 (-XX:NewSize=size + -XX:MaxNewSize=size ) 幸存区比例(动态) -XX:InitialSurvivorRatio=ratio 和-XX:+UseAdaptiveSizePolicy 幸存区比例 -XX:SurvivorRatio=ratio 晋升阈值 -XX:MaxTenuringThreshold=threshold 晋升详情 -XX:+PrintTenuringDistribution GC详情 -XX:+PrintGCDetails -verbose:gc FullGC 前 MinorGC -XX:+ScavengeBeforeFullGC </description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/redis/redis-%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/redis/redis-%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/</guid>
+<description> 发布与订阅 # 发布订阅命令行实现 # 打开两个终端，一个作为发布者，一个作为订阅者
+订阅者终端订阅 # 订阅者终端订阅 subscribe channel1 发布者客户端给 channel1 发布消息 # 给 channel1 发布消息，其中返回的 1 是订阅者数量 publish channel1 hello 订阅方收到消息 </description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/</guid>
+<description>1. 串行垃圾回收器 # 单线程的垃圾回收器
+堆内存较小，适合个人电脑
+参数设置 # -XX:+UserSerialGC = Serial + SerialOld ：打开串行垃圾回收器
+Serial : 工作在新生代，才用的是复制算法 SerialOld : 工作在老年代，采用的是标记+整理算法 2. 吞吐量优先 # 多线程垃圾回收器 堆内存较大，多核 cpu
+尽可能让单位时间内，STW 的时间最短
+参数设置 # -XX:+UseParallelGC：1.8 默认开启，新生代垃圾回收器，复制算法
+-XX:+UseParallelOldGC：1.8 默认开启，老年代，标记+整理，两个开任意一个，另一个也会自动开启
+-XX:+UseAdaptiveSizePolicy ：采用自适应调整大小
+-XX:GCTimeRatio=ratio ：采用自适应调整大小时的参数，公式为1/(1+ratio)
+-XX:MaxGCPauseMillis=ms ：采用自适应调整大小时的参数，默认值 200 ms
+-XX:ParallelGCThreads=n ：控制线程数 n
+3. 响应时间优先 # 多线程垃圾回收器
+堆内存较大，多核 CPU
+尽可能让单次 STW 的时间最短
+参数设置 # -XX:+UseConcMarkSweepGC ~ -XX:+UseParNewGC ~ SerialOld
+-XX:+UseConcMarkSweepGC ：基于标记清除的，并发，即用户线程和垃圾回收线程是并发执行，工作在老年代，并发失败时会退化成 SeriaOld
+-XX:+UseParNewGC ：工作在新生代，基于复制算法的垃圾回收器，与-XX:+UseConcMarkSweepGC 是一对
+-XX:ParallelGCThreads=n：并行线程数，一般与 CPU 核数相同</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/redis/redis-jedis/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/redis/redis-jedis/</guid>
+<description>Redis Jedis # 连接测试 # 连接前需要去配置文件中修改两个参数，并需要确定 Redis 所在主机防火墙是否关闭。如果直接本机连接，则无需修改这些参数。
+配置文件修改 # mac 中配置文件地址 （brew 安装）：
+vi /opt/homebrew/etc/redis.conf 注释该条命令，否则绑定本机，只有本机能够连接：
+# 原始 bind 127.0.0.1 # 修改后 # bind 127.0.0.1 将 protected-mode 参数值设置为 no
+# 原始 protected-mode yes # 修改后 protected-mode no 检查防火墙是否关闭 # 检查防火墙状态 systemctl status firewalld 关闭防火墙 systemctl stop firewalld 代码测试连接 # public void testConnect() { Jedis jedis = new Jedis(&amp;#34;127.0.0.1&amp;#34;, 6379); String value = jedis.ping(); // 测试连接是否成功 System.out.println( value ); } 模拟验证码发送 # 需求： # 输入手机号，发送随机生成的 6 位数字码，2 分钟有效。 输入验证码，点击验证，返回成功或失败。 每个手机号每天只能输入三次。 public class VerifyCode { public static void main(String[] args) { verifyCode(&amp;#34;17729989359&amp;#34;); checkCode(&amp;#34;17729989359&amp;#34;, &amp;#34;872775&amp;#34;); } // 输入验证码，点击验证，返回成功或失败 public static void checkCode(String phone, String code) { // 连接 redis Jedis jedis = new Jedis(&amp;#34;127.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/redis/springboot-%E6%95%B4%E5%90%88-redis/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/redis/springboot-%E6%95%B4%E5%90%88-redis/</guid>
+<description>SpringBoot 整合 Redis # 在 SpringBoot2.x 之后，原来使用的 jedis 被替换成了 lettuce。
+jedis 和 leetuce 的区别
+jedis：采用的直连，多个线程操作的话是不安全的，如果想要避免不安全，那就使用 jedis pool 连接池，这更像 BIO lettuce：采用 netty， 实例可以在多个线程中共享，不存在线程不安全的情况！可以减少线程数据了，更像 Nio 模式 创建 SpringBoot 项目 # New Project # 配置 Redis 连接相关信息 # 在 application.yml 中配置 Redis 相关的连接信息，具体如下：
+spring: redis: host: 127.0.0.1 port: 6379 lettuce: pool: max-active: 8 #最大连接 max-idle: 8 #最大空闲连接 min-idle: 0 #最小空闲连接 max-wait: 100ms #连接等待时间 检查 Maven 依赖 # 当 redis 进行 Jackson 序列化时需要 Jackson 依赖。连接池的具体作用谷歌如下：</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/redis/redis-%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81%E6%9C%BA%E5%88%B6/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/redis/redis-%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81%E6%9C%BA%E5%88%B6/</guid>
+<description>Redis 事务和锁机制 # Redis事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。
+Redis事务的主要作用就是串联多个命令防止别的命令插队。
+multi、exec、discard # 从输入 multi 命令开始，输入的命令都会依次进入命令队列中，但不会执行，直到输入 exec 后，Redis会将之前的命令队列中的命令依次执行。组队的过程中可以通过 discard 来放弃组队。
+案例 # 组队成功，提交成功
+组队阶段报错，提交失败
+组队成功，提交有成功有失败情况
+事务的错误处理 # 组队中某个命令出现了报告错误，执行时整个的所有队列都会被取消。
+如果执行阶段某个命令报出了错误，则只有报错的命令不会被执行，而其他的命令都会执行，不会回滚。</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%812022%E5%B9%B4%E7%9A%84%E7%94%9F%E6%97%A5%E7%9A%84%E5%B0%8F%E8%AE%BA%E6%96%87/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%812022%E5%B9%B4%E7%9A%84%E7%94%9F%E6%97%A5%E7%9A%84%E5%B0%8F%E8%AE%BA%E6%96%87/</guid>
+<description>关于阿刁2022年的生日的小论文 # 其他话先不说吧，祝阿刁生日快乐，阿刁又漂亮了一岁！
+文章的部分内容被密码保护：
+--- DON'T MODIFY THIS LINE --- 千言万语，也不如陪阿刁身边真真切切的过个生日！但该有的仪式感，还是得有。
+虽然我是在你生日的时候才将这篇小论文写完，但不代表我是这时候才开始的，早在这之前，我就开始在想写些什么，该怎么写呢？就开头而言，对我来说是个非常难的事，我不知道怎么起头，就像和你才开始交往一样，那个开始，开始的好难，难散步、难聊天、难约会、难拥抱&amp;hellip;&amp;hellip; 我又延伸的想了想，我们好像共同走过了不少困难的时光，一定程度上也可以说是这些困难的日子成就了我们今天的感情基础！
+疫情这几年挺难的，对大家来说都挺难，对我们异地恋的情侣们来说，也真的是超难！若不是这该死的疫情，我现在会在淮南？但若和以前之前那段时间相比的话，这些难真的不算啥。
+就疫情开始前来说，那段时间我们能走在一起就难。我们在一起本就敏感、容易猜忌，那段时间，我们才开始，彼此正是建立信任和了解的阶段，这时候恰好又出现了疫情，对刚开始的我们来说真的很难。很感激那时候的你和我，冒着重重困难和危险出来和我见面，虽然只有几个小时的见面时间，但确实是我们如今感情坚实基础的很大的一部分。
+还有那彼此陪伴的考研、见家长等，这些一切，都很难。除此之外，还有现在的异地，虽然都很困难，但是没有哪一个困难没在告诉我们，只要克服了这个困难就是美好，就像小时候听过的那些大道理一样，但也确实就和那些大道理一样，只要走过了这些困难，就是美好。美好的未来，美好的你我组成的家庭，想象至此，憧憬万千&amp;hellip;&amp;hellip;
+今年我们两的生日都过的挺难的，没能陪着彼此过，但这后面会补上的我知道。我很珍惜每一个彼此陪伴的日子，能有彼此陪伴的生日，我更是珍惜，身边那么多感情的例子，无一不在用事实说明，现在的社会，两个人能合适的在一起，真的很难，同时也凸显出，我们能这么好的在一起，也真的是很难得的一段感情吧，所以我很珍惜，很珍惜每一个和你在一起的日子，经历愈多，感情愈深！这也是我为什么一直想和阿刁有个仅有彼此陪伴的旅游的原因！
+难归难，但难的结果是美好的，我们从一起在学校干饭的日子，走到现在一起在合肥干火锅、干烧烤的日子，再到以后一起做饭的日子，当然，阿刁可以不做，让我做饭给阿刁吃我也是非常愿意的。对我来说，重要的是彼此的陪伴，至于生活中的那些琐事，如果有了你的陪伴，我也觉得是非常非常有意义的事！
+我们彼此信任、了解也谦让，让这一切困难又显得是比较无力的。你总说你是个没耐心、焦躁的人，但我一直很庆幸，你对我们的感情有耐心、不焦躁，谢谢宝贝！也谢谢宝贝选择我、相信我、给我时间，我相信我也不会让阿刁失望的。
+道阻且长，行则将至；行而不辍，未来可期！</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/</guid>
+<description>&lt;h1 id="关于阿刁的2021年度总结"&gt;
+  关于阿刁的2021年度总结
+  &lt;a class="anchor" href="#%e5%85%b3%e4%ba%8e%e9%98%bf%e5%88%81%e7%9a%842021%e5%b9%b4%e5%ba%a6%e6%80%bb%e7%bb%93"&gt;#&lt;/a&gt;
+&lt;/h1&gt;
+&lt;p&gt;
+  &lt;img src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202211270921737.jpeg" alt="IMG_2486" /&gt;&lt;/p&gt;</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842022%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842022%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/</guid>
+<description>&lt;h1 id="关于阿刁的2022年度总结"&gt;
+  关于阿刁的2022年度总结
+  &lt;a class="anchor" href="#%e5%85%b3%e4%ba%8e%e9%98%bf%e5%88%81%e7%9a%842022%e5%b9%b4%e5%ba%a6%e6%80%bb%e7%bb%93"&gt;#&lt;/a&gt;
+&lt;/h1&gt;
+&lt;img src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/202301222111978.JPG" alt="beauty_1662823072446" style="zoom: 25%;" /&gt;</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/bms/bms-%E7%AE%80%E4%BB%8B/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/bms/bms-%E7%AE%80%E4%BB%8B/</guid>
+<description>BMS 相关概念 # 什么是 BMS # BMS（Battery Management System）电池管理系统，由硬件和软件共同组成，主要实现以下功能：
+管理多节锂电池组成的电池包 实现电池充放电管理，如防过充、防亏电 信息监控，如续航里程、剩余电量等 锂电池分类 # 主要分为两类，三元锂和磷酸铁锂，它们在特性和电参数上有差异，所以BMS也会有相应的差异。哪怕同是三元锂电池，也不能直接套用，还是需要进行调参的。
+BMS 需要解决的问题 # 充放电保护，如过充、过放、过温保护等。 充放电信息监控，如剩余电量、里程计算等。 电池状态监控，如剩余电量SOC、电池健康度SOH等。 充放电均衡，如充或放电时、主动或被动均衡。 与充电桩对接。如充电协议、快充标准等。 锂电池需要考虑的特性：
+充放电曲线，如图1
+单节电池的电特性参数值
+电池个体差异，同一规格电池彼此静态参数有误差，动态参数也有误差
+不同电池个体老化速度不同步
+动力电池和非动力电池的区别，主要区别在于放电电流区别，即多长时间能把这么多电放出来，动力电池一般可以放的电流更大，一般电钻、电机等可以用动力电池。
+充放电曲线：
+常见电池充放电保护相关参数：
+/***************************** 电池保护相关参数 ***********************************/ // 三元锂电池(Ternary lithium battery)默认参数 #define TLB_OV_PROTECT	4.20	// 单体过压保护电压 #define TLB_OV_RELIEVE	4.18	// 单体过压恢复电压 #define TLB_UV_PROTECT	3.10	// 单体欠压保护电压 #define TLB_UV_RELIEVE	3.15	// 单体欠压恢复电压 #define TLB_SHUTDOWN_VOLTAGE	3.08	// 自动关机电压 #define TLB_BALANCE_VOLTAGE	3.30	// 均衡起始电压 // 磷酸铁锂电池(lithium iron phosphate battery)默认参数 #define LIPB_OV_PROTECT	3.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/java/arraylist-%E6%89%A9%E5%AE%B9%E8%A7%84%E5%88%99/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/java/arraylist-%E6%89%A9%E5%AE%B9%E8%A7%84%E5%88%99/</guid>
+<description>掌握 ArrayList 的扩容相关机制 # 目标 # 掌握 ArrayList 的扩容机制 掌握 Iterator 的 fail-fast、fail-safe 机制 ArrayList 扩容机制 # new ArrayList() 会使用长度为零的数组 new ArrayList(int initialCapacity) 会使用指定容量的数组 public ArrayList(Collection&amp;lt;? extends E&amp;gt; c) 会使用 c 的大小作为数组容量 add(Object o) 首次扩容为 10，再次扩容为上次容量的 1.5 倍 addAll(Collection c) 没有元素时，扩容为 Math.max(10, 实际元素个数)，有元素时为 Math.max(原容量1.5倍, 实际元素个数) ArrayList 前 20 次扩容规律（底层用的是右移计算，如果口算 * 1.5 的话，则取整）：
+[0, 10, 15, 22, 33, 49, 73, 109, 163, 244, 366, 549, 823, 1234,1851, 2776, 4164, 6246, 9369, 14053, 21079] 相关问题 # 问：往数组中添加 100 个元素，会扩容成多大？ # 点击展开 .</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/java/hashmap-%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/java/hashmap-%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/</guid>
+<description>HashMap 相关学习总结 # 相关问题 # 红黑树相关问题 # 关于底层数据结构，HashMap 的 JDK 1.7 和 JDK 1.8 有何不同？ # 点击展开 ... JDK 1.7 组成：数组 + 链表 JDK 1.8 组成：数组 + 链表/红黑树 为什么要用红黑树？ # 点击展开 ... 红黑树用来避免 DoS 攻击，防止链表超长时性能下降，树化应当是偶然情况。 为何不一上来就树化？ # 点击展开 ... 刚刚开始时，链表长度都比较短，这时候链表的效率并不一定比树化后低，并且树化还会浪费存储。
+其次，hash 表的查找、更新的时间复杂度是 O(1) ，而红黑树的查找、更新的时间复杂度是 O(log2 n)，TreeNode 占用空间也比普通 Node 的大，如非必要，尽量还是使用链表。
+树化阈值为何为 8？ # 点击展开 ... 主要是为在时间和空间上恰好达到平衡，8 是根据概率统计而寻找的值。
+hash 值如果足够随机，则在 hash 表内按泊松分布，在负载因子 0.75 的情况下，长度超过8的链表出现概率是
+0.00000006（亿分之六），选择 8 就是为了让树化机率足够小。
+是不是一超过阈值就立马变为红黑树？是否要满足一些其他条件？ # 点击展开 ... 不是。</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/java/java-%E5%8F%8D%E5%B0%84/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/java/java-%E5%8F%8D%E5%B0%84/</guid>
+<description>Java 反射 # 将类的各个组成部分封装为其他对象，这就是反射机制。
+1 反射的一般步骤 # 获取类字节码 获取构造函数、成员变量或成员方法 执行或构造需要的业务 2 获取字节码的三种方式 # Class.forName(&amp;quot;全类名&amp;quot;)：多用于配置文件，将类名定义在配置文件中。读取文件，加载类 类名.class：多用于参数的传递 对象.getClass()：多用于从对象获取字节码的方式 同一个字节码文件在一次程序运行过程中，只会被加载一次，不论通过哪种方式获取的 class 对象都是同一个。
+3 Class 对象的功能 # 如上图，针对 Java 代码在计算机中经历的三个阶段来说，对于 Class 类对象阶段，主要有以下三种对象：
+Field Constructor Method 针对这三种对象，Class 分别提供 get*** 和 getDeclared*** 方法来获取，前者获取 public 的，后者获取所有被声明的。以下代码针对 get*** 给出代码演示和说明，getDeclared*** 类似。
+3.1 针对构造方法 # 获取 public 修饰的
+`Constructor getConstructors()`` ``Constructor getConstructor(类, 参数类型)` 获取全部类型
+Constructor getDeclaredConstructors() Constructor getDeclaredConstructor(类, 参数类型) 3.1.1 获取public修饰的有参构造函数并创建对象 # Class cls = Student.class; // 获取public修饰的有参构造函数并创建对象 Constructor constructor = cls.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day001-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day001-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/</guid>
+<description>今天刷的题 # 二分查找
+搜索插入位置
+在排序数组中查找元素的第一个和最后一个位置
+移除元素
+刷题总结 # 二分查找： # 通过看卡哥视频，了解到主要分为两个边界：[m,n] 和 [m,n) ， 然后代码的时候要注意统一边界问题，右边界的更行规则要和while中的规则一致。
+搜索插入位置： # 没能变通过来，直接套用了二分的模型，但是最后返回不对，主要是因为 while 循环外的返回直接用了 mid ，这里应该是返回左边界，也就是 left。
+在排序数组中查找元素的第一个和最后一个位置： # 暴力解决了，但是效果不太好。尝试二分解决，但是没能弄出来。后来看题解才发现，二分还能那样用，这题重点记一下吧。
+总的思路是利用两次二分查找，第一次查找左边界（第一个大于等于 target 的数字），第二次查找右边界（第一个大于 target 的数字）。暂时还不是太了解，代码如下：
+class Solution { public int[] searchRange(int[] nums, int target) { int leftIdx = binarySearch(nums, target, true); int rightIdx = binarySearch(nums, target, false) - 1; if (leftIdx &amp;lt;= rightIdx &amp;amp;&amp;amp; rightIdx &amp;lt; nums.length &amp;amp;&amp;amp; nums[leftIdx] == target &amp;amp;&amp;amp; nums[rightIdx] == target) { return new int[]{leftIdx, rightIdx}; } return new int[]{-1, -1}; } public int binarySearch(int[] nums, int target, boolean lower) { int left = 0, right = nums.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day002-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day002-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/</guid>
+<description>今天刷的题 # 977. 有序数组的平方
+209. 长度最小的子数组
+59. 螺旋矩阵 II
+总结 # 有序数组的平方 # 开始没想通，以为和之前那题“移除元素”一样，必须要原地操作，不能开拓新的数组。这给我整不会了，然后看题解才发现，是要开辟新数组的，悟了。
+// 给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。 public int[] sortedSquares(int[] nums) { int index = nums.length-1; int[] res = new int[index+1]; int l = 0, r = nums.length-1; while (l &amp;lt;= r) { if (nums[l] * nums[l] &amp;gt; nums[r] * nums[r] ) res[index--] = nums[l] * nums[l++]; else res[index--] = nums[r] * nums[r--]; } return res; } 长度最小的字数组 # 上次做是一个月前，不会做，看了卡哥题解，通透了，这次做直接会了。本质上还是双指针，这里说快慢指针的话感觉更合适。代码如下：</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day003-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day003-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/</guid>
+<description>今天刷的题 # 203. 移除链表元素 # 707. 设计链表 # 206. 反转链表 # 总结 # 移除元素 # 链表移除元素还是比较简单的，但涉及到一个头节点的处理，会很碍事的感觉，这里可以添加一个虚拟头节点，这样会很好用，可以编写代码统一处理。代码如下：
+// 给你一个链表的头节点 head 和一个整数 val ，请你删除链表中所有满足 Node.val == val 的节点，并返回 新的头节点 。 public ListNode removeElements(ListNode head, int val) { ListNode dummy = new ListNode(-1, head); ListNode p = new ListNode(); p.next = head; while (p.next != null) { if (p.next.val == val) { p.next = p.next.next; // p.next 删除 } else { p = p.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day004-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day004-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/</guid>
+<description>今天刷的题 # 24. 两两交换链表中的节点 # 19. 删除链表的倒数第 N 个结点 # 面试题 02.07. 链表相交 # 142. 环形链表 II # 总结 # 两两交换链表中的节点 # 这题还可以用递归，但是我没搞明白递归，递归回头要看一下。开始没画图，没做出来，指针题一定要画图，指针题一定要画图，指针题一定要画图！后来画图给整出来啦，第一题呀不是很难。代码如下：
+public static ListNode swapPairs(ListNode head) { ListNode dummy = new ListNode(-1, head); ListNode p = dummy; while (p.next != null &amp;amp;&amp;amp; p.next.next != null) { ListNode q = p.next.next.next; p.next.next.next = p.next; p.next = p.next.next; p.next.next.next = q; p = p.next.next; } return dummy.next; } 删除链表的倒数第N个结点 # 没写出来，卡哥的方法很妙，用快慢指针，快慢指针中间间隔 n+1 位数，这样，快指针到链表最后，慢指针刚刚好到了要删除的数的前一位，具体写的代码如下：</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day006-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day006-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/</guid>
+<description>今天刷的题 # 242. 有效的字母异位词
+349. 两个数组的交集
+202. 快乐数
+1. 两数之和
+总结 # 有效字母的异位词 # 相关哈希表的知识早就忘完了，今天刚刚刷哈希表章节的题目，感觉很是陌生难下手，看了卡哥的题解才自己写出来了。主要思想是开辟一个新数组，新数组的下标用来表示字母，新数组的元素值用来计数。具体代码如下：
+public static boolean isAnagram(String s, String t) { int[] record = new int[26]; for (int i = 0; i &amp;lt; s.length(); i++) { record[s.charAt(i) - &amp;#39;a&amp;#39;]++; } for (int i = 0; i &amp;lt; t.length(); i++) { record[t.charAt(i) - &amp;#39;a&amp;#39;]--; } for (int count : record){ if (count != 0) { return false; } } return true; } 两个数组的交集 # 这题我用了和上题一样的方法解的，因为我发现题目限制了数值，数值最大只有1000，最小为0，所以我还是开辟了一个1001长度的数组用来给第一个数组计数。遍历完第一个数组后遍历第二个数组，查看其位置是否大于0，如果大于0，则说明有交集，将其标记为-1，并用一个计数器，记录个数。然后初始化一个数组保存结果，并遍历任意一个数组，一旦发现为-1，将其存入数组。时间复杂度为 O(2m + n)，发现比卡哥的代码要快一点， 代码如下：</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day007-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day007-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/</guid>
+<description>今天刷的题 # 454. 四数相加 II
+383. 赎金信
+15. 三数之和
+18. 四数之和
+总结 # 四数相加 # 稍微想了下，除掉暴力，丝毫没有思路，看了卡哥的题解，巧妙的将多重循环变成了双重循环，时间复杂度一下子降了好几个量级。代码如下：
+class Solution { public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) { Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt;&amp;gt;(); int temp; int res = 0; //统计两个数组中的元素之和，同时统计出现的次数，放入map for (int i : nums1) { for (int j : nums2) { temp = i + j; if (map.containsKey(temp)) { map.put(temp, map.get(temp) + 1); } else { map.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day008-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day008-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+<description>今天刷的题 # 344. 反转字符串
+541. 反转字符串 II
+剑指 Offer 05. 替换空格
+151. 反转字符串中的单词
+剑指 Offer 58 - II. 左旋转字符串
+总结 # 反转字符串 # 没啥可说的，反着 for 循环，然后记录即可。
+class Solution { public void reverseString(char[] s) { int leftIndex = 0; int rightIndex = s.length-1; while (leftIndex &amp;lt; rightIndex) { char temp = s[leftIndex]; s[leftIndex++] = s[rightIndex]; s[rightIndex--] = temp; } } } 反转字符串|| # 这题没写出来，总结下主要思想，主要的思想方法有三个：
+寻找 firstK 和 secondK 的位置 切片，反转 start 到 firstK 的元素 加入 StringBuffer class Solution { public String reverseStr(String s, int k) { StringBuffer res = new StringBuffer(); int start = 0; int length = s.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day009-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day009-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+<description>今天的任务主要是复习双指针算法，以及了解 KMP 算法
+双指针
+KMP</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day010-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day010-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</guid>
+<description>今天刷的题 # 学习栈和队列的理论知识 232.用栈实现队列 225.用队列实现栈 总结 # 题目之前做过，今天做挺快的，很快就刷完了，并且一次AC。
+用栈实现队列 # 这里主要用两个栈 stackIn 和 stackOut：
+正常 push，入 stackIn 取元素时，以及判空时，先检查 stackOut 是否为空，不空取元素，空的话将 stackIn 中的元素全部放入再返回 代码如下：
+class MyQueue { Stack&amp;lt;Integer&amp;gt; stackIn = new Stack&amp;lt;&amp;gt;(); Stack&amp;lt;Integer&amp;gt; stackOut = new Stack&amp;lt;&amp;gt;(); public MyQueue() { } public void push(int x) { stackIn.push(x); } public int pop() { if (stackOut.isEmpty()) { // 一个栈移到另一个栈 while (!stackIn.isEmpty()) { stackOut.push(stackIn.pop()); } } return stackOut.pop(); } public int peek() { if (stackOut.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day011-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day011-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</guid>
+<description>今天刷的题 # 有效的括号 1047. 删除字符串中的所有相邻重复项 150. 逆波兰表达式求值 总结 # 目前所遇到的栈与队列相关的题目感觉还都是比较简单的。
+有效的括号 # 用一个栈，遍历所有括号，放入栈，同时，一旦发现栈顶的括号与当前放入的括号匹配，则立马出栈。代码如下：
+class Solution { public boolean isValid(String s) { Stack&amp;lt;Character&amp;gt; characters = new Stack&amp;lt;&amp;gt;(); for (int i = 0; i &amp;lt; s.length(); i++) { if (!characters.isEmpty()) { if (s.charAt(i) == &amp;#39;]&amp;#39; &amp;amp;&amp;amp; characters.peek() == &amp;#39;[&amp;#39;) { characters.pop(); } else if (s.charAt(i) == &amp;#39;)&amp;#39; &amp;amp;&amp;amp; characters.peek() == &amp;#39;(&amp;#39;) { characters.pop(); } else if (s.charAt(i) == &amp;#39;}&amp;#39; &amp;amp;&amp;amp; characters.peek() == &amp;#39;{&amp;#39;) { characters.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day013-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day013-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/</guid>
+<description>今天刷的题 # 滑动窗口最大值
+前 K 个高频元素
+总结 # 两题都是属于困难级别的题目，也都没有做出来。并且理解的时候也还比较困难，需要点时间去消化。
+滑动窗口最大值 # 解题用的算法是单调队列，之前从没接触过，主要需要了解单调队列怎么去写，怎么去维护值的更新，哪些值需要去维护。
+class Solution { public int[] maxSlidingWindow(int[] nums, int k) { int[] res = new int[nums.length - k + 1]; MonotoneQueue monotoneQueue = new MonotoneQueue(); for (int i = 0; i &amp;lt; k; i++) { monotoneQueue.push(nums[i]); } for (int i = k; i &amp;lt; nums.length; i++) { res[i-k] = monotoneQueue.front(); monotoneQueue.pop(nums[i-k]); monotoneQueue.push(nums[i]); } res[nums.length-k] = monotoneQueue.front(); return res; } } public class MonotoneQueue { private Deque&amp;lt;Integer&amp;gt; deque = new ArrayDeque&amp;lt;&amp;gt;(); void pop(int value) { if (value == deque.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day014-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day014-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
+<description>今天刷的题 # 二叉树的前序遍历
+二叉树的后序遍历
+二叉树的中序遍历
+总结 # 今天的题不按照题来总结了，按照方法来总结，因为每一道题都有三种相同的解决方法。
+递归法 # 针对这三道题，递归方法来遍历解答比较统一，每个不同的仅有顺序。具体代码如下：
+// 前序遍历 class Solution { public List&amp;lt;Integer&amp;gt; preorderTraversal(TreeNode root) { List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;(); preorder(root, res); return res; } public void preorder(TreeNode treeNode, List&amp;lt;Integer&amp;gt; res) { if (treeNode == null) return; res.add(treeNode.val); preorder(treeNode.left, res); preorder(treeNode.right, res); } } // 中序遍历 class Solution { public List&amp;lt;Integer&amp;gt; inorderTraversal(TreeNode root) { List&amp;lt;Integer&amp;gt; res = new ArrayList&amp;lt;&amp;gt;(); inorder(root, res); return res; } public void inorder(TreeNode treeNode, List&amp;lt;Integer&amp;gt; res) { if (treeNode == null) return; inorder(treeNode.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day015-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day015-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
+<description>今天刷的题 # 102.二叉树的层序遍历 # 107.二叉树的层次遍历II # 226.翻转二叉树 # 101. 对称二叉树 # 总结 # 二叉树的层序遍历 # 最终要求返回的结果是嵌套的 List，外层 List 存放层，内层 List 存放数值，用一个计数器记录层数，然后再用递归方法来解决。具体代码如下：
+class Solution { public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; levelOrder(TreeNode root) { List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;(); if (root == null) return res; int levelNum = 0; levelOrderProcess(root, res, levelNum); return res; } public List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; levelOrderProcess(TreeNode node, List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res, int levelNum) { levelNum++; // 表示层数 if (res.size() &amp;lt; levelNum) { // 让层数和 size 保持一致 List&amp;lt;Integer&amp;gt; level = new ArrayList&amp;lt;&amp;gt;(); res.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/leetcode/day017-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/leetcode/day017-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/</guid>
+<description>今天刷的题 # 二叉树的最大深度 # 111.二叉树的最小深度 # 222. 完全二叉树的节点个数 # 总结 # 最近事比较多，打算把进度补上，不然压着好难受呀，但是事情确实又比较多。同时我发现一个问题，二叉树这一块，很多方法模版，递归、迭代、同一递归等等，但是都掌握的话时间又不够，到近期刷题感觉很乱。所以现在一刷我不求那么多，指掌握递归吧。
+二叉树的最大深度 # 用前序遍历和后序遍历都可以，中序遍历没有试过。
+class solution { /** * 递归法 */ public int maxDepth(TreeNode root) { if (root == null) { return 0; } int leftDepth = maxDepth(root.left); int rightDepth = maxDepth(root.right); return Math.max(leftDepth, rightDepth) + 1; } } 二叉树的最小深度 # 也是前序后序都可以，我也没做出来，卡哥的代码写的太精简了，忍不住想贴上来。
+class Solution { /** * 递归法，相比求MaxDepth要复杂点 * 因为最小深度是从根节点到最近**叶子节点**的最短路径上的节点数量 */ public int minDepth(TreeNode root) { if (root == null) { return 0; } int leftDepth = minDepth(root.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/spring/nacos-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/spring/nacos-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/</guid>
+<description>1. Nacos 作为配置中心步骤 # 1.1 引入依赖 # &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-cloud-starter-bootstrap&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.0.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 1.2 创建一个 bootstrap.properties # spring.cloud.nacos.config.server-addr=127.0.0.1:8848 # nacos 服务地址 spring.application.name=gulimall-coupon # 应用名 1.3 添加配置中心数据集 # 给配置中心添加一个数据集（Data Id），默认是应用名.properties
+1.4 动态获取配置 # @RefreshScope：动态获取并刷新配置
+@Value(&amp;quot;${配置项名}&amp;quot;)：获取到配置
+如果配置中心和当前应用配置文件中都设置了相同的项，优先使用配置中心的配置。
+@RefreshScope	// 动态获取并刷新配置 @RestController @RequestMapping(&amp;#34;coupon/coupon&amp;#34;) public class CouponController { @Autowired private CouponService couponService; @Value(&amp;#34;${coupon.user.name}&amp;#34;) // 获取到配置 private String username; @Value(&amp;#34;${coupon.user.age}&amp;#34;) private Integer age; ... } 2. 详细了解 # 2.1 命名空间 # 用于进行配置隔离，不用命名空间下，可以存在相同的 Group 或 Data ID 的配置。Namespace 的常用场景之一是不同环境的配置区分隔离，例如开发环境和生产环境的资源隔离等。默认配置空间是 public。</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/spring/open-feign-%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/spring/open-feign-%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B/</guid>
+<description>官方文档有个特别简单的快速入门示例： 官方示例，这里我就我的项目总结一般使用步骤。
+导入依赖 # &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-cloud-starter-openfeign&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt; 声明接口，并使用 # 注意使用注解@FeignClient(&amp;quot;gulimall-coupon&amp;quot;) # @FeignClient(&amp;#34;gulimall-coupon&amp;#34;) // 要调用的模块名 public interface CouponFeignService { @RequestMapping(&amp;#34;coupon/coupon/member/list&amp;#34;) // 这里是 controller 中方法的引用，但是值要换成全路径 public R memberCoupon(); } contrller 如下：
+@RestController @RequestMapping(&amp;#34;member/member&amp;#34;) public class MemberController { // 被调用的方法 @RequestMapping(&amp;#34;/coupons&amp;#34;) public R test() { return R.ok().put(&amp;#34;coupons&amp;#34;, couponFeignService.memberCoupon().get(&amp;#34;coupon&amp;#34;)); } } 调用接口 # @RestController @RequestMapping(&amp;#34;member/member&amp;#34;) public class MemberController { @Autowired CouponFeignService couponFeignService; @RequestMapping(&amp;#34;/coupons&amp;#34;) public R test() { return R.ok().put(&amp;#34;coupons&amp;#34;, couponFeignService.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/spring/springboot-%E6%95%B4%E5%90%88-mybatis-plus/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/spring/springboot-%E6%95%B4%E5%90%88-mybatis-plus/</guid>
+<description> 导入依赖 # &amp;lt;!-- mybatis-plus 依赖 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.baomidou&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mybatis-plus-boot-starter&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;3.2.0&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;!-- 数据库驱动 --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;mysql&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;mysql-connector-java&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;8.0.28&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 配置 # 配置注解数据源 # @MapperScan(&amp;#34;XXXX/XXXXX/XXXX/dao&amp;#34;) @SpringBootApplication public class XXXXXApplication { public static void main(String[] args) { SpringApplication.run(XXXXXApplication.class, args); } } 配置 yml 文件 # # mysql 连接 spring: datasource: driver-class-name: com.mysql.jdbc.Driver url: jdbc:mysql://localhost:3306/gulimall_wms username: root password: root # mybatis-plus 配置 mybatis-plus: mapper-locations: classpath:/mapper/**/*.xml	# xml 映射文件 global-config: db-config: id-type: auto # 主键自增 </description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/swift/swiftui-%E5%B8%B8%E7%94%A8%E8%A7%86%E5%9B%BE-views/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/swift/swiftui-%E5%B8%B8%E7%94%A8%E8%A7%86%E5%9B%BE-views/</guid>
+<description>SwiftUI 的常用视图 # 1 文本视图 # 1.1 文本 Text # Text(&amp;#34;文字&amp;#34;) 1.2 标签 Label # Label(&amp;#34;文字&amp;#34;, systemImage: &amp;#34;SF Symbols 图标名称&amp;#34;) 1.3 文本框 TextField # @State var input = &amp;#34;&amp;#34; var body: some View { TextField(&amp;#34;占位文字&amp;#34;, text: $input) } 1.4 安全文本框 SecureField # @State var input = &amp;#34;&amp;#34; var body: some View { SecureField(&amp;#34;占位文字&amp;#34;, text: $input) } 1.5 链接 Link # Link(&amp;#34;说明文字&amp;#34;, destination: URL(string: &amp;#34;https://baidu.com&amp;#34;)!) 1.6 文本编辑器 # @State var input = &amp;#34;&amp;#34; var body: some View { TextEditor(text: $input) } 2 排版视图 # 2.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/swift/swiftui-%E4%BF%A1%E6%81%AF%E8%A7%86%E5%9B%BE-views/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/swift/swiftui-%E4%BF%A1%E6%81%AF%E8%A7%86%E5%9B%BE-views/</guid>
+<description>SwiftUI 信息视图 Views # 列表 List # List { FirstView() SecondView() } 观察上图，会发现高亮区域的每一个子视图中间都有一条横线，该分割线是 SwiftUI 列表的一部分，会由系统负责自动添加。列表的语法是 List { }，其中花括号区域放置子视图即可。我把上一篇文章中制作的子视图 CardView() 放置在列表中，结果如下图所示。子视图被从上至下罗列出来，中间还被添加了分割线。
+网格 Grid # let rule = [GridItem(.adaptive(minimum: 220))] var body: some View { LazyVGrid(columns: rule, spacing: 20) { } } 循环 ForEach # var targetDurations = [&amp;#34;15 分钟&amp;#34;, &amp;#34;30 分钟&amp;#34;, &amp;#34;1 小时&amp;#34;, &amp;#34;2 小时&amp;#34;,&amp;#34;3 小时&amp;#34;] var body: some View { VStack { ForEach(0..&amp;lt;targetDurations.count) { Text(self.targetDurations[$0]) } } } 成组框 GroupBox # GroupBox(label: Label(&amp;#34;创作简介&amp;#34;, systemImage: &amp;#34;pencil.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/swift/swiftui-%E5%B1%82%E7%BA%A7%E8%A7%86%E5%9B%BE-views/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/swift/swiftui-%E5%B1%82%E7%BA%A7%E8%A7%86%E5%9B%BE-views/</guid>
+<description>SwiftUI 层级视图 Views # 官方文档
+TabView { Text(&amp;#34;1.选项卡内容&amp;#34;) .tabItem { Image(systemName: &amp;#34;scroll&amp;#34;) Text(&amp;#34;Scroll&amp;#34;) } Text(&amp;#34;2.选项卡内容&amp;#34;) .tabItem { Image(systemName: &amp;#34;network&amp;#34;) Text(&amp;#34;Navigation&amp;#34;) } } ![](https://gitee.com/pp-tt/blogImage/raw/master/202202211646718.png) ### 滑动视图 ScrollView [官方文档](https://developer.apple.com/documentation/swiftui/scrollview) ```swift ScrollView(.vertical, showsIndicators: false) { } 导航器 NavigationView # 官方文档
+NavigationView { VStack { VStack(spacing: 30) { NavigationLink(destination: SomeView()) { Text(&amp;#34;点击跳转&amp;#34;) } } } .navigationBarTitle(&amp;#34;项目列表&amp;#34;, displayMode: .automatic)) .navigationBarItems( leading: Button(&amp;#34;左侧按钮&amp;#34;) { }, trailing: Button(&amp;#34;右侧按钮&amp;#34;) { } ) } **为导航器视图添加标题：**为导航器添加标题的语法是 .navigationBarTitle(&amp;quot;项目列表&amp;quot;, displayMode: .automatic))，可以理解为添加一个名为「项目列表」的标题，并自动设置标题的字体。若你需要如上图所示的加粗大字体，则可以将 displayMode 的参数设置为 .</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/swift/swiftui-%E6%8E%A7%E5%88%B6%E8%A7%86%E5%9B%BE-views/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/swift/swiftui-%E6%8E%A7%E5%88%B6%E8%A7%86%E5%9B%BE-views/</guid>
+<description>SwiftUI 控制视图 Views # 开关 Toggle # @State var toggleValue = true var body: some View { Toggle(&amp;#34;自动登录&amp;#34;, isOn: $toggleValue) } 按钮 Button # Button(action: { // 此处放置你希望按钮做什么 }, label: { // 此处定制按钮外观 Text(&amp;#34;退出&amp;#34;) }) 选择器 Picker # @State var pickerValue = 0 var pickerOptions = [&amp;#34;步行&amp;#34;, &amp;#34;自行车&amp;#34;, &amp;#34;汽车&amp;#34;] var body: some View { Picker(&amp;#34;Picker&amp;#34;, selection: $pickerValue) { ForEach(0..&amp;lt;pickerOptions.count) { index in Text(pickerOptions[index]).tag(index) } }.pickerStyle(SegmentedPickerStyle()) } 滑动条 Slider # @State var sliderValue = 0.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/jvm/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/jvm/</guid>
+<description>内存区域 # 运行时数据区域 # Java 虚拟机在执行 Java 程序的过程中会把它管理的内存划分成若干个不同的数据区域。
+线程私有的：
+程序计数器 虚拟机栈 本地方法栈 线程共享的：
+堆 方法区 直接内存 (非运行时数据区的一部分) 程序计数器 # 程序计数器是一块较小的内存空间，可以看作是当前线程所执行的字节码的行号指示器。程序计数器是唯一一个不会出现 OutOfMemoryError 的内存区域，它的生命周期随着线程的创建而创建，随着线程的结束而死亡。
+Java 虚拟机栈 # 与程序计数器一样，Java 虚拟机栈（后文简称栈）也是线程私有的，它的生命周期和线程相同，随着线程的创建而创建，随着线程的死亡而死亡。
+本地方法栈 # 和虚拟机栈所发挥的作用非常相似，区别是： 虚拟机栈为虚拟机执行 Java 方法 （也就是字节码）服务，而本地方法栈则为虚拟机使用到的 Native 方法服务。
+堆 # Java 虚拟机所管理的内存中最大的一块，Java 堆是所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例以及数组都在这里分配内存。
+方法区 # 方法区属于是 JVM 运行时数据区域的一块逻辑区域，是各个线程共享的内存区域。
+方法区和永久代以及元空间是什么关系呢？ # 方法区和永久代以及元空间的关系很像 Java 中接口和类的关系，类实现了接口，这里的类就可以看作是永久代和元空间，接口可以看作是方法区，也就是说永久代以及元空间是 HotSpot 虚拟机对虚拟机规范中方法区的两种实现方式。并且，永久代是 JDK 1.8 之前的方法区实现，JDK 1.8 及以后方法区的实现变成了元空间。
+为什么要将永久代 (PermGen) 替换为元空间 (MetaSpace) 呢? # 整个永久代有一个 JVM 本身设置的固定大小上限，无法进行调整，而元空间使用的是本地内存，受本机可用内存的限制，虽然元空间仍旧可能溢出，但是比原来出现的几率会更小。 元空间里面存放的是类的元数据，这样加载多少类的元数据就不由 MaxPermSize 控制了, 而由系统的实际可用空间来控制，这样能加载的类就更多了。 方法区常用参数有哪些？ # JDK 1.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/redis/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E5%85%AB%E8%82%A1/redis/</guid>
+<description>什么是 Redis？ # Redis 是一个基于 C 语言开发的开源数据库（BSD 许可），与传统数据库不同的是 Redis 的数据是存在内存中的（内存数据库），读写速度非常快，被广泛应用于缓存方向。并且，Redis 存储的是 KV 键值对数据。
+Redis 为什么这么快？ # Redis 内部做了非常多的性能优化，比较重要的主要有下面 3 点：
+Redis 基于内存，内存的访问速度是磁盘的上千倍； Redis 基于 Reactor 模式设计开发了一套高效的事件处理模型，主要是单线程事件循环和 IO 多路复用（Redis 线程模式后面会详细介绍到）； Redis 内置了多种优化过后的数据结构实现，性能非常高。 分布式缓存常见的技术选型方案有哪些？ # 分布式缓存的话，比较老牌同时也是使用的比较多的还是 Memcached 和 Redis。不过，现在基本没有看过还有项目使用 Memcached 来做缓存，都是直接用 Redis。
+Memcached 是分布式缓存最开始兴起的那会，比较常用的。后来，随着 Redis 的发展，大家慢慢都转而使用更加强大的 Redis 了。
+为什么要用 Redis/为什么要用缓存？ # 高性能
+假如用户第一次访问数据库中的某些数据的话，这个过程是比较慢，毕竟是从硬盘中读取的。但是，如果说，用户访问的数据属于高频数据并且不会经常改变的话，那么我们就可以很放心地将该用户访问的数据存在缓存中。
+这样有什么好处呢？ 那就是保证用户下一次再访问这些数据的时候就可以直接从缓存中获取了。操作缓存就是直接操作内存，所以速度相当快。
+高并发
+一般像 MySQL 这类的数据库的 QPS 大概都在 1w 左右（4 核 8g） ，但是使用 Redis 缓存之后很容易达到 10w+，甚至最高能达到 30w+（就单机 Redis 的情况，Redis 集群的话会更高）。</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/stm32/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/stm32/</guid>
+<description>中断系统 # 中断概念 # 中断 # 在主程序运行过程中，出现了特定的中断触发条件（中断源），使得CPU暂停当前正在运行的程序，转而去处理中断程序， 处理完成后又返回原来被暂停的位置继续运行。
+中断优先级 # 当有多个中断源同时申请中断时，CPU会根据中断源的轻重缓急进行裁决，优先响应更加紧急的中断源。
+中断嵌套 # 当一个中断程序正在运行时，又有新的更高优先级的中断源申请中断，CPU再次暂停当前中断程序，转而去处理新的中断程序，处理完成后依次进行返回
+STM32中断 # STM32中断优先级非常多，几乎所有的模块都能申请中断。
+68个可屏蔽中断通道，包含EXTI、TIM、ADC、USART、SPI、I2C、RTC等。 使用NVIC（嵌套中断向量控制器）统一管理中断，每个中断通道拥有16个可编程优先级，可对优先级进行分组，进一步设置抢占优先级和响应优先级。 NVIC中断优先级有优先级寄存器的4位（0～15，0优先级最高）决定，这四位可以进行切分，分为高n位的抢占优先级和低4-n位的响应优先级。 抢占优先级高的可以中断嵌套，响应优先级高的可以优先排队，抢占优先级和响应优先级均相同的按中断向量表中断号排队。 EXTI 外部中断 # EXTI 外部中断概念 # EXTI 可以监测指定 GPIO 口的电平信号，当其指定的 GPIO 产生电平变化时，EXTI将立即向 NVIC 发出中断申请，经过 NVIC 裁决后即可中断 CPU 主程序，使 CPU 执行 EXTI 对应的中断程序。外部中断是众多能产生中断的外设之一。
+触发方式 # 支持上升沿、下降沿、双边沿、软件触发。
+支持的 GPIO 口 # 支持所有 GPIO 口，但是相同的 Pin 不能同时触发中断。
+通道数 # 16 个 GPIO_Pin，外加 PVD 输出、RTC闹钟、USB唤醒、以太网唤醒
+触发响应方式 # 中断响应和事件响应，中断响应是正常流程，引脚变化触发中断；事件响应不会触发中断，而是触发别的外设操作，属于外设之间的联合工作。
+外部中断/事件控制器框图：
+整体结构图：
+其中 AFIO 为中断引脚选择模块，AFIO 主要用于引脚复用的选择和重定义，STM32中AFIO主要完成两个任务：复用功能引脚重映射、中断引脚选择。外部中断9~5会触发同一个中断函数，15～10也会触发同一中断函数。针对这两个中断函数，需要根据标志位来区分是哪个中断进来的。</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/environment/apple-m%E7%B3%BB%E5%88%97%E8%8A%AF%E7%89%87%E5%AE%89%E8%A3%85-pyqt/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/environment/apple-m%E7%B3%BB%E5%88%97%E8%8A%AF%E7%89%87%E5%AE%89%E8%A3%85-pyqt/</guid>
+<description> Apple-M系列芯片安装-Pyqt # 前提：安装好 Homebrew。
+终端命令如下（含详细注释）：
+brew install pyqt5 # 安装 pyqt5，建议挂梯子 output: # 以下为部分输出结果可做参考 ... ==&amp;gt; Pouring node--17.4.0.arm64_monterey.bottle.tar.gz 🍺 /opt/homebrew/Cellar/node/17.4.0: 1,984 files, 44.5MB ==&amp;gt; Running `brew cleanup node`... Removing: /opt/homebrew/Cellar/node/17.2.0... (2,018 files, 44.4MB) Removing: /opt/homebrew/Cellar/node/17.3.1... (1,976 files, 44.4MB) Removing: /Users/xu/Library/Caches/Homebrew/node--17.3.1... (12MB) ==&amp;gt; Checking for dependents of upgraded formulae... ==&amp;gt; No broken dependents found! # 添加环境变量 echo &amp;#39;export PATH=&amp;#34;/opt/homebrew/Cellar/qt@5/5.15.2_1/bin:$PATH&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.zshrc echo &amp;#39;export PATH=&amp;#34;/opt/homebrew/Cellar/pyqt@5/5.15.6/bin:$PATH&amp;#34;&amp;#39; &amp;gt;&amp;gt; ~/.zshrc 将 /opt/homebrew/Cellar/pyqt@5/5.15.6/lib/python3.9/site-packages 里内容全部拷贝至 /Users/你的用户名/miniforge3/lib/python3.9/site-packages 文件夹下。 </description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/environment/docker-%E5%AE%89%E8%A3%85-redis-/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/environment/docker-%E5%AE%89%E8%A3%85-redis-/</guid>
+<description> 下载镜像文件 # docker pull redis 创建实例并启动 # 为防止挂载文件时将 redis.conf 当成目录处理，所以要提前创建好该文件，命令如下：
+mkdir -p /Users/xu/Documents/DockerConfig/redis/conf touch /Users/xu/Documents/DockerConfig/redis/conf/redis.conf 创建实例：
+docker run -p 6379:6379 --name redis \ -v /Users/xu/Documents/DockerConfig/redis/data:/data \ -v /Users/xu/Documents/DockerConfig/redis/conf/redis.conf:/etc/redis/redis.conf \ -d redis redis-server /etc/redis/redis.conf 使用 redis 镜像执行 redis-cli 命令连接 # docker exec -it redis redis-cli </description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/environment/hugo-%E4%B8%BB%E9%A2%98-hugo-book-%E4%B8%AD%E8%8B%B1%E6%96%87%E6%90%9C%E7%B4%A2%E9%85%8D%E7%BD%AE/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/environment/hugo-%E4%B8%BB%E9%A2%98-hugo-book-%E4%B8%AD%E8%8B%B1%E6%96%87%E6%90%9C%E7%B4%A2%E9%85%8D%E7%BD%AE/</guid>
+<description>Hugo 主题 Hugo-book 中英文搜索配置 # 可以直接看解决方案修改即可，前提defaultContentLanguage = &amp;quot;zh&amp;quot;。因为修改的就是 zh.yaml 文件。
+存在的问题 # 主要问题是不能用英文搜索，这是存在问题时的配置文件：
+baseURL = &amp;#39;https://pp-tt.github.io.git&amp;#39; title = &amp;#39;噗通&amp;#39; theme = &amp;#39;hugo-book&amp;#39; defaultContentLanguage = &amp;#34;zh&amp;#34; 配置文件中defaultContentLanguage 指向 zh，但是这导致一个问题，页面中可以搜索中文，但是搜索英文失败，比如搜索 Tensorflow 的时候，网页是没有任何显示的，但是 content 确确实实存在这些关键词文件。下面是搜索结果图：
+解决思路 # 先看一下themes/hugo-book/i18n/zh.yaml配置文件，主要看id: bookSearchConfig这项配置，文件具体内容如下：
+# zh.yaml 文件内容 - id: bookSearchConfig translation: | { encode: false, tokenize: function(str) { return str.replace(/[\x00-\x7F]/g, &amp;#39;&amp;#39;).split(&amp;#39;&amp;#39;); } } 回顾问题：当defaultContentLanguage = &amp;quot;zh&amp;quot;可以进行仅中文搜索，当defaultContentLanguage = &amp;quot;en&amp;quot;仅可以进行英文搜索，那么是否可以通过搜索修改
+zh.yaml将其变成中英文搜索呢？参考https://github.com/alex-shpak/hugo-book/issues/357中韩国大佬 yeonns 的做法，尝试了下解决了我的问题。
+解决方案 # 将 themes/hugo-book/i18n/zh.yaml 中的 id: bookSearchConfig 内容修改如下即可：</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/environment/iterm2-oh-my-zsh-%E9%85%8D%E7%BD%AE/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/environment/iterm2-oh-my-zsh-%E9%85%8D%E7%BD%AE/</guid>
+<description>iTerm2-Oh-My-Zsh-配置 # 配置 Oh My ZSH # 官网链接：http://ohmyz.sh/
+安装 # 安装命令如下：
+sh -c &amp;#34;$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&amp;#34; 输出如下：
+配置主题 # 在 ~/.zshrc 文件中配置主题（注：原先的配置文件内容被转移到 .zshrc.pre-oh-my-zsh 文件中），配置如下：
+ZSH_THEME=&amp;#34;agnoster&amp;#34; # 更多主题：https://github.com/ohmyzsh/ohmyzsh/wiki/Themes 卸载 Oh My ZSH # uninstall_oh_my_zsh 更新 # upgrade_oh_my_zsh 安装配置 iTerm2 # 链接：https://iterm2.com/
+刚刚装好字体会显示错误，需要安装对应字体。
+安装字体 # git clone https://github.com/pp-tt/fonts cd fonts ./install.sh cd .. rm -rf fonts 配置相关 # 配置 Theme 为 Dark
+配置 Colors
+配置字体
+安装插件 # cd ~/.oh-my-zsh/custom/plugins/ git clone https://github.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/environment/m1-%E8%8A%AF%E7%89%87-docker-%E5%AE%89%E8%A3%85-mysql5.7-/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/environment/m1-%E8%8A%AF%E7%89%87-docker-%E5%AE%89%E8%A3%85-mysql5.7-/</guid>
+<description>此处是针对 Apple 芯片Mac来配置安装的，其它类型设备日后遇到再更新，并且其他 x86 架构安装配置也应该没有那么麻烦吧！
+获取镜像 # 修改为 x86 架构
+docker pull --platform linux/x86_64 mysql:5.7 创建实例 # docker run -p 3306:3306 --name mysql -v /Users/xu/Documents/DockerConfig/mysql/log:/var/log/mysql -v /Users/xu/Documents/DockerConfig/mysql/data:/var/lib/mysql -v /Users/xu/Documents/DockerConfig/mysql/conf:/etc/mysql -e MYSQL_ROOT_PASSWORD=root -d biarms/mysql:5.7 配置 Mysql # 添加 DockerConfig/mysql/conf/my.cnf 文件，配置如下，主要为了解决字符编码问题：
+[client] default-character-set=utf8 [mysql] default-character-set=utf8 [mysqld] init_connect=&amp;#39;SET collation_connection = utf8_unicode_ci&amp;#39; init_connect=&amp;#39;SET NAMES utf8&amp;#39; character-set-server=utf8 collation-server=utf8_unicode_ci skip-character-set-client-handshake skip-name-resolve </description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/environment/mac-idea-%E5%BF%AB%E6%8D%B7%E9%94%AE%E4%BD%8D/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/environment/mac-idea-%E5%BF%AB%E6%8D%B7%E9%94%AE%E4%BD%8D/</guid>
+<description>Opt + Cmd + u : 类图
+Cmd + o ：搜索查询类
+Cmd + F12 ：列出方法定义</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</guid>
+<description>内网穿透 # 教程主要分为两部分，分别为服务端（公网服务器）部分和客户端（即需要穿透的设备）部分。
+官方文档
+服务端部署步骤 # 首先保证服务器6000～9000端口放行，然后下载程序。
+程序下载链接：https://github.com/fatedier/frp/releases 根据硬件配置选择对应的程序下载并解压，可先下载本地，后续再通过其他方法上传到服务器，或者直接wget。上传到终端后操作如下：
+mv frp_0.38.0_linux_amd64 frps # 修改文件夹名为frps，s表示服务端程序 cd frps rm -rf frpc* # 删除所有frpc开头的文件，即将客户端文件删除 ./frps -c ./frps.ini # 启动程序 根据服务器配置类型选择对应的版本下载并解压，命令如下图：
+至此，服务端部署完毕！
+客户端部署步骤 # 检查SSH # 我的机器系统是Ubuntu 20.04,首先检查是否安装openssh-server，连接待穿透主机，终端输入sshd，若提示无此相关程序，则键入如下命令安装：
+sudo apt install openssh-server
+获取程序 # 因为我的主机是x86架构，同我的云服务器一样，所以用的是和之前一样的程序包，只不过这次删除的是同服务端无关的所有软件了，这里我使用wget重新下载的一样的程序：
+sudo wget https://github.com/fatedier/frp/releases/download/v0.38.0/frp_0.38.0_linux_amd64.tar.gz 然后解压:
+sudo tar -zxvf frp_0.38.0_linux_amd64.tar.gz 整理程序 # 重命名文件夹为frpc，c代表客户端的意思，并删除所有frps开头的文件，即删除所有与客户端不相关的文件。这一步其实不操作也不影响，只是为了看起来舒服，如果后续设置开机自启动的话，这样路径比较清楚。
+sudo mv frp_0.38.0_linux_amd64 frpc cd frpc/ sudo rm -rf frps* 配置参数 # 配置相关参数（穿透22端口，实现远程ssh)，修改frpc.ini文件，修改如下：
+[common] server_addr = x.x.x.x server_port = 7000 [ssh] type = tcp local_ip = 127.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E7%9A%84%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E7%9A%84%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE/</guid>
+<description>实验机器：Ubuntu16、Ubuntu18
+整体步骤 # 编写 .service 文件，习惯以 name@用途/用户名.service 的格式命名 使用 systemctl daemon-reload 让系统服务被加载 使用 systemctl start [service文件名，不需要尾缀] 来启动 使用 systemctl enable name@用途/用户名.service 设置开启启动 总共就以上一个步骤，下面会一一记录，除此之外，以下总结一些常用命令（ 参考链接）：
+启动一个服务：systemctl start nginx.service 关闭一个服务：systemctl stop postfix.service 重启一个服务：systemctl restart nginx.service 显示一个服务的状态：systemctl status postfix.service 在开机时启用一个服务：systemctl enable nginx.service 在开机时禁用一个服务：systemctl disable nginx.service 查看服务是否开机启动：systemctl is-enabled nginx.service 查看已启动的服务列表：systemctl list-unit-files|grep enabled
+编写 .service 文件 # 路径如下：
+vi /lib/systemd/system/frp@xu.service
+文件内容如下（注意修改 frp 程序路径）：
+[Unit] Description=Frp Client Service After=network.target syslog.target Wants=network.target [Service] Type=simple Restart=on-failure RestartSec=5s ExecStart=/bin/sh -c &amp;#39;/home/xu/frp/frpc -c /home/xu/frp/frpc.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/problems/brew-%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/problems/brew-%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+<description>brew 的一些常用命令 # 安装卸载软件 # brew &amp;ndash;version 或者 brew -v 显示brew版本信息 brew install 安装指定软件 brew uninstall 卸载指定软件 brew list 显示所有的已安装的软件 brew search text 搜索本地远程仓库的软件，已安装会显示绿色的勾 brew search /text/ 使用正则表达式搜软件 brew info 显示指定软件信息 brew reinstall 重新安装指定软件，先卸载后安装 brew install &amp;ndash;build-from-source 源码安装指定软件，可以给定指定参数 brew commands 列出所有可用命令 2、升级软件相关 # brew update 自动升级homebrew （从github下载最新版本） brew outdated 检测已经过时的软件 brew upgrade 升级所有已过时的软件，即列出的以过时软件 brew upgrade 升级指定的软件 brew pin 禁止指定软件升级 brew unpin 解锁禁止升级 brew upgrade &amp;ndash;all 升级所有的软件包，包括未清理干净的旧版本的包 brew edit 编辑软件，不会的情况下慎用 brew tap 列出本地资源仓库，其中 homebrew 是默认仓库，其它都是第三方仓库 brew tap &amp;lt;user/repo&amp;gt; 添加第三方仓库，命名的规则按照github来定的。 brew untap &amp;lt;user/repo&amp;gt; 删除仓库 brew deps 查看指定软件依赖于哪些软件 brew uses 查看指定软件被哪些软件所依赖 清理相关 # homebrew再升级软件时候不会清理相关的旧版本，在软件升级后我们可以使用如下命令清理</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/problems/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/problems/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
+<description>docker 的一些常用命令 # 镜像： # 列出本机的所有 image 文件。 # $ docker image ls == docker images
+删除 image 文件 # $ docker image rm [imageName]
+拉取镜像 # $ docker image pull 组/名:版本号
+删除镜像 # $ docker rmi 镜像:版本号 == docker rmi id
+查看所有镜像id # $ docker images -q
+删除所有镜像 # $ docker rmi ‘docker images -q’
+容器： # 创建容器 -i 一直运行 -t为终端 /bin/bash 进入容器的初始化指令 # $ docker run -it —name 容器名 镜像名:版本号 /bin/bash</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/problems/git-github-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/problems/git-github-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/</guid>
+<description>Git-GitHub-相关命令整理 # Git # git config --global user.name 用户名&amp;amp;git config --global user.mail 邮箱：用于区分不同操作者的身份，知道本次操作是谁做的，与GitHub的登录账号无关。 git init：初始化本地仓库（新增.git文件夹，内容谨慎修改） git status：查看当前状态（git是按照行来维护文件的） git add 文件名：将文件提交到暂存区 git rm --cache 文件名：将暂存区文件删除 git commit -m 'message' 文件：将暂存区文件提交到本地库 git reflog：查看前7位版本号，分支指向 git log：查看详细信息，包括谁提交的，完整的版本号等 git reset --hard '版本号'：切换版本，本质是移动HEAD指针，.git/HEAD文件内容显示指向的分支，.git/refs/heads显示指向的分支版本。 git branch -v：查看分支 git branch 分支名：创建分支 git checkout 分支名：切换分支 git merge 分之名：合并指定分支到当前分支上，若出现冲突，&amp;lt;&amp;lt;&amp;lt; HEAD与===之间的内容表示当前分支内容，===与&amp;gt;&amp;gt;&amp;gt;***之间的内容表示指定分支内容。冲突处理步骤如下： 1. 修改冲突 2. 添加暂存区 3. git commit -m 'message'注意不用带文件名，因为这时为合并状态 GitHub # git psuh：将提交内容推送到库，项目团队人员可用，否则无法push，团队外成员需要先fork自己的GitHub git remote -v：查看当前所有别名 git remote add 别名 链接：起别名 git push 别名 master：本地master分支推送到远程仓库 git pull 别名 分支：拉取仓库（尽量随时让本地仓库保持最新状态） git clone 链接：无需登录账号，做了以下三件事： 拉取代码 初始化本地仓库 起好别名：origin ssh-keygen -t rsa -C 邮箱：ssh免密登陆，~/.</description>
+</item>
+<item>
+<title/>
+<link>https://pp-tt.github.io.git/solution/problems/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%89%AB%E7%9B%B2/</link>
+<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+<guid>https://pp-tt.github.io.git/solution/problems/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%89%AB%E7%9B%B2/</guid>
+<description>计算机网络 # OSI 七层模型及其作用？ # 应用层：为计算机用户提供服务
+表示层：数据处理（编解码、加密解密、压缩解压缩）
+会话层：管理（建立、维护、重连）应用程序之间的会话
+传输层：为两台主机进程之间的通信提供通用的数据传输服务
+网络层：路由和寻址(決定数据在网络的游走路径）
+数据链路层：帧编码和误差纠正控制
+物理层：透明地传送比特流传输
+TCP/IP 四层体系分层结构？ # 应用层：为计算机用户提供服务 传输层：为两台主机进程之间的通信提供通用的数据传输服务 网络层：路由和寻址(決定数据在网络的游走路径） 网络接口层：透明地传送比特流传输 三次握手的过程？ # 一次握手:客户端发送带有 SYN（SEQ=x） 标志的数据包 -&amp;gt; 服务端，然后客户端进入 SYN_SEND 状态，等待服务器的确认； 二次握手:服务端发送带有 SYN+ACK(SEQ=y,ACK=x+1) 标志的数据包 –&amp;gt; 客户端,然后服务端进入 SYN_RECV 状态 三次握手:客户端发送带有 ACK(ACK=y+1) 标志的数据包 –&amp;gt; 服务端，然后客户端和服务器端都进入ESTABLISHED 状态，完成TCP三次握手。 为什么要三次握手? # 确定自己和对方的发送与接收都是正常的。
+解释一下四次挥手？ # 第一次挥手 ：客户端发送一个 FIN（SEQ=X） 标志的数据包-&amp;gt;服务端，用来关闭客户端到服务器的数据传送。然后，客户端进入 FIN-WAIT-1 状态。 第二次挥手 ：服务器收到这个 FIN（SEQ=X） 标志的数据包，它发送一个 ACK （SEQ=X+1）标志的数据包-&amp;gt;客户端 。然后，此时服务端进入CLOSE-WAIT状态，客户端进入FIN-WAIT-2状态。 第三次挥手 ：服务端关闭与客户端的连接并发送一个 FIN (SEQ=y)标志的数据包-&amp;gt;客户端请求关闭连接，然后，服务端进入LAST-ACK状态。 第四次挥手 ：客户端发送 ACK (SEQ=y+1)标志的数据包-&amp;gt;服务端并且进入TIME-WAIT状态，服务端在收到 ACK (SEQ=y+1)标志的数据包后进入 CLOSE 状态。此时，如果客户端等待 2MSL 后依然没有收到回复，就证明服务端已正常关闭，随后，客户端也可以关闭连接了。 为什么要四次挥手？ # TCP是全双工通信，可以双向传输数据。任何一方都可以在数据传送结束后发出连接释放的通知，待对方确认后进入半关闭状态。当另一方也没有数据再发送的时候，则发出连接释放通知，对方确认后就完全关闭了 TCP 连接。</description>
+</item>
+</channel>
+</rss>

@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="中断系统 # 中断概念 # 中断 # 在主程序运行过程中，出现了特定的中断触发条件（中断源），使得CPU暂停当前正在运行的程序，转而去处理中断程序， 处理完成后又返回原来被暂停的位置继续运行。
+中断优先级 # 当有多个中断源同时申请中断时，CPU会根据中断源的轻重缓急进行裁决，优先响应更加紧急的中断源。
+中断嵌套 # 当一个中断程序正在运行时，又有新的更高优先级的中断源申请中断，CPU再次暂停当前中断程序，转而去处理新的中断程序，处理完成后依次进行返回
+STM32中断 # STM32中断优先级非常多，几乎所有的模块都能申请中断。
+68个可屏蔽中断通道，包含EXTI、TIM、ADC、USART、SPI、I2C、RTC等。 使用NVIC（嵌套中断向量控制器）统一管理中断，每个中断通道拥有16个可编程优先级，可对优先级进行分组，进一步设置抢占优先级和响应优先级。 NVIC中断优先级有优先级寄存器的4位（0～15，0优先级最高）决定，这四位可以进行切分，分为高n位的抢占优先级和低4-n位的响应优先级。 抢占优先级高的可以中断嵌套，响应优先级高的可以优先排队，抢占优先级和响应优先级均相同的按中断向量表中断号排队。 EXTI 外部中断 # EXTI 外部中断概念 # EXTI 可以监测指定 GPIO 口的电平信号，当其指定的 GPIO 产生电平变化时，EXTI将立即向 NVIC 发出中断申请，经过 NVIC 裁决后即可中断 CPU 主程序，使 CPU 执行 EXTI 对应的中断程序。外部中断是众多能产生中断的外设之一。
+触发方式 # 支持上升沿、下降沿、双边沿、软件触发。
+支持的 GPIO 口 # 支持所有 GPIO 口，但是相同的 Pin 不能同时触发中断。
+通道数 # 16 个 GPIO_Pin，外加 PVD 输出、RTC闹钟、USB唤醒、以太网唤醒
+触发响应方式 # 中断响应和事件响应，中断响应是正常流程，引脚变化触发中断；事件响应不会触发中断，而是触发别的外设操作，属于外设之间的联合工作。
+外部中断/事件控制器框图：
+整体结构图：
+其中 AFIO 为中断引脚选择模块，AFIO 主要用于引脚复用的选择和重定义，STM32中AFIO主要完成两个任务：复用功能引脚重映射、中断引脚选择。外部中断9~5会触发同一个中断函数，15～10也会触发同一中断函数。针对这两个中断函数，需要根据标志位来区分是哪个中断进来的。" name="description"/>
+<meta content="#FFFFFF" name="theme-color"/>
+<meta content="light dark" name="color-scheme"/><meta content="" property="og:title"/>
+<meta content="中断系统 # 中断概念 # 中断 # 在主程序运行过程中，出现了特定的中断触发条件（中断源），使得CPU暂停当前正在运行的程序，转而去处理中断程序， 处理完成后又返回原来被暂停的位置继续运行。
+中断优先级 # 当有多个中断源同时申请中断时，CPU会根据中断源的轻重缓急进行裁决，优先响应更加紧急的中断源。
+中断嵌套 # 当一个中断程序正在运行时，又有新的更高优先级的中断源申请中断，CPU再次暂停当前中断程序，转而去处理新的中断程序，处理完成后依次进行返回
+STM32中断 # STM32中断优先级非常多，几乎所有的模块都能申请中断。
+68个可屏蔽中断通道，包含EXTI、TIM、ADC、USART、SPI、I2C、RTC等。 使用NVIC（嵌套中断向量控制器）统一管理中断，每个中断通道拥有16个可编程优先级，可对优先级进行分组，进一步设置抢占优先级和响应优先级。 NVIC中断优先级有优先级寄存器的4位（0～15，0优先级最高）决定，这四位可以进行切分，分为高n位的抢占优先级和低4-n位的响应优先级。 抢占优先级高的可以中断嵌套，响应优先级高的可以优先排队，抢占优先级和响应优先级均相同的按中断向量表中断号排队。 EXTI 外部中断 # EXTI 外部中断概念 # EXTI 可以监测指定 GPIO 口的电平信号，当其指定的 GPIO 产生电平变化时，EXTI将立即向 NVIC 发出中断申请，经过 NVIC 裁决后即可中断 CPU 主程序，使 CPU 执行 EXTI 对应的中断程序。外部中断是众多能产生中断的外设之一。
+触发方式 # 支持上升沿、下降沿、双边沿、软件触发。
+支持的 GPIO 口 # 支持所有 GPIO 口，但是相同的 Pin 不能同时触发中断。
+通道数 # 16 个 GPIO_Pin，外加 PVD 输出、RTC闹钟、USB唤醒、以太网唤醒
+触发响应方式 # 中断响应和事件响应，中断响应是正常流程，引脚变化触发中断；事件响应不会触发中断，而是触发别的外设操作，属于外设之间的联合工作。
+外部中断/事件控制器框图：
+整体结构图：
+其中 AFIO 为中断引脚选择模块，AFIO 主要用于引脚复用的选择和重定义，STM32中AFIO主要完成两个任务：复用功能引脚重映射、中断引脚选择。外部中断9~5会触发同一个中断函数，15～10也会触发同一中断函数。针对这两个中断函数，需要根据标志位来区分是哪个中断进来的。" property="og:description"/>
+<meta content="article" property="og:type"/>
+<meta content="https://pp-tt.github.io.git/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/stm32/" property="og:url"/><meta content="notes" property="article:section"/>
+<title>Stm32 | 噗通 🍀</title>
+<link href="/manifest.json" rel="manifest"/>
+<link href="/favicon.png" rel="icon" type="image/x-icon"/>
+<link crossorigin="anonymous" href="/book.min.a82d7e77ceb134d151c4d7e381eeb30623fbd5a524d58c584d8716ecec0205bd.css" integrity="sha256-qC1+d86xNNFRxNfjge6zBiP71aUk1YxYTYcW7OwCBb0=" rel="stylesheet"/>
+<script defer="" src="/flexsearch.min.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-/WxWaZfjL/R8jevE8H68u1HH9MosO2+bt5OyXoV2u48=" src="/zh.search.min.fd6c566997e32ff47c8debc4f07ebcbb51c7f4ca2c3b6f9bb793b25e8576bb8f.js"></script>
+<script crossorigin="anonymous" defer="" integrity="sha256-b2+Q/LjrHEnsOJg45rgB0N4ZQwuOUWkC+NdcPIvZhzk=" src="/sw.min.6f6f90fcb8eb1c49ec389838e6b801d0de19430b8e516902f8d75c3c8bd98739.js"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+</head>
+<body dir="ltr">
+<input class="hidden toggle" id="menu-control" type="checkbox"/>
+<input class="hidden toggle" id="toc-control" type="checkbox"/>
+<main class="container flex">
+<aside class="book-menu">
+<div class="book-menu-content">
+<nav>
+<h2 class="book-brand">
+<a class="flex align-center" href="/"><span>噗通 🍀</span>
+</a>
+</h2>
+<div class="book-search">
+<input aria-label="Search" data-hotkeys="s/" id="book-search-input" maxlength="64" placeholder="Search" type="text"/>
+<div class="book-search-spinner hidden"></div>
+<ul id="book-search-results"></ul>
+</div>
+<ul>
+<li class="book-section-flat">
+<span>--学习笔记--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-b7444509cb631180897a34f028407c2c" type="checkbox"/>
+<label class="flex justify-between" for="section-b7444509cb631180897a34f028407c2c">
+<a class="" role="button">设计模式</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/uml-%E5%9B%BE/">Uml 图</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/">设计原则</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%88%9B%E5%BB%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/">创建型模式</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E7%BB%93%E6%9E%84%E5%9E%8B%E6%A8%A1%E5%BC%8F/">结构型模式</a>
+</li>
+<li>
+<a class="" href="/notes/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E8%A1%8C%E4%B8%BA%E5%9E%8B%E6%A8%A1%E5%BC%8F/">行为型模式</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-4364152b7ab5995d509c0b7b811005c4" type="checkbox"/>
+<label class="flex justify-between" for="section-4364152b7ab5995d509c0b7b811005c4">
+<a class="" role="button">JVM</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/jvm/%E4%BB%80%E4%B9%88%E6%98%AF-jvm/">什么是 Jvm</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8/">程序计数器</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88/">虚拟机栈</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88-/">本地方法栈</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%A0%86/">堆</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E6%96%B9%E6%B3%95%E5%8C%BA/">方法区</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98/">直接内存</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">垃圾回收</a>
+</li>
+<li>
+<a class="" href="/notes/jvm/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8/">垃圾回收器</a>
+</li>
+</ul>
+</li>
+<li>
+<input checked="" class="toggle" id="section-ea55243c547fa272027885b73a74852e" type="checkbox"/>
+<label class="flex justify-between" for="section-ea55243c547fa272027885b73a74852e">
+<a class="" role="button">嵌入式重点总结</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/c/">C</a>
+</li>
+<li>
+<a class="active" href="/notes/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%80%BB%E7%BB%93/stm32/">Stm32</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-d1dc8d9746f5c776e8a82499bbb2e7c6" type="checkbox"/>
+<label class="flex justify-between" for="section-d1dc8d9746f5c776e8a82499bbb2e7c6">
+<a class="" role="button">BMS</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/bms/bms-%E7%AE%80%E4%BB%8B/">Bms 简介</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-61661238f18c0095524962a5d1d6e676" type="checkbox"/>
+<label class="flex justify-between" for="section-61661238f18c0095524962a5d1d6e676">
+<a class="" role="button">Spring</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/spring/beanfactory%E4%B8%8Eapplicationcontext/">Bean Factory与 Application Context</a>
+</li>
+<li>
+<a class="" href="/notes/spring/nacos-%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/">Nacos 配置中心</a>
+</li>
+<li>
+<a class="" href="/notes/spring/open-feign-%E8%BF%9C%E7%A8%8B%E8%B0%83%E7%94%A8%E7%A4%BA%E4%BE%8B/">Open Feign 远程调用示例</a>
+</li>
+<li>
+<a class="" href="/notes/spring/springboot-%E6%95%B4%E5%90%88-mybatis-plus/">Spring Boot 整合 My Batis Plus</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-39abd0d44427d4a54e694a2b3f22d967" type="checkbox"/>
+<label class="flex justify-between" for="section-39abd0d44427d4a54e694a2b3f22d967">
+<a class="" role="button">TensorFlow</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%80/">Tensor Flow 笔记（一）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%8C/">Tensor Flow 笔记（二）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%B8%89/">Tensor Flow 笔记（三）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E5%9B%9B/">Tensor Flow 笔记（四）</a>
+</li>
+<li>
+<a class="" href="/notes/tensorflow/tensorflow-%E7%AC%94%E8%AE%B0%E4%BA%94/">Tensor Flow 笔记（五）</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-e2ca0d138d67d9d3ae55da25ac044829" type="checkbox"/>
+<label class="flex justify-between" for="section-e2ca0d138d67d9d3ae55da25ac044829">
+<a class="" role="button">Redis</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/redis/nosql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E4%BB%8B/">No Sql数据库简介</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-key/">Redis Key</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-string/">Redis String</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-list/">Redis List</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-set/">Redis Set</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-hash/">Redis Hash</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-zset/">Redis Zset</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85/">Redis 发布与订阅</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-jedis/">Redis Jedis</a>
+</li>
+<li>
+<a class="" href="/notes/redis/springboot-%E6%95%B4%E5%90%88-redis/">Spring Boot 整合 Redis</a>
+</li>
+<li>
+<a class="" href="/notes/redis/redis-%E4%BA%8B%E5%8A%A1%E5%92%8C%E9%94%81%E6%9C%BA%E5%88%B6/">Redis 事务和锁机制</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-58f730a0b22fcdc7a886db614d77f88c" type="checkbox"/>
+<label class="flex justify-between" for="section-58f730a0b22fcdc7a886db614d77f88c">
+<a class="" role="button">代码随想录刷题</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/leetcode/day001-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/">Day001 第一章数组</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day002-%E7%AC%AC%E4%B8%80%E7%AB%A0%E6%95%B0%E7%BB%84/">Day002 第一章数组</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day003-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/">Day003 第二章链表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day004-%E7%AC%AC%E4%BA%8C%E7%AB%A0%E9%93%BE%E8%A1%A8/">Day004 第二章链表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day006-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/">Day006 第三章哈希表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day007-%E7%AC%AC%E4%B8%89%E7%AB%A0%E5%93%88%E5%B8%8C%E8%A1%A8/">Day007 第三章哈希表</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day008-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/">Day008 第四章字符串</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day009-%E7%AC%AC%E5%9B%9B%E7%AB%A0%E5%AD%97%E7%AC%A6%E4%B8%B2/">Day009 第四章字符串</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day010-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day010 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day011-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day011 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day013-%E7%AC%AC%E4%BA%94%E7%AB%A0%E6%A0%88%E4%B8%8E%E9%98%9F%E5%88%97/">Day013 第五章栈与队列</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day014-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day014 第六章二叉树</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day015-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day015 第六章二叉树</a>
+</li>
+<li>
+<a class="" href="/notes/leetcode/day017-%E7%AC%AC%E5%85%AD%E7%AB%A0%E4%BA%8C%E5%8F%89%E6%A0%91/">Day017 第六章二叉树</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-4f95435d3a74007e2c985ea455bbb6e6" type="checkbox"/>
+<label class="flex justify-between" for="section-4f95435d3a74007e2c985ea455bbb6e6">
+<a class="" role="button">MyBatisPlus</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">MP快速入门</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E4%B8%80%E8%88%AC%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C/">一般查询操作</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2/">分页查询</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E9%80%BB%E8%BE%91%E5%88%A0%E9%99%A4/">逻辑删除</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/">条件查询</a>
+</li>
+<li>
+<a class="" href="/notes/mybatisplus/%E5%B0%81%E8%A3%85service%E4%BD%BF%E7%94%A8/">封装service使用</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-3907b2cf55ed520ad784e24525c8baa4" type="checkbox"/>
+<label class="flex justify-between" for="section-3907b2cf55ed520ad784e24525c8baa4">
+<a class="" role="button">Swift</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/swift/swiftui-%E5%B8%B8%E7%94%A8%E8%A7%86%E5%9B%BE-views/">Swift Ui 常用视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E4%BF%A1%E6%81%AF%E8%A7%86%E5%9B%BE-views/">Swift Ui 信息视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E5%B1%82%E7%BA%A7%E8%A7%86%E5%9B%BE-views/">Swift Ui 层级视图 Views</a>
+</li>
+<li>
+<a class="" href="/notes/swift/swiftui-%E6%8E%A7%E5%88%B6%E8%A7%86%E5%9B%BE-views/">Swift Ui 控制视图 Views</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-0f70934a6e5284fbc93928c61dfe9c83" type="checkbox"/>
+<label class="flex justify-between" for="section-0f70934a6e5284fbc93928c61dfe9c83">
+<a class="" role="button">Java</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/java/arraylist-%E6%89%A9%E5%AE%B9%E8%A7%84%E5%88%99/">Array List 扩容规则</a>
+</li>
+<li>
+<a class="" href="/notes/java/hashmap-%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">Hash Map 相关学习总结</a>
+</li>
+<li>
+<a class="" href="/notes/java/java-%E5%8F%8D%E5%B0%84/">Java 反射</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-a42f4efe12b0d964f8de7588b38cb659" type="checkbox"/>
+<label class="flex justify-between" for="section-a42f4efe12b0d964f8de7588b38cb659">
+<a class="" role="button">Java八股</a>
+</label>
+<ul>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/%E5%B9%B6%E5%8F%91/">Concurrence</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/mybatis/">MyBatis</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/mysql/">MySQL</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/jvm/">Jvm</a>
+</li>
+<li>
+<a class="" href="/notes/%E5%85%AB%E8%82%A1/redis/">Redis</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="book-section-flat">
+<span>--解决方案--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-f1d4602254471b9d0da445dd468cd456" type="checkbox"/>
+<label class="flex justify-between" for="section-f1d4602254471b9d0da445dd468cd456">
+<a class="" role="button">环境配置</a>
+</label>
+<ul>
+<li>
+<a class="" href="/solution/environment/apple-m%E7%B3%BB%E5%88%97%E8%8A%AF%E7%89%87%E5%AE%89%E8%A3%85-pyqt/">Apple M系列芯片安装 Pyqt</a>
+</li>
+<li>
+<a class="" href="/solution/environment/docker-%E5%AE%89%E8%A3%85-redis-/">Docker 安装 Redis</a>
+</li>
+<li>
+<a class="" href="/solution/environment/hugo-%E4%B8%BB%E9%A2%98-hugo-book-%E4%B8%AD%E8%8B%B1%E6%96%87%E6%90%9C%E7%B4%A2%E9%85%8D%E7%BD%AE/">Hugo 主题 Hugo Book 中英文搜索配置</a>
+</li>
+<li>
+<a class="" href="/solution/environment/iterm2-oh-my-zsh-%E9%85%8D%E7%BD%AE/">I Term2 Oh My Zsh 配置</a>
+</li>
+<li>
+<a class="" href="/solution/environment/m1-%E8%8A%AF%E7%89%87-docker-%E5%AE%89%E8%A3%85-mysql5.7-/">M1 芯片 Docker 安装 Mysql5.7</a>
+</li>
+<li>
+<a class="" href="/solution/environment/mac-idea-%E5%BF%AB%E6%8D%B7%E9%94%AE%E4%BD%8D/">MAC Idea 快捷键位</a>
+</li>
+<li>
+<a class="" href="/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">内网穿透</a>
+</li>
+<li>
+<a class="" href="/solution/environment/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E7%9A%84%E8%87%AA%E5%90%AF%E5%8A%A8%E8%AE%BE%E7%BD%AE/">内网穿透的自启动设置</a>
+</li>
+</ul>
+</li>
+<li>
+<input class="toggle" id="section-5a76a664ba4855b79d3c1bc77e5b08b1" type="checkbox"/>
+<label class="flex justify-between" for="section-5a76a664ba4855b79d3c1bc77e5b08b1">
+<a class="" role="button">杂乱问题</a>
+</label>
+<ul>
+<li>
+<a class="" href="/solution/problems/brew-%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Brew 一些常用命令</a>
+</li>
+<li>
+<a class="" href="/solution/problems/docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Docker 常用命令</a>
+</li>
+<li>
+<a class="" href="/solution/problems/git-github-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%E6%95%B4%E7%90%86/">Git Git Hub 相关命令整理</a>
+</li>
+<li>
+<a class="" href="/solution/problems/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%89%AB%E7%9B%B2/">面试题扫盲</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="book-section-flat">
+<span>--其他记录--👇</span>
+<ul>
+<li>
+<input class="toggle" id="section-9ef4d2063ddc9af7785b193647f22260" type="checkbox"/>
+<label class="flex justify-between" for="section-9ef4d2063ddc9af7785b193647f22260">
+<a class="" role="button">我和阿刁</a>
+</label>
+<ul>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%812022%E5%B9%B4%E7%9A%84%E7%94%9F%E6%97%A5%E7%9A%84%E5%B0%8F%E8%AE%BA%E6%96%87/">关于阿刁2022年的生日的小论文</a>
+</li>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842021%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">关于阿刁的2021年度总结</a>
+</li>
+<li>
+<a class="" href="/daily/ad/%E5%85%B3%E4%BA%8E%E9%98%BF%E5%88%81%E7%9A%842022%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/">关于阿刁的2022年度总结</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+</div>
+</aside>
+<div class="book-page">
+<header class="book-header">
+<div class="flex align-center justify-between">
+<label for="menu-control">
+<img alt="Menu" class="book-icon" src="/svg/menu.svg"/>
+</label>
+<strong>Stm32</strong>
+<label for="toc-control">
+<img alt="Table of Contents" class="book-icon" src="/svg/toc.svg"/>
+</label>
+</div>
+<aside class="hidden clearfix">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#中断系统">中断系统</a>
+<ul>
+<li><a href="#中断概念">中断概念</a>
+<ul>
+<li><a href="#中断">中断</a></li>
+<li><a href="#中断优先级">中断优先级</a></li>
+<li><a href="#中断嵌套">中断嵌套</a></li>
+</ul>
+</li>
+<li><a href="#stm32中断">STM32中断</a></li>
+<li><a href="#exti-外部中断">EXTI 外部中断</a>
+<ul>
+<li><a href="#exti-外部中断概念">EXTI 外部中断概念</a></li>
+<li><a href="#触发方式">触发方式</a></li>
+<li><a href="#支持的-gpio-口">支持的 GPIO 口</a></li>
+<li><a href="#通道数">通道数</a></li>
+<li><a href="#触发响应方式">触发响应方式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#定时器">定时器</a>
+<ul>
+<li><a href="#tim-定时器">TIM 定时器</a></li>
+<li><a href="#定时器类型">定时器类型</a>
+<ul>
+<li><a href="#基本定时器">基本定时器</a></li>
+<li><a href="#通用定时器">通用定时器</a></li>
+<li><a href="#高级定时器">高级定时器</a></li>
+</ul>
+</li>
+<li><a href="#输出比较和pwm">输出比较和PWM</a>
+<ul>
+<li><a href="#ocoutput-compare输出比较">OC(Output Compare)输出比较</a></li>
+<li><a href="#pwm">PWM</a></li>
+<li><a href="#输出比较通道通用">输出比较通道（通用）</a></li>
+<li><a href="#舵机">舵机</a></li>
+<li><a href="#电机">电机</a></li>
+</ul>
+</li>
+<li><a href="#icinput-capture输入捕获">IC(Input Capture)输入捕获</a>
+<ul>
+<li><a href="#频率测量">频率测量</a></li>
+<li><a href="#输入捕获通道">输入捕获通道</a></li>
+<li><a href="#主从触发模式">主从触发模式</a></li>
+</ul>
+</li>
+<li><a href="#编码器接口">编码器接口</a>
+<ul>
+<li><a href="#如何判断正反转">如何判断正反转</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</aside>
+</header>
+<article class="markdown"><h2 id="中断系统">
+  中断系统
+  <a class="anchor" href="#%e4%b8%ad%e6%96%ad%e7%b3%bb%e7%bb%9f">#</a>
+</h2>
+<h3 id="中断概念">
+  中断概念
+  <a class="anchor" href="#%e4%b8%ad%e6%96%ad%e6%a6%82%e5%bf%b5">#</a>
+</h3>
+<h4 id="中断">
+  中断
+  <a class="anchor" href="#%e4%b8%ad%e6%96%ad">#</a>
+</h4>
+<p>在主程序运行过程中，出现了特定的中断触发条件（中断源），使得CPU暂停当前正在运行的程序，转而去处理中断程序， 处理完成后又返回原来被暂停的位置继续运行。</p>
+<h4 id="中断优先级">
+  中断优先级
+  <a class="anchor" href="#%e4%b8%ad%e6%96%ad%e4%bc%98%e5%85%88%e7%ba%a7">#</a>
+</h4>
+<p>当有多个中断源同时申请中断时，CPU会根据中断源的轻重缓急进行裁决，优先响应更加紧急的中断源。</p>
+<h4 id="中断嵌套">
+  中断嵌套
+  <a class="anchor" href="#%e4%b8%ad%e6%96%ad%e5%b5%8c%e5%a5%97">#</a>
+</h4>
+<p>当一个中断程序正在运行时，又有新的更高优先级的中断源申请中断，CPU再次暂停当前中断程序，转而去处理新的中断程序，处理完成后依次进行返回</p>
+<h3 id="stm32中断">
+  STM32中断
+  <a class="anchor" href="#stm32%e4%b8%ad%e6%96%ad">#</a>
+</h3>
+<p>STM32中断优先级非常多，几乎所有的模块都能申请中断。</p>
+<ul>
+<li>68个可屏蔽中断通道，包含EXTI、TIM、ADC、USART、SPI、I2C、RTC等。</li>
+<li>使用NVIC（嵌套中断向量控制器）统一管理中断，每个中断通道拥有16个可编程优先级，可对优先级进行分组，进一步设置抢占优先级和响应优先级。
+<ul>
+<li>NVIC中断优先级有优先级寄存器的4位（0～15，0优先级最高）决定，这四位可以进行切分，分为高n位的抢占优先级和低4-n位的响应优先级。</li>
+<li>抢占优先级高的可以中断嵌套，响应优先级高的可以优先排队，抢占优先级和响应优先级均相同的按中断向量表中断号排队。</li>
+</ul>
+</li>
+</ul>
+<h3 id="exti-外部中断">
+  EXTI 外部中断
+  <a class="anchor" href="#exti-%e5%a4%96%e9%83%a8%e4%b8%ad%e6%96%ad">#</a>
+</h3>
+<h4 id="exti-外部中断概念">
+  EXTI 外部中断概念
+  <a class="anchor" href="#exti-%e5%a4%96%e9%83%a8%e4%b8%ad%e6%96%ad%e6%a6%82%e5%bf%b5">#</a>
+</h4>
+<p>EXTI 可以监测指定 GPIO 口的电平信号，当其指定的 GPIO 产生电平变化时，EXTI将立即向 NVIC 发出中断申请，经过 NVIC 裁决后即可中断 CPU 主程序，使 CPU 执行 EXTI 对应的中断程序。外部中断是众多能产生中断的外设之一。</p>
+<h4 id="触发方式">
+  触发方式
+  <a class="anchor" href="#%e8%a7%a6%e5%8f%91%e6%96%b9%e5%bc%8f">#</a>
+</h4>
+<p>支持上升沿、下降沿、双边沿、软件触发。</p>
+<h4 id="支持的-gpio-口">
+  支持的 GPIO 口
+  <a class="anchor" href="#%e6%94%af%e6%8c%81%e7%9a%84-gpio-%e5%8f%a3">#</a>
+</h4>
+<p>支持所有 GPIO 口，但是相同的 Pin 不能同时触发中断。</p>
+<h4 id="通道数">
+  通道数
+  <a class="anchor" href="#%e9%80%9a%e9%81%93%e6%95%b0">#</a>
+</h4>
+<p>16 个 GPIO_Pin，外加 PVD 输出、RTC闹钟、USB唤醒、以太网唤醒</p>
+<h4 id="触发响应方式">
+  触发响应方式
+  <a class="anchor" href="#%e8%a7%a6%e5%8f%91%e5%93%8d%e5%ba%94%e6%96%b9%e5%bc%8f">#</a>
+</h4>
+<p>中断响应和事件响应，中断响应是正常流程，引脚变化触发中断；事件响应不会触发中断，而是触发别的外设操作，属于外设之间的联合工作。</p>
+<p><strong>外部中断/事件控制器框图</strong>：</p>
+<p>
+<img alt="image-20230909131657689" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230909131657689.png"/></p>
+<p><strong>整体结构图</strong>：</p>
+<img alt="image-20230909115556586" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230909115556586.png" style="zoom:50%;"/>
+<p>其中 AFIO 为中断引脚选择模块，AFIO 主要用于引脚复用的选择和重定义，STM32中AFIO主要完成两个任务：复用功能引脚重映射、中断引脚选择。外部中断9~5会触发同一个中断函数，15～10也会触发同一中断函数。针对这两个中断函数，需要根据标志位来区分是哪个中断进来的。</p>
+<h2 id="定时器">
+  定时器
+  <a class="anchor" href="#%e5%ae%9a%e6%97%b6%e5%99%a8">#</a>
+</h2>
+<p>第一部分：固定一段时间执行一段程序</p>
+<p>第二部分：定时器输出比较，常见用途产生 PWM 波形，用于驱动电机</p>
+<p>第三部分：定时器输入捕获，可以实现测量方波频率</p>
+<p>第四部分：定时器编码器接口，可以方便的读取正交编码器的输出波形，可以应用编码器电机测速</p>
+<h3 id="tim-定时器">
+  TIM 定时器
+  <a class="anchor" href="#tim-%e5%ae%9a%e6%97%b6%e5%99%a8">#</a>
+</h3>
+<ul>
+<li>定时器对输入的时钟进行计数，并在计数值达到设定值时触发中断（最基本的功能）。</li>
+<li>16 位计数器、预分频器、自动重装寄存器的时基单元，在 72MHz 计数时钟下可以实现最大 59.65s 的定时。
+<ul>
+<li>计数器（16 位）：即计数定时的一个寄存器，每来一个时钟，计数器+1</li>
+<li>预分频器（16 位）：可以对计数器的时钟进行分频，让计数更加灵活</li>
+<li>自动重装寄存器（16 位）：计数目标值，即计多少个时钟申请中断</li>
+</ul>
+</li>
+<li>具备定时中断、内外时钟源选择、输入捕获、输出比较、编码器接口、主从触发模式等功能</li>
+<li>根据复杂度和应用场景分为高级定时器、通用定时器、基本定时器。</li>
+</ul>
+<h3 id="定时器类型">
+  定时器类型
+  <a class="anchor" href="#%e5%ae%9a%e6%97%b6%e5%99%a8%e7%b1%bb%e5%9e%8b">#</a>
+</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">编号</th>
+<th style="text-align:center">总线</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">高级定时器</td>
+<td style="text-align:center">TIM1、TIM8</td>
+<td style="text-align:center">APB2</td>
+<td style="text-align:left">拥有通用定时器全部功能，额外具有重复计数器、死区生成、互补输出、刹车输入等功能。</td>
+</tr>
+<tr>
+<td style="text-align:center">通用定时器</td>
+<td style="text-align:center">TIM2、TIM3、TIM4、TIM5</td>
+<td style="text-align:center">APB1</td>
+<td style="text-align:left">拥有基本定时器全部功能，额外具有内外时钟源选择、输入捕获、输出比较、编码器接口、主从触发模式等</td>
+</tr>
+<tr>
+<td style="text-align:center">基本定时器</td>
+<td style="text-align:center">TIM6、TIM7</td>
+<td style="text-align:center">APB1</td>
+<td style="text-align:left">拥有定时中断、主模式触发DAC的功能</td>
+</tr>
+</tbody>
+</table>
+<p>STM32F103CT86定时器资源：TIM1、TIM2、TIM3、TIM4。</p>
+<h4 id="基本定时器">
+  基本定时器
+  <a class="anchor" href="#%e5%9f%ba%e6%9c%ac%e5%ae%9a%e6%97%b6%e5%99%a8">#</a>
+</h4>
+<p><strong>框图</strong> ：</p>
+<img alt="image-20230909222107590" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230909222107590.png" style="zoom: 33%;"/>
+<ul>
+<li>如图，使用的是内部时钟，基本定时器不能连接外部时钟，连接的为内部时钟。</li>
+<li>预分频器值（PSC）值和实际分频系数相差1。若PSC为 1 时，输出为 $$ 72M/2=36MHz $$ ；若PSC为 2 时，输出为 $$ 72M/3=24MHz $$ 。PSC 是 16 位的，故最大可以写65535，即 65536 分频系数。<strong>预分频器就是对输入的基准频率提前进行一个分频操作。</strong></li>
+<li>计数器也是16位，可以对分频后的记数时钟进行记数，计数时钟每来一个上升沿，计数器的值就+1，可以计数最大为65535。计数器会不断运行，计数到目标值时产生中断，这时就完成定时任务了。</li>
+<li>自动重装寄存器即存储目标值的寄存器，也是16位，当计数器值自增到等于自动重装值时，也就是计时时间到了，这时候会产生一个中断信号。</li>
+<li>主从触发模式是STM32定时器的特色，能让内部硬件在不受程序控制下实现自动运行，掌握主从触发模式，某些情景可以极大的减轻 CPU 的负担。（举例：使用DAC的时候可能会用其输出一段波形，所以需要每隔一段时间触发一次DAC，让它输出下一个电压点；正常思路的话是设置一个定时器产生中断，每隔一段时间在中断程序中调用代码手动触发一次DAC，然后DAC输出，但是这样会让程序处于频繁中断状态，会影响主程序和其他程序运行。定时器设计了主模式，可以把定时器的更新事件映射到TRGO，然后TRGO直接接到DAC触发转换引脚上，然后TRGO就会直接去触发DAC了，这样定时器就不需要再通过中断来触发DAC转换了。整个过程不需要软件参与，实现硬件自动化，这就是主模式的作用。）</li>
+</ul>
+<h4 id="通用定时器">
+  通用定时器
+  <a class="anchor" href="#%e9%80%9a%e7%94%a8%e5%ae%9a%e6%97%b6%e5%99%a8">#</a>
+</h4>
+<p><strong>框图：</strong></p>
+<p>
+<img alt="image-20230910111513454" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910111513454.png"/></p>
+<ul>
+<li>
+<p>16位向上、向下、向上/向下自动装载计数器，支持向上、向下、中央对齐模式</p>
+</li>
+<li>
+<p>外部时钟模式2：TIMx_ETR » ETR » 极性选择、边沿检测和预分频器、ETRP、输入滤波 » ETRF » 时基单元</p>
+</li>
+<li>
+<p>除外部ETR可以提供时钟外，TRGI也可以提供时钟，从名字上看主要用作触发输入使用，可以触发定时器的从模式，同时TRGI也可以当作外部时钟使用，这里说明下 TRGI 当作外部时钟的输入使用，即外部时钟模式1。</p>
+</li>
+<li>
+<p>TRGI 输入信号，即外部时钟模式1的输入：</p>
+<ul>
+<li>
+<p>ETR 引脚信号</p>
+</li>
+<li>
+<p>ITR 信号（来自其他定时器），由其他 TRGO 到 ITR，ITR0～ITR3分别来自其他4个定时器的 TRGO 输出。一般可以用作定时器级联</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">从定时器</th>
+<th style="text-align:center">ITR0 (TS = 000)</th>
+<th style="text-align:center">ITR1 (TS = 001)</th>
+<th style="text-align:center">ITR2 (TS = 010)</th>
+<th style="text-align:center">ITR3 (TS = 011)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">TIM2</td>
+<td style="text-align:center">TIM1</td>
+<td style="text-align:center">TIM8</td>
+<td style="text-align:center">TIM3</td>
+<td style="text-align:center">TIM4</td>
+</tr>
+<tr>
+<td style="text-align:center">TIM3</td>
+<td style="text-align:center">TIM1</td>
+<td style="text-align:center">TIM2</td>
+<td style="text-align:center">TIM5</td>
+<td style="text-align:center">TIM4</td>
+</tr>
+<tr>
+<td style="text-align:center">TIM4</td>
+<td style="text-align:center">TIM1</td>
+<td style="text-align:center">TIM2</td>
+<td style="text-align:center">TIM3</td>
+<td style="text-align:center">TIM8</td>
+</tr>
+<tr>
+<td style="text-align:center">TIM5</td>
+<td style="text-align:center">TIM2</td>
+<td style="text-align:center">TIM3</td>
+<td style="text-align:center">TIM4</td>
+<td style="text-align:center">TIM8</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>TI1F_ED，连接的为输入捕获的 CH1，后缀 ED 为边沿的意思</p>
+</li>
+<li>
+<p>TI1FP1</p>
+</li>
+<li>
+<p>TI2FP2</p>
+</li>
+</ul>
+</li>
+<li>
+<p>下右：输出比较电路，4个通道（CH1～CH4），可以输出 PWM 波形驱动电机</p>
+</li>
+<li>
+<p>下左：输入捕获电路，4个通道（CH1～CH4），可以用于测输入方波频率等</p>
+</li>
+<li>
+<p>下中：捕获比较寄存器，是输入捕获和输出比较电路公用的寄存器，因为输入捕获和输出比较也不能同时使用</p>
+</li>
+</ul>
+<p><strong>定时中断基本结构图</strong>：</p>
+<p>
+<img alt="" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910120241729.png"/></p>
+<p>CNT 为定时器中计数器的值，可以使用时钟计时，也可以使用时钟统计电平翻转次数。</p>
+<h4 id="高级定时器">
+  高级定时器
+  <a class="anchor" href="#%e9%ab%98%e7%ba%a7%e5%ae%9a%e6%97%b6%e5%99%a8">#</a>
+</h4>
+<p>略</p>
+<h3 id="输出比较和pwm">
+  输出比较和PWM
+  <a class="anchor" href="#%e8%be%93%e5%87%ba%e6%af%94%e8%be%83%e5%92%8cpwm">#</a>
+</h3>
+<h4 id="ocoutput-compare输出比较">
+  OC(Output Compare)输出比较
+  <a class="anchor" href="#ocoutput-compare%e8%be%93%e5%87%ba%e6%af%94%e8%be%83">#</a>
+</h4>
+<ul>
+<li>输出比较可以通过比较 CNT 与 CCR 寄存器值的关系来对输出电平进行置1、置0或翻转的操作，用于输出一定频率和占空比的PWM波形。</li>
+<li>每个高级定时器和通用定时器都拥有 4 个输出比较通道。</li>
+<li>高级定时器额外拥有死区生成和互补输出的功能。</li>
+</ul>
+<h4 id="pwm">
+  PWM
+  <a class="anchor" href="#pwm">#</a>
+</h4>
+<ul>
+<li>PWM （Pulse Width Modulation）脉冲宽度调制。</li>
+<li>在具有惯性的系统中通过对一些列脉冲宽度进行调制，来等效地获得所需要的模拟参量，常用于电机控速、LED亮度控制等领域。</li>
+<li>PWM参数：
+<ul>
+<li><strong>频率：</strong>$$ \frac{1}{T_s}$$ ，$$T_s$$ 为高低电平变换周期的时间。</li>
+<li><strong>占空比</strong>：$$ \frac{T_{ON}}{T_s} $$ ，$$T_{ON}$$ 为高低电平变换周期的时间，占空比 100%，则直接是高电平；占空比 0% 直接是低电平；<strong>占空比决定了 PWM 等效出来的模拟电压的大小</strong>，占空比越大，等效出来的模拟电压越趋近于高电平；占空比越小，等效出来的模拟电压越趋近于低电平。</li>
+<li>**分辨率：**占空比变化步距，<strong>表现在占空比变化的精细程度</strong>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="输出比较通道通用">
+  输出比较通道（通用）
+  <a class="anchor" href="#%e8%be%93%e5%87%ba%e6%af%94%e8%be%83%e9%80%9a%e9%81%93%e9%80%9a%e7%94%a8">#</a>
+</h4>
+<p>
+<img alt="&lt;strong&gt;image-20230910150018898&lt;/strong&gt;" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910150018898.png"/></p>
+<ul>
+<li>输出模式控制器根据 CNT 和 CCR1 的值来确定输出 oc1ref 的高低电平，OC1M[2:0]可以配置输出模式控制器模式</li>
+<li>ETRF 是定时器的一个小功能，不用了解</li>
+<li>oc1ref可以映射到主模式控制器，单主要还是走下面的电路</li>
+<li>CC1P  极性选择，值为0，信号往上走；值为1则极性反转</li>
+<li>OC1 极 CH1 通道引脚，在引脚定义表里可以知道具体是哪个 GPIO 口</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>模式</strong></th>
+<th><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>冻结</td>
+<td>CNT=CCR时，REF保持为原状态，使用该模式时输出暂停，高低电平位置为暂停时候的状态不变</td>
+</tr>
+<tr>
+<td>匹配时置有效电平</td>
+<td>CNT=CCR时，REF置有效电平，可通俗理解为高电平</td>
+</tr>
+<tr>
+<td>匹配时置无效电平</td>
+<td>CNT=CCR时，REF置无效电平，可通俗理解为低电平</td>
+</tr>
+<tr>
+<td>匹配时电平翻转</td>
+<td>CNT=CCR时，REF电平翻转，可以输出频率可调，占空比始终为 50% 的 PWM 波形</td>
+</tr>
+<tr>
+<td>强制为无效电平</td>
+<td>CNT与CCR无效，REF强制为无效电平</td>
+</tr>
+<tr>
+<td>强制为有效电平</td>
+<td>CNT与CCR无效，REF强制为有效电平</td>
+</tr>
+<tr>
+<td>PWM模式1</td>
+<td>可以输出频率和占空比都可调的PWM波形。向上计数：CNT&lt;CCR时，REF置有效电平，CNT≥CCR时，REF置无效电平；向下计数：CNT&gt;CCR时，REF置无效电平，CNT≤CCR时，REF置有效电平</td>
+</tr>
+<tr>
+<td>PWM模式2</td>
+<td>可以输出频率和占空比都可调的PWM波形。向上计数：CNT&lt;CCR时，REF置无效电平，CNT≥CCR时，REF置有效电平；向下计数：CNT&gt;CCR时，REF置有效电平，CNT≤CCR时，REF置无效电平</td>
+</tr>
+</tbody>
+</table>
+<p>
+<img alt="image-20230910165244827" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910165244827.png"/></p>
+<p>PWM 频率： $$ Freq = \frac{CK_PSC}{(PSC+1)\cdot{(ARR+1)}} $$</p>
+<p>PWM 占空比：$$ Duty=\frac{CCR}{ARR+1} $$</p>
+<p>PWM 分辨率：$$ Reso = \frac{1}{ARR+1} $$</p>
+<p>例子：要求输出频率为 1KHz，分辨率为 1%，占空比可任意调节的 PWM 波形。</p>
+<h4 id="舵机">
+  舵机
+  <a class="anchor" href="#%e8%88%b5%e6%9c%ba">#</a>
+</h4>
+<ul>
+<li>根据 PWM 信号占空比来控制输出角度的装置</li>
+<li>输入 PWM 信号要求，周期为 20 ms，高电平宽度为 0.5 ms ～ 2.5 ms</li>
+<li>Sg90 舵机
+<ul>
+<li>三根输入线：两个电源线，一根信号线</li>
+<li>PWM 根据通过信号线控制舵机</li>
+<li>输入脉冲信号宽度对应角度：(0.5ms, -90)、(1ms, -45)、(1.5ms, -0)、(2ms, 45)、(2.5ms, 90)</li>
+</ul>
+</li>
+</ul>
+<h4 id="电机">
+  电机
+  <a class="anchor" href="#%e7%94%b5%e6%9c%ba">#</a>
+</h4>
+<ul>
+<li>直流电机将电能转为机械能，有两个电极，当电极正接时电极正转，反接时电机反转</li>
+<li>电机属于大功率电器，GPIO 口无法直接驱动，需要配合电机驱动电路来操作</li>
+<li>TB6612 双路 H 桥型直流电机驱动芯片，可以驱动两个电机并且控制其转速方向</li>
+</ul>
+<h3 id="icinput-capture输入捕获">
+  IC(Input Capture)输入捕获
+  <a class="anchor" href="#icinput-capture%e8%be%93%e5%85%a5%e6%8d%95%e8%8e%b7">#</a>
+</h3>
+<ul>
+<li>输入捕获模式下，当通道输入引脚出现指定电平跳变时，当前 CNT 的值将被锁存在 CCR 中，可用于测量 PWM 波形的频率、占空比、脉冲间隔、电平持续时间等参数。</li>
+<li>每个高级定时器和通用定时器都拥有4个输入捕获通道</li>
+<li>可配置为 PWMI 模式，同时测量频率和占空比</li>
+<li>可配合主从从发模式，实现硬件全自动测量</li>
+</ul>
+<h4 id="频率测量">
+  频率测量
+  <a class="anchor" href="#%e9%a2%91%e7%8e%87%e6%b5%8b%e9%87%8f">#</a>
+</h4>
+<p>
+<img alt="image-20230910175727869" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910175727869.png"/></p>
+<ul>
+<li>
+<p>测频法：在闸门时间 T 内，对上升沿计次，得到 N， 则频率 $$ f_x = \frac{N}{T} $$，适合测量高频信号。</p>
+</li>
+<li>
+<p>测周法：两个上升沿内，以标准频率 $$f_c$$计次，得到 N，则频率 $$ f_x = \frac{f_c}{N} $$，使用一个已知的标准频率$$f_c$$的计次时钟来驱动计数器，适合测量低频信号。</p>
+</li>
+<li>
+<p>中界频率：测频法和测周法误差相等的频率点
+<link href="/katex/katex.min.css" rel="stylesheet"/>
+<script defer="" src="/katex/katex.min.js"></script>
+<script defer="" onload="renderMathInElement(document.body);" src="/katex/auto-render.min.js"></script><span>
+  \( $$f_m=\sqrt{\frac{f_c}{T}}$$\)
+</span>
+，用这个来判断什么时候使用测频法，什么时候使用测周法。当待测频率小于$$f_m$$，使用测周法，大于时使用测频法。</p>
+</li>
+</ul>
+<h4 id="输入捕获通道">
+  输入捕获通道
+  <a class="anchor" href="#%e8%be%93%e5%85%a5%e6%8d%95%e8%8e%b7%e9%80%9a%e9%81%93">#</a>
+</h4>
+<p>
+<img alt="image-20230910181754761" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910181754761.png"/></p>
+<ul>
+<li>$$f_{DTS}$$ 是滤波器采样时钟来源，TI1 为滤波器输入，TI1F 为滤波后的信号</li>
+<li>ICF 可以控制滤波器参数，以采样频率对输入信号进行采样，当连续 N 个值都为高电平，输出才为高电平，连续N个值都为低电平，输出才为低电平。如果信号出现高频抖动导致连续采样的 N 个值不全都一样那输出就不会变化，这样就可以达到滤波的效果。采样频率越低，采样个数N越大，滤波效果越好。</li>
+<li>CC1P极性选择</li>
+<li>ICPS配置分频器</li>
+<li>CC1E使能输出或失能</li>
+</ul>
+<h4 id="主从触发模式">
+  主从触发模式
+  <a class="anchor" href="#%e4%b8%bb%e4%bb%8e%e8%a7%a6%e5%8f%91%e6%a8%a1%e5%bc%8f">#</a>
+</h4>
+<p>暂略</p>
+<h3 id="编码器接口">
+  编码器接口
+  <a class="anchor" href="#%e7%bc%96%e7%a0%81%e5%99%a8%e6%8e%a5%e5%8f%a3">#</a>
+</h3>
+<ul>
+<li>编码器接口可以接收增量（正交）编码器的信号，根据编码器旋转产生的蒸饺信号脉冲，自动控制CNT自增或自减，从而指示编码器的位置、旋转方向和旋转速度</li>
+<li>每个高级定时器和通用定时器都拥有1个编码器接口</li>
+<li>两个输入引脚借用了输入捕获通道1和通道2</li>
+<li>不会使用时钟和时基单元初始化设置的计数方向，此时计数时钟和计数方向都处于编码器接口托管的状态</li>
+</ul>
+<h4 id="如何判断正反转">
+  如何判断正反转
+  <a class="anchor" href="#%e5%a6%82%e4%bd%95%e5%88%a4%e6%96%ad%e6%ad%a3%e5%8f%8d%e8%bd%ac">#</a>
+</h4>
+<p>首先把 A 相和 B 相的所有边沿作为计数器的计数时钟，出现边沿信号时，就计数自增或自减，增或减的操作由另一相的状态来确定，当出现某个边沿时，判断另一相高低电平。具体如下图：</p>
+<p>
+<img alt="image-20230910183632034" src="https://blog-1256273063.cos.ap-nanjing.myqcloud.com/image-20230910183632034.png"/></p>
+</article>
+<footer class="book-footer">
+<div class="flex flex-wrap justify-between">
+</div>
+<script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+</footer>
+<div class="book-comments">
+</div>
+<label class="hidden book-menu-overlay" for="menu-control"></label>
+</div>
+<aside class="book-toc">
+<div class="book-toc-content">
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#中断系统">中断系统</a>
+<ul>
+<li><a href="#中断概念">中断概念</a>
+<ul>
+<li><a href="#中断">中断</a></li>
+<li><a href="#中断优先级">中断优先级</a></li>
+<li><a href="#中断嵌套">中断嵌套</a></li>
+</ul>
+</li>
+<li><a href="#stm32中断">STM32中断</a></li>
+<li><a href="#exti-外部中断">EXTI 外部中断</a>
+<ul>
+<li><a href="#exti-外部中断概念">EXTI 外部中断概念</a></li>
+<li><a href="#触发方式">触发方式</a></li>
+<li><a href="#支持的-gpio-口">支持的 GPIO 口</a></li>
+<li><a href="#通道数">通道数</a></li>
+<li><a href="#触发响应方式">触发响应方式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#定时器">定时器</a>
+<ul>
+<li><a href="#tim-定时器">TIM 定时器</a></li>
+<li><a href="#定时器类型">定时器类型</a>
+<ul>
+<li><a href="#基本定时器">基本定时器</a></li>
+<li><a href="#通用定时器">通用定时器</a></li>
+<li><a href="#高级定时器">高级定时器</a></li>
+</ul>
+</li>
+<li><a href="#输出比较和pwm">输出比较和PWM</a>
+<ul>
+<li><a href="#ocoutput-compare输出比较">OC(Output Compare)输出比较</a></li>
+<li><a href="#pwm">PWM</a></li>
+<li><a href="#输出比较通道通用">输出比较通道（通用）</a></li>
+<li><a href="#舵机">舵机</a></li>
+<li><a href="#电机">电机</a></li>
+</ul>
+</li>
+<li><a href="#icinput-capture输入捕获">IC(Input Capture)输入捕获</a>
+<ul>
+<li><a href="#频率测量">频率测量</a></li>
+<li><a href="#输入捕获通道">输入捕获通道</a></li>
+<li><a href="#主从触发模式">主从触发模式</a></li>
+</ul>
+</li>
+<li><a href="#编码器接口">编码器接口</a>
+<ul>
+<li><a href="#如何判断正反转">如何判断正反转</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</aside>
+</main>
+</body>
+</html>
